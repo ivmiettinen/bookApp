@@ -1,5 +1,4 @@
 import React from 'react'
-import { Redirect, useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 const LoginForm = ({

@@ -5,7 +5,7 @@ const BookForm = ({ addBook }) => {
     const [newAuthor, setNewAuthor] = useState('')
     const [newUrl, setNewUrl] = useState('')
 
-    const createBlog = (e) => {
+    const createBook = (e) => {
         e.preventDefault()
 
         addBook({
@@ -21,9 +21,9 @@ const BookForm = ({ addBook }) => {
 
     return (
         <div>
-            <h2>Create a new blog</h2>
+            <h2>Create a new book</h2>
 
-            <form onSubmit={createBlog}>
+            <form onSubmit={createBook}>
                 title:{' '}
                 <input
                     value={newTitle}
