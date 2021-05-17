@@ -8,6 +8,13 @@ import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import BookForm from './components/BookForm'
 import ErrorMessage from './components/ErrorMessage'
+import {
+    useHistory,
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect,
+} from 'react-router-dom'
 
 const App = () => {
     const [books, setBooks] = useState([])
@@ -29,6 +36,8 @@ const App = () => {
             bookService.setToken(user.token)
         }
     }, [])
+
+    let history = useHistory()
 
     const bookFormRef = useRef()
 
@@ -124,8 +133,6 @@ const App = () => {
 
             bookService.setToken(user.token)
             setUser(user)
-
-            setUser(user)
             setUsername('')
             setPassword('')
         } catch (exception) {
@@ -137,15 +144,15 @@ const App = () => {
         }
     }
 
-    const loginForm = () => (
-        <LoginForm
-            username={username}
-            password={password}
-            setUsername={setUsername}
-            setPassword={setPassword}
-            handleLogin={handleLogin}
-        />
-    )
+    // const loginForm = () => (
+    //     <LoginForm
+    //         username={username}
+    //         password={password}
+    //         setUsername={setUsername}
+    //         setPassword={setPassword}
+    //         handleLogin={handleLogin}
+    //     />
+    // )
 
     return (
         <div>
@@ -153,36 +160,56 @@ const App = () => {
 
             <SuccessMessage successMessage={successMessage} />
             <ErrorMessage errorMessage={errorMessage} />
+            <Router>
+                <Switch>
+                    <Route path='/' exact>
+                        <Redirect to='/login'></Redirect>
+                    </Route>
 
-            {user === null ? (
-                loginForm()
-            ) : (
-                <div>
-                    <div>
-                        <p>
-                            {user.name} logged in
-                            <button onClick={logOut}>Log out</button>
-                        </p>
-                    </div>
-                    <Togglable buttonLabel='new book' ref={bookFormRef}>
-                        <BookForm addBook={addBook} />
-                    </Togglable>
+                    <Route path='/login'>
+                        {user === null ? (
+                            <LoginForm
+                                user={user}
+                                username={username}
+                                password={password}
+                                setUsername={setUsername}
+                                setPassword={setPassword}
+                                handleLogin={handleLogin}
+                            />
+                        ) : (
+                            <Redirect from='/login' to='/books' />
+                        )}
+                    </Route>
 
-                    <ul>
-                        {books
-                            .sort((a, b) => b.likes - a.likes)
-                            .map((book) => (
-                                <Book
-                                    key={book.id}
-                                    book={book}
-                                    Togglable={Togglable}
-                                    deleteBook={deleteBook}
-                                    addNewLike={addNewLike}
-                                />
-                            ))}
-                    </ul>
-                </div>
-            )}
+                    <Route path='/books'>
+                        <div>
+                            <div>
+                                <p>
+                                     logged in
+                                    <button onClick={logOut}>Log out</button>
+                                </p>
+                            </div>
+                            <Togglable buttonLabel='new book' ref={bookFormRef}>
+                                <BookForm addBook={addBook} />
+                            </Togglable>
+
+                            <ul>
+                                {books
+                                    .sort((a, b) => b.likes - a.likes)
+                                    .map((book) => (
+                                        <Book
+                                            key={book.id}
+                                            book={book}
+                                            Togglable={Togglable}
+                                            deleteBook={deleteBook}
+                                            addNewLike={addNewLike}
+                                        />
+                                    ))}
+                            </ul>
+                        </div>
+                    </Route>
+                </Switch>
+            </Router>
         </div>
     )
 }
