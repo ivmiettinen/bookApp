@@ -1,22 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Book from './components/Book'
 import bookService from './services/books'
-import Notification from './components/Notification'
 import SuccessMessage from './components/SuccessMessage'
 import loginService from './services/login'
 import './App.css'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import BookForm from './components/BookForm'
+import ErrorMessage from './components/ErrorMessage'
 
 const App = () => {
     const [books, setBooks] = useState([])
-
-    const [errorMessage, setErrorMessage] = useState(null)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [user, setUser] = useState(null)
-
+    const [errorMessage, setErrorMessage] = useState(null)
     const [successMessage, setSuccessMessage] = useState(null)
 
     useEffect(() => {
@@ -87,9 +85,20 @@ const App = () => {
                 .remove(id)
                 .then(() => {
                     setBooks(filterById)
+                    setSuccessMessage('the book was successfully deleted')
+                    setTimeout(() => {
+                        setSuccessMessage(null)
+                    }, 5000)
                 })
                 .catch((error) => {
                     console.log('delete error:', error)
+                    setErrorMessage(
+                        'You can`t remove a book you have not added.',
+                        error
+                    )
+                    setTimeout(() => {
+                        setErrorMessage(null)
+                    }, 5000)
                 })
         }
     }
@@ -142,14 +151,13 @@ const App = () => {
         <div>
             <h1>Books</h1>
 
-            <Notification errorMessage={errorMessage} />
+            <SuccessMessage successMessage={successMessage} />
+            <ErrorMessage errorMessage={errorMessage} />
 
             {user === null ? (
                 loginForm()
             ) : (
                 <div>
-                    <SuccessMessage successMessage={successMessage} />
-
                     <div>
                         <p>
                             {user.name} logged in
