@@ -3,6 +3,7 @@ import Book from './components/Book'
 import bookService from './services/books'
 import SuccessMessage from './components/SuccessMessage'
 import loginService from './services/login'
+import signUpService from './services/signUp'
 import './App.css'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
@@ -23,6 +24,7 @@ const App = () => {
     const [books, setBooks] = useState([])
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [name, setName] = useState('')
     const [user, setUser] = useState(null)
     const [errorMessage, setErrorMessage] = useState(null)
     const [successMessage, setSuccessMessage] = useState(null)
@@ -124,19 +126,31 @@ const App = () => {
     const handleLogin = async (event) => {
         event.preventDefault()
 
-        try {
-            const user = await loginService.login({
-                username,
-                password,
-            })
+        let user
 
+        try {
+            if (showSignUp) {
+                user = await signUpService.signUp({
+                    username,
+                    name,
+                    password,
+                })
+
+                console.log('userrrrr', user)
+            } else {
+                user = await loginService.login({
+                    username,
+                    name,
+                    password,
+                })
+            }
             window.localStorage.setItem(
                 'loggedBookappUser',
                 JSON.stringify(user)
             )
-
             bookService.setToken(user.token)
             setUser(user)
+            setName('')
             setUsername('')
             setPassword('')
         } catch (exception) {
@@ -164,7 +178,6 @@ const App = () => {
     //     setShowForm('login')
     // }
 
-
     return (
         <div>
             <Router>
@@ -188,7 +201,8 @@ const App = () => {
                     </Route>
                     <Route path='/login'>
                         <LoginForm
-                            user={user}
+                            name={name}
+                            setName={setName}
                             username={username}
                             password={password}
                             setUsername={setUsername}
@@ -198,33 +212,6 @@ const App = () => {
                             showLogIn={showLogIn}
                         />
                     </Route>
-                    {/* {!showSignIn || !showLogIn ? (
-                        <p>
-                            <p>AAAAAAAAAA</p>
-                            <button onClick={signUpBtnHandler}>Sign up</button>
-
-                            <button onClick={loginBtnHandler}>Login</button>
-                        </p>
-                    ) : (
-                        <div></div>
-                    )} */}
-                    {/* <Route path='/login'>
-                        {user === null ? (
-                            <>
-                                <button onClick={showLoginForm}>Login</button>
-                                <LoginForm
-                                    user={user}
-                                    username={username}
-                                    password={password}
-                                    setUsername={setUsername}
-                                    setPassword={setPassword}
-                                    handleLogin={handleLogin}
-                                />
-                            </>
-                        ) : (
-                            <Redirect from='/login' to='/books' />
-                        )}
-                    </Route> */}
                     <Route path='/books'>
                         <div>
                             <LoggedInUser user={user} logOut={logOut} />

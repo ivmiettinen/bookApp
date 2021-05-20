@@ -7,7 +7,7 @@ const MainHeader = () => {
         <header className={classes.header}>
             <ul>
                 <li>
-                    <NavLink activeClassName={classes.active} to='/login'>Login</NavLink>
+                    <NavLink activeClassName={classes.active} to='/auth'>Auth</NavLink>
                 </li>
                 <li>
                     <NavLink activeClassName={classes.active} to='/books'>Books</NavLink>

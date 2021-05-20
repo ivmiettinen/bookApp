@@ -5,7 +5,6 @@ const Auth = ({ setShowSignUp, setShowLogIn }) => {
     let history = useHistory()
 
     const signUpBtnHandler = () => {
-        console.log('GRAUH!')
         setShowSignUp(true)
         setShowLogIn(false)
         history.push('/login')

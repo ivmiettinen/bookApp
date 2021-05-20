@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const LoginForm = ({
-    user,
+    name,
+    setName,
     handleLogin,
     username,
     password,
@@ -25,6 +26,19 @@ const LoginForm = ({
                         onChange={({ target }) => setUsername(target.value)}
                     />
                 </label>
+                {showSignUp ? (
+                    <label>
+                        <p>name:</p>
+                        <input
+                            type='text'
+                            value={name}
+                            name='name'
+                            onChange={({ target }) => setName(target.value)}
+                        />
+                    </label>
+                ) : (
+                    <></>
+                )}
                 <label>
                     <p>password:</p>
                     <input
