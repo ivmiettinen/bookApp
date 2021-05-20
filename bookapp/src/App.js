@@ -17,6 +17,7 @@ import {
 } from 'react-router-dom'
 import MainHeader from './components/MainHeader'
 import About from './components/About'
+import Auth from './components/Auth'
 
 const App = () => {
     const [books, setBooks] = useState([])
@@ -26,6 +27,8 @@ const App = () => {
     const [errorMessage, setErrorMessage] = useState(null)
     const [successMessage, setSuccessMessage] = useState(null)
     const [showForm, setShowForm] = useState(null)
+    const [showSignIn, setShowSignIn] = useState(false)
+    const [showLogIn, setShowLogIn] = useState(false)
 
     useEffect(() => {
         bookService.getAll().then((books) => setBooks(books))
@@ -157,9 +160,9 @@ const App = () => {
             />
         ))
 
-    const showLoginForm = () => {
-        setShowForm('login')
-    }
+    // const showLoginForm = () => {
+    //     setShowForm('login')
+    // }
 
     return (
         <div>
@@ -169,25 +172,29 @@ const App = () => {
                 <ErrorMessage errorMessage={errorMessage} />
                 <Switch>
                     <Route path='/' exact>
-                        <Redirect to='/login'></Redirect>
+                        <Redirect to='/auth'></Redirect>
                     </Route>
-                    <Route path='/login'>
-                        {user === null ? (
-                            <>
-                                <button onClick={showLoginForm}>Login</button>
-                                <LoginForm
-                                    user={user}
-                                    username={username}
-                                    password={password}
-                                    setUsername={setUsername}
-                                    setPassword={setPassword}
-                                    handleLogin={handleLogin}
-                                />
-                            </>
+                    <Route path='/auth'>
+                        {!showSignIn && !showLogIn ? (
+                            <Auth
+                                setShowSignIn={setShowSignIn}
+                                setShowLogIn={setShowLogIn}
+                            />
                         ) : (
-                            <Redirect from='/login' to='/books' />
+                            <></>
                         )}
                     </Route>
+                    <Route path='/login'>
+                        <LoginForm
+                            user={user}
+                            username={username}
+                            password={password}
+                            setUsername={setUsername}
+                            setPassword={setPassword}
+                            handleLogin={handleLogin}
+                        />
+                    </Route>
+
                     <Route path='/books'>
                         <div>
                             <LoggedInUser user={user} logOut={logOut} />
@@ -201,7 +208,7 @@ const App = () => {
                         </div>
                     </Route>
                     <Route path='/about'>
-                        <About/>
+                        <About />
                     </Route>
                 </Switch>
             </Router>

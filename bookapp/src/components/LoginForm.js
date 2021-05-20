@@ -9,33 +9,35 @@ const LoginForm = ({
     setUsername,
     setPassword,
 }) => {
-    console.log('userrrr', user)
-    console.log('typeof', typeof user)
+    // console.log('user', user)
+    // console.log('typeof user', typeof user)
 
     return (
-        <form onSubmit={handleLogin}>
-            <label>
-                <p> username:</p>
-                <input
-                    type='text'
-                    value={username}
-                    name='Username'
-                    onChange={({ target }) => setUsername(target.value)}
-                />
-            </label>
-            <label>
-                <p>password:</p>
-                <input
-                    type='password'
-                    value={password}
-                    name='Password'
-                    onChange={({ target }) => setPassword(target.value)}
-                />
-            </label>
-            <div>
-                <button type='submit'>login</button>
-            </div>
-        </form>
+        <>
+            <form onSubmit={handleLogin}>
+                <label>
+                    <p> username:</p>
+                    <input
+                        type='text'
+                        value={username}
+                        name='Username'
+                        onChange={({ target }) => setUsername(target.value)}
+                    />
+                </label>
+                <label>
+                    <p>password:</p>
+                    <input
+                        type='password'
+                        value={password}
+                        name='Password'
+                        onChange={({ target }) => setPassword(target.value)}
+                    />
+                </label>
+                <div>
+                    <button type='submit'>login</button>
+                </div>
+            </form>
+        </>
     )
 }
 
