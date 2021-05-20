@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Button from './UI/Button'
 
 const BookForm = ({ addBook }) => {
     const [newTitle, setNewTitle] = useState('')
@@ -42,7 +43,7 @@ const BookForm = ({ addBook }) => {
                     onChange={({ target }) => setNewUrl(target.value)}
                 />
                 <br />
-                <button type='submit'>create</button>
+                <Button type='submit'>create</Button>
             </form>
         </div>
     )

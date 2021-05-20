@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, useHistory } from 'react-router-dom'
 import classes from './Auth.module.css'
+import Button from './UI/Button'
 import Card from './UI/Card'
 
 const Auth = ({ setShowSignUp, setShowLogIn }) => {
@@ -20,9 +21,9 @@ const Auth = ({ setShowSignUp, setShowLogIn }) => {
 
     return (
         <Card className={classes.authButtons}>
-            <button onClick={signUpBtnHandler}>Sign up</button>
+            <Button onClick={signUpBtnHandler}>Sign up</Button>
 
-            <button onClick={loginBtnHandler}>Login</button>
+            <Button onClick={loginBtnHandler}>Login</Button>
         </Card>
     )
 }
