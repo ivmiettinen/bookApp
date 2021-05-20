@@ -27,7 +27,7 @@ const App = () => {
     const [errorMessage, setErrorMessage] = useState(null)
     const [successMessage, setSuccessMessage] = useState(null)
     const [showForm, setShowForm] = useState(null)
-    const [showSignIn, setShowSignIn] = useState(false)
+    const [showSignUp, setShowSignUp] = useState(false)
     const [showLogIn, setShowLogIn] = useState(false)
 
     useEffect(() => {
@@ -164,6 +164,7 @@ const App = () => {
     //     setShowForm('login')
     // }
 
+
     return (
         <div>
             <Router>
@@ -175,10 +176,11 @@ const App = () => {
                         <Redirect to='/auth'></Redirect>
                     </Route>
                     <Route path='/auth'>
-                        {!showSignIn && !showLogIn ? (
+                        {!showSignUp || !showLogIn ? (
                             <Auth
-                                setShowSignIn={setShowSignIn}
+                                showSignUp={setShowSignUp}
                                 setShowLogIn={setShowLogIn}
+                                setShowSignUp={setShowSignUp}
                             />
                         ) : (
                             <></>
@@ -192,9 +194,37 @@ const App = () => {
                             setUsername={setUsername}
                             setPassword={setPassword}
                             handleLogin={handleLogin}
+                            showSignUp={showSignUp}
+                            showLogIn={showLogIn}
                         />
                     </Route>
+                    {/* {!showSignIn || !showLogIn ? (
+                        <p>
+                            <p>AAAAAAAAAA</p>
+                            <button onClick={signUpBtnHandler}>Sign up</button>
 
+                            <button onClick={loginBtnHandler}>Login</button>
+                        </p>
+                    ) : (
+                        <div></div>
+                    )} */}
+                    {/* <Route path='/login'>
+                        {user === null ? (
+                            <>
+                                <button onClick={showLoginForm}>Login</button>
+                                <LoginForm
+                                    user={user}
+                                    username={username}
+                                    password={password}
+                                    setUsername={setUsername}
+                                    setPassword={setPassword}
+                                    handleLogin={handleLogin}
+                                />
+                            </>
+                        ) : (
+                            <Redirect from='/login' to='/books' />
+                        )}
+                    </Route> */}
                     <Route path='/books'>
                         <div>
                             <LoggedInUser user={user} logOut={logOut} />

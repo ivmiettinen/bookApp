@@ -1,27 +1,21 @@
 import React from 'react'
-import {
-    BrowserRouter as Router,
-    useHistory
-} from 'react-router-dom'
+import { BrowserRouter as Router, useHistory } from 'react-router-dom'
 
-const Auth = ({
-
-    setShowSignIn,
-    setShowLogIn
-}) => {
-
+const Auth = ({ setShowSignUp, setShowLogIn }) => {
     let history = useHistory()
 
     const signUpBtnHandler = () => {
-        setShowSignIn((prevstate) => !prevstate)
+        console.log('GRAUH!')
+        setShowSignUp(true)
+        setShowLogIn(false)
         history.push('/login')
     }
 
     const loginBtnHandler = () => {
-        setShowLogIn((prevstate) => !prevstate)
+        setShowLogIn(true)
+        setShowSignUp(false)
         history.push('/login')
     }
-
 
     return (
         <>

@@ -8,6 +8,7 @@ const LoginForm = ({
     password,
     setUsername,
     setPassword,
+    showSignUp,
 }) => {
     // console.log('user', user)
     // console.log('typeof user', typeof user)
@@ -34,7 +35,9 @@ const LoginForm = ({
                     />
                 </label>
                 <div>
-                    <button type='submit'>login</button>
+                    <button type='submit'>
+                        {showSignUp ? 'Sign up' : 'login'}
+                    </button>
                 </div>
             </form>
         </>
