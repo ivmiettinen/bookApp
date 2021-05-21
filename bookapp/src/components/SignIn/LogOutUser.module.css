@@ -1,0 +1,32 @@
+.LogOutUser {
+    padding: 2rem 0rem;
+    background-color: #5f81ad;
+    margin: 2rem auto;
+    width: 50rem;
+    max-width: 95%;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    opacity: 0.9;
+    font-size: 24px;
+
+    /* 
+        height: 100%;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center; */
+}
+
+.logOutButton {
+    /* padding: 2rem 0rem; */
+
+    margin: 2rem auto;
+    width: 50rem;
+    max-width: 95%;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    opacity: 0.9;
+    font-size: 20px;
+}

@@ -1,22 +1,29 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
+import Card from '../UI/Card'
+import classes from './LogOutUser.module.css'
+import Button from '../UI/Button'
 
 const LogOutUser = ({ user, logOut }) => {
     let history = useHistory()
 
     const handleLogout = () => {
         logOut()
-        history.push('/login')
+        history.push('/auth')
     }
 
     return (
         <>
             {user !== null ? (
-                <>
-                    User <strong>{user.name}</strong> is currently logged in.
-                    <button onClick={handleLogout}>Log out</button>
-                </>
+                <Card>
+                    <div className={classes.LogOutUser}>
+                        User {user.username} is currently logged in.
+                    </div>
+                    <div className={classes.logOutButton}>
+                        <Button onClick={handleLogout}>Log out</Button>
+                    </div>
+                </Card>
             ) : (
                 <></>
             )}

@@ -10,7 +10,7 @@ import Togglable from './components/Togglable'
 import BookForm from './components/BookForm'
 import ErrorMessage from './components/Messages/ErrorMessage'
 import LogOutUser from './components/SignIn/LogOutUser'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
 import About from './components/About'
 import Auth from './components/SignIn/Auth'
 import Layout from './components/LayOut/Layout'
@@ -35,6 +35,8 @@ const App = () => {
             bookService.setToken(user.token)
         }
     }, [])
+
+    let history = useHistory()
 
     const bookFormRef = useRef()
 
@@ -98,11 +100,11 @@ const App = () => {
                 setTimeout(() => {
                     setSuccessMessage(null)
                 }, 5000)
-            } catch (error) {
-                console.log('delete error:', error)
+            } catch (exception) {
+                console.log('delete error:', exception)
                 setErrorMessage(
                     'You can`t remove a book you have not added.',
-                    error
+                    exception
                 )
                 setTimeout(() => {
                     setErrorMessage(null)
@@ -136,6 +138,7 @@ const App = () => {
             )
             bookService.setToken(user.token)
             setUser(user)
+            history.push('/books')
         } catch (exception) {
             console.log('error on login:', exception)
             setErrorMessage('Wrong username or password')
