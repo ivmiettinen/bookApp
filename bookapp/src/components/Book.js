@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const bookStyle = {
     paddingTop: 10,
@@ -14,7 +15,6 @@ const titleAndAuthor = {
 }
 
 const Book = ({ addNewLike, book, deleteBook, Togglable }) => {
-
     return (
         <div style={bookStyle}>
             <p style={titleAndAuthor}>
@@ -48,6 +48,13 @@ const Book = ({ addNewLike, book, deleteBook, Togglable }) => {
             </Togglable>
         </div>
     )
+}
+
+Book.propTypes = {
+    addNewLike: PropTypes.func.isRequired,
+    book: PropTypes.object.isRequired,
+    deleteBook: PropTypes.func.isRequired,
+    Togglable: PropTypes.object.isRequired,
 }
 
 export default Book

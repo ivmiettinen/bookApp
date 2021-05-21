@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
 
 const LoggedInUser = ({ user, logOut }) => {
@@ -23,6 +24,11 @@ const LoggedInUser = ({ user, logOut }) => {
             )}
         </>
     )
+}
+
+LoggedInUser.propTypes = {
+    user: PropTypes.object,
+    logOut: PropTypes.func.isRequired,
 }
 
 export default LoggedInUser
