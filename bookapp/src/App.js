@@ -46,11 +46,8 @@ const App = () => {
     const addBook = (bookObject) => {
         bookFormRef.current.toggleVisibility()
 
-        console.log('BOOK-OBJEKTI', bookObject)
-
-        bookService
-            .create(bookObject)
-            .then((returnedBook) => {
+        try {
+            bookService.create(bookObject).then((returnedBook) => {
                 setBooks(books.concat(returnedBook))
 
                 setSuccessMessage(
@@ -60,9 +57,13 @@ const App = () => {
                     setSuccessMessage(null)
                 }, 5000)
             })
-            .catch((error) => {
-                console.log('error', error)
-            })
+        } catch (error) {
+            console.log('error', error)
+            setErrorMessage('You must log in before you can add books')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 5000)
+        }
     }
 
     const addNewLike = (book) => {
@@ -72,16 +73,15 @@ const App = () => {
 
         const chageBookLikes = { ...findId, likes: findId.likes + 1 }
 
-        bookService
-            .update(id, chageBookLikes)
-            .then((returnedBook) => {
+        try {
+            bookService.update(id, chageBookLikes).then((returnedBook) => {
                 setBooks(
                     books.map((per) => (per.id !== id ? per : returnedBook))
                 )
             })
-            .catch((error) => {
-                console.log('error on put:', error)
-            })
+        } catch (exception) {
+            console.log('error on put:', exception)
+        }
     }
 
     const deleteBook = (del) => {
@@ -94,25 +94,24 @@ const App = () => {
         const filterById = copyOfBooks.filter((p) => p.id !== id)
 
         if (window.confirm(`Delete book ${findBook.title} ?`)) {
-            bookService
-                .remove(id)
-                .then(() => {
+            try {
+                bookService.remove(id).then(() => {
                     setBooks(filterById)
                     setSuccessMessage('the book was successfully deleted')
                     setTimeout(() => {
                         setSuccessMessage(null)
                     }, 5000)
                 })
-                .catch((error) => {
-                    console.log('delete error:', error)
-                    setErrorMessage(
-                        'You can`t remove a book you have not added.',
-                        error
-                    )
-                    setTimeout(() => {
-                        setErrorMessage(null)
-                    }, 5000)
-                })
+            } catch (error) {
+                console.log('delete error:', error)
+                setErrorMessage(
+                    'You can`t remove a book you have not added.',
+                    error
+                )
+                setTimeout(() => {
+                    setErrorMessage(null)
+                }, 5000)
+            }
         }
     }
 
