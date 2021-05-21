@@ -43,22 +43,26 @@ const App = () => {
 
     const bookFormRef = useRef()
 
-    const addBook = (bookObject) => {
+    const addBook = async (bookObject) => {
         bookFormRef.current.toggleVisibility()
 
-        try {
-            bookService.create(bookObject).then((returnedBook) => {
-                setBooks(books.concat(returnedBook))
+        // console.log('bookObjecti', bookObject)
 
-                setSuccessMessage(
-                    `A new book ${bookObject.title} by ${bookObject.author} added`
-                )
-                setTimeout(() => {
-                    setSuccessMessage(null)
-                }, 5000)
-            })
-        } catch (error) {
-            console.log('error', error)
+        try {
+            const waitBooks = await bookService.create(bookObject)
+
+            setBooks(books.concat(waitBooks))
+
+            // console.log('returened waitBooks', waitBooks)
+
+            setSuccessMessage(
+                `A new book ${waitBooks.title} by ${waitBooks.author} added`
+            )
+            setTimeout(() => {
+                setSuccessMessage(null)
+            }, 5000)
+        } catch (exception) {
+            console.log('exception', exception)
             setErrorMessage('You must log in before you can add books')
             setTimeout(() => {
                 setErrorMessage(null)
@@ -66,7 +70,7 @@ const App = () => {
         }
     }
 
-    const addNewLike = (book) => {
+    const addNewLike = async (book) => {
         const findId = books.find((b) => b.id === book)
 
         const id = findId.id
@@ -74,17 +78,14 @@ const App = () => {
         const chageBookLikes = { ...findId, likes: findId.likes + 1 }
 
         try {
-            bookService.update(id, chageBookLikes).then((returnedBook) => {
-                setBooks(
-                    books.map((per) => (per.id !== id ? per : returnedBook))
-                )
-            })
+            const updateBook = await bookService.update(id, chageBookLikes)
+            setBooks(books.map((per) => (per.id !== id ? per : updateBook)))
         } catch (exception) {
             console.log('error on put:', exception)
         }
     }
 
-    const deleteBook = (del) => {
+    const deleteBook = async (del) => {
         const id = del
 
         const copyOfBooks = [...books]
@@ -95,13 +96,13 @@ const App = () => {
 
         if (window.confirm(`Delete book ${findBook.title} ?`)) {
             try {
-                bookService.remove(id).then(() => {
-                    setBooks(filterById)
-                    setSuccessMessage('the book was successfully deleted')
-                    setTimeout(() => {
-                        setSuccessMessage(null)
-                    }, 5000)
-                })
+                await bookService.remove(id)
+
+                setBooks(filterById)
+                setSuccessMessage('The book was successfully deleted')
+                setTimeout(() => {
+                    setSuccessMessage(null)
+                }, 5000)
             } catch (error) {
                 console.log('delete error:', error)
                 setErrorMessage(
@@ -124,8 +125,6 @@ const App = () => {
     }
 
     const handleLogin = async (userInfo) => {
-        console.log('HANDLELOGIN EVENT', userInfo)
-
         let user
 
         try {
@@ -143,7 +142,7 @@ const App = () => {
             bookService.setToken(user.token)
             setUser(user)
         } catch (exception) {
-            console.log('error on put:', exception)
+            console.log('error on login:', exception)
             setErrorMessage('Wrong username or password')
             setTimeout(() => {
                 setErrorMessage(null)

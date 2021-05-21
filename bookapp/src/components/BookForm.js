@@ -1,23 +1,22 @@
-import React, { useState } from 'react'
+import React, { useRef } from 'react'
 import Button from './UI/Button'
 
 const BookForm = ({ addBook }) => {
-    const [newTitle, setNewTitle] = useState('')
-    const [newAuthor, setNewAuthor] = useState('')
-    const [newUrl, setNewUrl] = useState('')
+    const titleInputRef = useRef()
+    const authorInputRef = useRef()
+    const urlInputRef = useRef()
 
     const createBook = (e) => {
         e.preventDefault()
 
         addBook({
-            title: newTitle,
-            author: newAuthor,
-            url: newUrl,
+            title: titleInputRef.current.value,
+            author: authorInputRef.current.value,
+            url: urlInputRef.current.value,
         })
-
-        setNewTitle('')
-        setNewAuthor('')
-        setNewUrl('')
+        titleInputRef.current.value = ''
+        authorInputRef.current.value = ''
+        urlInputRef.current.value = ''
     }
 
     return (
@@ -26,22 +25,12 @@ const BookForm = ({ addBook }) => {
 
             <form onSubmit={createBook}>
                 title:{' '}
-                <input
-                    value={newTitle}
-                    onChange={({ target }) => setNewTitle(target.value)}
-                />
+                <input type='text' id='title' required ref={titleInputRef} />
                 <br />
                 author:{' '}
-                <input
-                    value={newAuthor}
-                    onChange={({ target }) => setNewAuthor(target.value)}
-                />
+                <input type='text' id='author' required ref={authorInputRef} />
                 <br />
-                url:{' '}
-                <input
-                    value={newUrl}
-                    onChange={({ target }) => setNewUrl(target.value)}
-                />
+                url: <input type='url' id='url' required ref={urlInputRef} />
                 <br />
                 <Button type='submit'>create</Button>
             </form>
