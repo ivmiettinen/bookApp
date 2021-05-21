@@ -22,9 +22,6 @@ import Auth from './components/SignIn/Auth'
 
 const App = () => {
     const [books, setBooks] = useState([])
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [name, setName] = useState('')
     const [user, setUser] = useState(null)
     const [errorMessage, setErrorMessage] = useState(null)
     const [successMessage, setSuccessMessage] = useState(null)
@@ -48,6 +45,8 @@ const App = () => {
 
     const addBook = (bookObject) => {
         bookFormRef.current.toggleVisibility()
+
+        console.log('BOOK-OBJEKTI', bookObject)
 
         bookService
             .create(bookObject)
@@ -119,39 +118,31 @@ const App = () => {
 
     const logOut = () => {
         window.localStorage.clear()
+        bookService.setToken(null)
         setUser(null)
+        setShowSignUp(false)
+        setShowLogIn(false)
     }
 
-    const handleLogin = async (event) => {
-        event.preventDefault()
+    const handleLogin = async (userInfo) => {
+        console.log('HANDLELOGIN EVENT', userInfo)
 
         let user
 
         try {
             if (showSignUp) {
-                user = await signUpService.signUp({
-                    username,
-                    name,
-                    password,
-                })
-
-                console.log('userrrrr', user)
+                user = await signUpService.signUp(userInfo)
             } else {
-                user = await loginService.login({
-                    username,
-                    name,
-                    password,
-                })
+                user = await loginService.login(userInfo)
             }
+
+            // console.log('handleLogin user', user)
             window.localStorage.setItem(
                 'loggedBookappUser',
                 JSON.stringify(user)
             )
             bookService.setToken(user.token)
             setUser(user)
-            setName('')
-            setUsername('')
-            setPassword('')
         } catch (exception) {
             console.log('error on put:', exception)
             setErrorMessage('Wrong username or password')
@@ -172,8 +163,6 @@ const App = () => {
                 addNewLike={addNewLike}
             />
         ))
-
-
 
     return (
         <div>
@@ -198,15 +187,8 @@ const App = () => {
                     </Route>
                     <Route path='/login'>
                         <LoginForm
-                            name={name}
-                            setName={setName}
-                            username={username}
-                            password={password}
-                            setUsername={setUsername}
-                            setPassword={setPassword}
                             handleLogin={handleLogin}
                             showSignUp={showSignUp}
-                            showLogIn={showLogIn}
                         />
                     </Route>
                     <Route path='/books'>
