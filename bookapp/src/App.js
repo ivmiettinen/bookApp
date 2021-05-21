@@ -9,16 +9,11 @@ import LoginForm from './components/SignIn/LoginForm'
 import Togglable from './components/Togglable'
 import BookForm from './components/BookForm'
 import ErrorMessage from './components/Messages/ErrorMessage'
-import LoggedInUser from './components/SignIn/LoggedInUser'
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Redirect,
-} from 'react-router-dom'
-import MainHeader from './components/LayOut/MainHeader'
+import LogOutUser from './components/SignIn/LogOutUser'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import About from './components/About'
 import Auth from './components/SignIn/Auth'
+import Layout from './components/LayOut/Layout'
 
 const App = () => {
     const [books, setBooks] = useState([])
@@ -163,50 +158,54 @@ const App = () => {
         ))
 
     return (
-        <div>
-            <Router>
-                <MainHeader />
-                <SuccessMessage successMessage={successMessage} />
-                <ErrorMessage errorMessage={errorMessage} />
-                <Switch>
-                    <Route path='/' exact>
-                        <Redirect to='/auth'></Redirect>
-                    </Route>
-                    <Route path='/auth'>
-                        {!showSignUp || !showLogIn ? (
-                            <Auth
-                                showSignUp={setShowSignUp}
-                                setShowLogIn={setShowLogIn}
-                                setShowSignUp={setShowSignUp}
-                            />
-                        ) : (
-                            <></>
-                        )}
-                    </Route>
-                    <Route path='/login'>
-                        <LoginForm
-                            handleLogin={handleLogin}
-                            showSignUp={showSignUp}
+        <Layout user={user}>
+            <SuccessMessage successMessage={successMessage} />
+            <ErrorMessage errorMessage={errorMessage} />
+            <Switch>
+                <Route path='/' exact>
+                    <Redirect to='/auth'></Redirect>
+                </Route>
+                <Route path='/auth'>
+                    {!showSignUp || !showLogIn ? (
+                        <Auth
+                            showSignUp={setShowSignUp}
+                            setShowLogIn={setShowLogIn}
+                            setShowSignUp={setShowSignUp}
                         />
-                    </Route>
-                    <Route path='/books'>
-                        <div>
-                            <LoggedInUser user={user} logOut={logOut} />
-                            <Togglable
-                                buttonLabel='Add a book'
-                                ref={bookFormRef}
-                            >
-                                <BookForm addBook={addBook} />
-                            </Togglable>
-                            <ul>{mapAndSortBooks}</ul>
-                        </div>
-                    </Route>
-                    <Route path='/about'>
-                        <About />
-                    </Route>
-                </Switch>
-            </Router>
-        </div>
+                    ) : (
+                        <></>
+                    )}
+                </Route>
+                <Route path='/login'>
+                    {' '}
+                    <LoginForm
+                        handleLogin={handleLogin}
+                        showSignUp={showSignUp}
+                    />
+                </Route>
+                <Route path='/signup'>
+                    <LoginForm
+                        handleLogin={handleLogin}
+                        showSignUp={showSignUp}
+                    />
+                </Route>
+
+                <Route path='/books'>
+                    <div>
+                        <Togglable buttonLabel='Add a book' ref={bookFormRef}>
+                            <BookForm addBook={addBook} />
+                        </Togglable>
+                        <ul>{mapAndSortBooks}</ul>
+                    </div>
+                </Route>
+                <Route path='/about'>
+                    <About />
+                </Route>
+                <Route path='/logout'>
+                    <LogOutUser user={user} logOut={logOut} />
+                </Route>
+            </Switch>
+        </Layout>
     )
 }
 

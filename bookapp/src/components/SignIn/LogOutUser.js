@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
 
-const LoggedInUser = ({ user, logOut }) => {
+const LogOutUser = ({ user, logOut }) => {
     let history = useHistory()
 
     const handleLogout = () => {
@@ -14,10 +14,8 @@ const LoggedInUser = ({ user, logOut }) => {
         <>
             {user !== null ? (
                 <>
-                    <p>
-                        <strong>{user.name}</strong> is logged in.
-                        <button onClick={handleLogout}>Log out</button>
-                    </p>
+                    User <strong>{user.name}</strong> is currently logged in.
+                    <button onClick={handleLogout}>Log out</button>
                 </>
             ) : (
                 <></>
@@ -26,9 +24,9 @@ const LoggedInUser = ({ user, logOut }) => {
     )
 }
 
-LoggedInUser.propTypes = {
+LogOutUser.propTypes = {
     user: PropTypes.object,
     logOut: PropTypes.func.isRequired,
 }
 
-export default LoggedInUser
+export default LogOutUser

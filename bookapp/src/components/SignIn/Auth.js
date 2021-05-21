@@ -13,7 +13,7 @@ const Auth = ({ setShowSignUp, setShowLogIn }) => {
     const signUpBtnHandler = () => {
         setShowSignUp(true)
         setShowLogIn(false)
-        history.push('/login')
+        history.push('/signup')
     }
 
     const loginBtnHandler = () => {
