@@ -1,24 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Book from './components/Book'
 import bookService from './services/books'
-import SuccessMessage from './components/SuccessMessage'
+import SuccessMessage from './components/Messages/SuccessMessage'
 import loginService from './services/login'
 import signUpService from './services/signUp'
 import './App.css'
-import LoginForm from './components/LoginForm'
+import LoginForm from './components/SignIn/LoginForm'
 import Togglable from './components/Togglable'
 import BookForm from './components/BookForm'
-import ErrorMessage from './components/ErrorMessage'
-import LoggedInUser from './components/LoggedInUser'
+import ErrorMessage from './components/Messages/ErrorMessage'
+import LoggedInUser from './components/SignIn/LoggedInUser'
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Redirect,
 } from 'react-router-dom'
-import MainHeader from './components/MainHeader'
+import MainHeader from './components/LayOut/MainHeader'
 import About from './components/About'
-import Auth from './components/Auth'
+import Auth from './components/SignIn/Auth'
 
 const App = () => {
     const [books, setBooks] = useState([])
@@ -28,7 +28,6 @@ const App = () => {
     const [user, setUser] = useState(null)
     const [errorMessage, setErrorMessage] = useState(null)
     const [successMessage, setSuccessMessage] = useState(null)
-    const [showForm, setShowForm] = useState(null)
     const [showSignUp, setShowSignUp] = useState(false)
     const [showLogIn, setShowLogIn] = useState(false)
 
@@ -174,9 +173,7 @@ const App = () => {
             />
         ))
 
-    // const showLoginForm = () => {
-    //     setShowForm('login')
-    // }
+
 
     return (
         <div>

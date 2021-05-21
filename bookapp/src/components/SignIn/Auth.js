@@ -1,8 +1,8 @@
 import React from 'react'
-import { BrowserRouter as Router, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import classes from './Auth.module.css'
-import Button from './UI/Button'
-import Card from './UI/Card'
+import Button from '../UI/Button'
+import Card from '../UI/Card'
 
 const Auth = ({ setShowSignUp, setShowLogIn }) => {
     let history = useHistory()

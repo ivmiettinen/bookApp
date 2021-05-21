@@ -1,8 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import classes from './MainHeader.module.css'
-// import bookImage from '../../pexels-negative-space-34592.jpg'
-import bookImage from './Pics/pexels-negative-space-34592.jpg'
 
 const MainHeader = () => {
     return (
@@ -29,5 +27,3 @@ const MainHeader = () => {
 }
 
 export default MainHeader
-
-// style={{backgroundImage: `url(${bookImage})`}}
