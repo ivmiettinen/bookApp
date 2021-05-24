@@ -6,7 +6,7 @@ import classes from './LogOutUser.module.css'
 import Button from '../UI/Button'
 
 const LogOutUser = ({ user, logOut }) => {
-    let history = useHistory()
+    const history = useHistory()
 
     const handleLogout = () => {
         logOut()

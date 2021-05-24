@@ -36,7 +36,7 @@ const App = () => {
         }
     }, [])
 
-    let history = useHistory()
+    const history = useHistory()
 
     const bookFormRef = useRef()
 
@@ -59,7 +59,7 @@ const App = () => {
                 setSuccessMessage(null)
             }, 5000)
         } catch (exception) {
-            console.log('exception', exception)
+            console.log('exception', exception.message)
             setErrorMessage('You must log in before you can add books')
             setTimeout(() => {
                 setErrorMessage(null)
@@ -101,7 +101,7 @@ const App = () => {
                     setSuccessMessage(null)
                 }, 5000)
             } catch (exception) {
-                console.log('delete error:', exception)
+                console.log('delete error:', exception.message)
                 setErrorMessage(
                     'You can`t remove a book you have not added.',
                     exception
@@ -124,6 +124,10 @@ const App = () => {
     const handleLogin = async (userInfo) => {
         let user
 
+        console.log('username', userInfo.username)
+
+        console.log('userinfohandlessa', userInfo)
+
         try {
             if (showSignUp) {
                 user = await signUpService.signUp(userInfo)
@@ -140,11 +144,17 @@ const App = () => {
             setUser(user)
             history.push('/books')
         } catch (exception) {
-            console.log('error on login:', exception)
-            setErrorMessage('Wrong username or password')
-            setTimeout(() => {
-                setErrorMessage(null)
-            }, 5000)
+            console.log('error on login:', exception.message)
+
+            if (JSON.stringify(exception.response.data).includes('unique')) {
+                setErrorMessage(
+                    `Username '${userInfo.username}' is already in use`
+                )
+
+                setTimeout(() => {
+                    setErrorMessage(null)
+                }, 5000)
+            }
         }
     }
 
@@ -184,12 +194,14 @@ const App = () => {
                     <LoginForm
                         handleLogin={handleLogin}
                         showSignUp={showSignUp}
+                        setErrorMessage={setErrorMessage}
                     />
                 </Route>
                 <Route path='/signup'>
                     <LoginForm
                         handleLogin={handleLogin}
                         showSignUp={showSignUp}
+                        setErrorMessage={setErrorMessage}
                     />
                 </Route>
 
