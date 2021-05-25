@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
+import classes from './LoginForm.module.css'
 import PropTypes from 'prop-types'
+import Card from '../UI/Card'
 
 const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
     const [username, setUsername] = useState('')
@@ -43,46 +45,48 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
     }
 
     return (
-        <>
-            <form onSubmit={handleSignIn}>
-                <label>
-                    <p> username:</p>
-                    <input
-                        type='text'
-                        value={username}
-                        name='Username'
-                        onChange={({ target }) => setUsername(target.value)}
-                    />
-                </label>
+        <Card className={classes.authButtons}>
+            <form onSubmit={handleSignIn} className={classes.authForm}>
                 {showSignUp ? (
-                    <label>
-                        <p>name:</p>
+                    <p>
+                        <label className={classes.loginLabel}>e-mail:</label>
                         <input
                             type='text'
                             value={name}
                             name='name'
                             onChange={({ target }) => setName(target.value)}
                         />
-                    </label>
+                    </p>
                 ) : (
                     <></>
                 )}
-                <label>
-                    <p>password:</p>
+                <p>
+                    <label>username: </label>
+
+                    <input
+                        type='text'
+                        value={username}
+                        name='Username'
+                        onChange={({ target }) => setUsername(target.value)}
+                    />
+                </p>
+
+                <p>
+                    <label>password: </label>
                     <input
                         type='password'
                         value={password}
                         name='Password'
                         onChange={({ target }) => setPassword(target.value)}
                     />
-                </label>
-                <div>
+                </p>
+                <p>
                     <button type='submit'>
                         {showSignUp ? 'Sign up' : 'login'}
                     </button>
-                </div>
+                </p>
             </form>
-        </>
+        </Card>
     )
 }
 
