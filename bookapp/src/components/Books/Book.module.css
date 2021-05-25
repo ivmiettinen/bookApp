@@ -1,0 +1,17 @@
+.bookStyle {
+    border: solid;
+    border-width: 2px;
+    padding: 20px;
+    margin: 5px;
+    border-color: #c6daf5;
+    color: #236bc8;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    border-radius: 5px;
+    max-width: 100%;
+    text-align: center;
+}
+
+.bookTitle{
+    font-weight: bold;
+}

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import classes from './LoginForm.module.css'
 import PropTypes from 'prop-types'
 import Card from '../UI/Card'
+import Button from '../UI/Button'
 
 const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
     const [username, setUsername] = useState('')
@@ -11,7 +12,7 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
     const handleSignIn = (e) => {
         e.preventDefault()
 
-        console.log('name.trim().length', name.trim().length)
+        // console.log('name.trim().length', name.trim().length)
 
         if (showSignUp && username.trim().length < 3) {
             setErrorMessage('Username must be at least 3 characters long.')
@@ -49,11 +50,13 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
             <form onSubmit={handleSignIn} className={classes.authForm}>
                 {showSignUp ? (
                     <p>
-                        <label className={classes.loginLabel}>e-mail:</label>
+                        <label className={classes.emailLabel}>e-mail:</label>
                         <input
-                            type='text'
+                            className={classes.LoginformInput}
+                            type='email'
                             value={name}
                             name='name'
+                            placeholder='Your email...'
                             onChange={({ target }) => setName(target.value)}
                         />
                     </p>
@@ -61,29 +64,33 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
                     <></>
                 )}
                 <p>
-                    <label>username: </label>
+                    <label className={classes.usernameLabel}>username: </label>
 
                     <input
+                        className={classes.LoginformInput}
                         type='text'
                         value={username}
                         name='Username'
+                        placeholder='Your name...'
                         onChange={({ target }) => setUsername(target.value)}
                     />
                 </p>
 
                 <p>
-                    <label>password: </label>
+                    <label className={classes.passwordLabel}>password: </label>
                     <input
+                        className={classes.LoginformInput}
                         type='password'
                         value={password}
                         name='Password'
+                        placeholder='Your password...'
                         onChange={({ target }) => setPassword(target.value)}
                     />
                 </p>
                 <p>
-                    <button type='submit'>
+                    <Button type='submit'>
                         {showSignUp ? 'Sign up' : 'login'}
-                    </button>
+                    </Button>
                 </p>
             </form>
         </Card>

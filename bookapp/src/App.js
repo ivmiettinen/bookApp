@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Book from './components/Book'
+import Book from './components/Books/Book'
 import bookService from './services/books'
 import SuccessMessage from './components/Messages/SuccessMessage'
 import loginService from './services/login'
@@ -7,7 +7,7 @@ import signUpService from './services/signUp'
 import './App.css'
 import LoginForm from './components/SignIn/LoginForm'
 import Togglable from './components/Togglable'
-import BookForm from './components/BookForm'
+import BookForm from './components/Books/BookForm'
 import ErrorMessage from './components/Messages/ErrorMessage'
 import LogOutUser from './components/SignIn/LogOutUser'
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
@@ -124,9 +124,9 @@ const App = () => {
     const handleLogin = async (userInfo) => {
         let user
 
-        console.log('username', userInfo.username)
+        // console.log('username', userInfo.username)
 
-        console.log('userinfohandlessa', userInfo)
+        // console.log('userinfohandlessa', userInfo)
 
         try {
             if (showSignUp) {
@@ -206,12 +206,12 @@ const App = () => {
                 </Route>
 
                 <Route path='/books'>
-                    <div>
-                        <Togglable buttonLabel='Add a book' ref={bookFormRef}>
-                            <BookForm addBook={addBook} />
+                    <>
+                        <Togglable buttonLabel='Add a book' ref={bookFormRef} className='hideWhenVisible'>
+                            <BookForm  addBook={addBook} />
                         </Togglable>
-                        <ul>{mapAndSortBooks}</ul>
-                    </div>
+                        <>{mapAndSortBooks}</>
+                    </>
                 </Route>
                 <Route path='/about'>
                     <About />

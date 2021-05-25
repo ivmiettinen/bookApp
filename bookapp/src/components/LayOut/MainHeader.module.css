@@ -1,52 +1,43 @@
 .header {
     width: 100%;
-    /* height: 5rem; */
     background-color: #5f81ad;
-    /* padding: 0 10%; */
-    /* padding: 6rem 0rem; */
-    padding: 5.2rem   0rem;
-    /* padding-top: 4%; */
+    padding: 5.2rem 0rem;
     border-radius: 12px;
     background: url('../Pics/pexels-negative-space-34592.jpg');
     height: 100%;
     opacity: 80%;
-  }
-  
-  
-  .header nav {
+}
+
+.header nav {
     height: 100%;
-  }
-  
-  .header ul {
+}
+
+.header ul {
     height: 100%;
     list-style: none;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
-  .header li {
+}
+
+.header li {
     margin: 0 1rem;
     width: 5rem;
     font-size: 30px;
-    /* font-size: 1.5vw; */
-    padding: 10px; 
+    padding: 10px;
+    text-align: center;
+    margin: 5px;
+}
 
-    /* flex:1 1 auto; */
-  text-align:center;
-
-  margin:5px;
-  }
-  
-  .header a {
+.header a {
     color: white;
     text-decoration: none;
-  }
-  
-  .header a:hover,
-  .header a:active,
-  .header a.active {
+}
+
+.header a:hover,
+.header a:active,
+.header a.active {
     color: #95bcf0;
     padding-bottom: 0.25rem;
     border-bottom: 4px solid #72a2e0;
-  }
+}

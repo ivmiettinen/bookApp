@@ -57,3 +57,25 @@
   padding: 10px;
   margin-bottom: 10px;
 }
+
+.hideWhenVisible {
+  font: inherit;
+  border: 1px solid #9b9fd4;
+  background: #16ad55;
+  color: white;
+  padding: 0.25rem 1rem;
+  cursor: pointer;
+  border-radius: 12px;
+  margin: 6px;
+  font-size: 20px;
+}
+
+.hideWhenVisible:hover,
+.hideWhenVisible:active {
+    background: rgb(76, 207, 24);
+    background: rgb(76, 207, 24);
+}
+
+.hideWhenVisible:focus {
+    outline: none;
+}

@@ -1,0 +1,20 @@
+.togglableDiv {
+    justify-content: center;
+    align-items: center;
+    place-items: center;
+}
+
+.togglableDiv > div {
+    display: grid;
+    place-items: center;
+}
+
+.button:hover,
+.button:active {
+    background: #21193f;
+    border-color: #21193f;
+}
+
+.button:focus {
+    outline: none;
+}

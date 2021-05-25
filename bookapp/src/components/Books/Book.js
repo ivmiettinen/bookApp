@@ -1,24 +1,13 @@
 import React from 'react'
+import classes from './Book.module.css'
 import PropTypes from 'prop-types'
-
-const bookStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5,
-}
-
-const titleAndAuthor = {
-    color: '#3CB371',
-    fontWeight: 'bold',
-}
 
 const Book = ({ addNewLike, book, deleteBook, Togglable }) => {
     return (
-        <div style={bookStyle}>
-            <p style={titleAndAuthor}>
-                {book.title} by {book.author}
+        <div className={classes.bookStyle}>
+            <p>
+                <span className={classes.bookTitle}>{book.title}</span> by{' '}
+                {book.author}
             </p>
 
             <Togglable buttonLabel='view'>
