@@ -22,7 +22,7 @@ const BookForm = ({ addBook }) => {
     }
 
     return (
-        <div className={classes.BookFormStyle}>
+        <div className={classes.bookFormStyle}>
             <h2>Create a new book</h2>
 
             <form onSubmit={createBook}>

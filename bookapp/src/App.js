@@ -14,6 +14,7 @@ import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
 import About from './components/About'
 import Auth from './components/SignIn/Auth'
 import Layout from './components/LayOut/Layout'
+import BookHeader from './components/Books/BookHeader'
 
 const App = () => {
     const [books, setBooks] = useState([])
@@ -206,12 +207,15 @@ const App = () => {
                 </Route>
 
                 <Route path='/books'>
-                    <>
-                        <Togglable buttonLabel='Add a book' ref={bookFormRef} className='hideWhenVisible'>
-                            <BookForm  addBook={addBook} />
-                        </Togglable>
-                        <>{mapAndSortBooks}</>
-                    </>
+                    <BookHeader mapAndSortBooks={mapAndSortBooks} />
+                    <Togglable
+                        buttonLabel='Add a book'
+                        ref={bookFormRef}
+                        className='hideWhenVisible'
+                    >
+                        <BookForm addBook={addBook} />
+                    </Togglable>
+                    <>{mapAndSortBooks}</>
                 </Route>
                 <Route path='/about'>
                     <About />

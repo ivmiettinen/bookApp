@@ -1,4 +1,4 @@
-.BookFormStyle {
+.bookFormStyle {
     border: solid;
     border-width: 2px;
     padding: 20px;
@@ -10,20 +10,6 @@
     border-radius: 5px;
     max-width: 100%;
     text-align: center;
-}
-
-.authForm {
-    max-width: 45rem;
-    width: 90%;
-    margin: auto;
-    background-color: #5f81ad;
-    color: white;
-    border-radius: 14px;
-    padding: 1rem;
-    margin: 2rem auto;
-    text-align: center;
-    display: grid;
-    font-size: 20px;
 }
 
 .bookFormButton{

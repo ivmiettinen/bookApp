@@ -23,3 +23,12 @@ Fullstack app displaying different books. React frontend, node.js express backen
 'SECRET' for digitally signing generated auth token. (For example: SECRET=Example2021).
 
 -Run 'npm start'
+
+
+
+Credits:
+
+Amazing book picture is from Pexels.com. Photographer
+is Negative space.
+
+Link: https://www.pexels.com/photo/books-old-book-knowledge-bookstore-34592/
