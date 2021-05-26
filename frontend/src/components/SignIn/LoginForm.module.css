@@ -28,7 +28,9 @@ form {
 .LoginformInput {
     margin: 0 auto;
     justify-content: center;
-
+    
+    border-style: solid;
+    border-radius: 3.5px;
 }
 
 .usernameLabel{
