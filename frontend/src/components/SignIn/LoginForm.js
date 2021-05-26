@@ -12,8 +12,6 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
     const handleSignIn = (e) => {
         e.preventDefault()
 
-        // console.log('name.trim().length', name.trim().length)
-
         if (showSignUp && username.trim().length < 3) {
             setErrorMessage('Username must be at least 3 characters long.')
             setTimeout(() => {

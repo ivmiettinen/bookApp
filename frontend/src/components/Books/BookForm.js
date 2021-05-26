@@ -53,7 +53,9 @@ const BookForm = ({ addBook }) => {
                 <input type='url' id='url' required ref={urlInputRef} />
                 <br />
 
-                <Button className={classes.bookFormButton} type='submit'>create</Button>
+                <Button className={classes.bookFormButton} type='submit'>
+                    create
+                </Button>
             </form>
         </div>
     )

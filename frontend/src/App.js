@@ -44,15 +44,10 @@ const App = () => {
     const addBook = async (bookObject) => {
         bookFormRef.current.toggleVisibility()
 
-        // console.log('bookObjecti', bookObject)
-
         try {
             const waitBooks = await bookService.create(bookObject)
 
             setBooks(books.concat(waitBooks))
-
-            // console.log('returened waitBooks', waitBooks)
-
             setSuccessMessage(
                 `A new book ${waitBooks.title} by ${waitBooks.author} added`
             )
@@ -124,19 +119,12 @@ const App = () => {
 
     const handleLogin = async (userInfo) => {
         let user
-
-        // console.log('username', userInfo.username)
-
-        // console.log('userinfohandlessa', userInfo)
-
         try {
             if (showSignUp) {
                 user = await signUpService.signUp(userInfo)
             } else {
                 user = await loginService.login(userInfo)
             }
-
-            // console.log('handleLogin user', user)
             window.localStorage.setItem(
                 'loggedBookappUser',
                 JSON.stringify(user)
