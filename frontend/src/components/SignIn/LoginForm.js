@@ -6,7 +6,7 @@ import Button from '../UI/Button'
 
 const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
     const [username, setUsername] = useState('')
-    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const handleSignIn = (e) => {
@@ -18,9 +18,9 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
                 setErrorMessage(null)
             }, 5000)
             return
-        } else if (showSignUp && name.trim().length < 3) {
+        } else if (showSignUp && email.trim().length < 3) {
             console.log('arg')
-            setErrorMessage('Name must be at least 3 characters long.')
+            setErrorMessage('Email must be at least 3 characters long.')
             setTimeout(() => {
                 setErrorMessage(null)
             }, 5000)
@@ -33,11 +33,11 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
             return
         } else {
             handleLogin({
-                name: name,
+                email: email,
                 username: username,
                 password: password,
             })
-            setName('')
+            setEmail('')
             setUsername('')
             setPassword('')
         }
@@ -52,10 +52,10 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
                         <input
                             className={classes.LoginformInput}
                             type='email'
-                            value={name}
-                            name='name'
+                            value={email}
+                            name='email'
                             placeholder='Your email...'
-                            onChange={({ target }) => setName(target.value)}
+                            onChange={({ target }) => setEmail(target.value)}
                         />
                     </p>
                 ) : (

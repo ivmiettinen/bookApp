@@ -24,7 +24,7 @@ usersRouter.post('/', async (request, response, next) => {
 
     const user = new User({
         username: body.username,
-        name: body.name,
+        email: body.email,
         passwordHash,
     })
 
@@ -41,7 +41,7 @@ usersRouter.post('/', async (request, response, next) => {
         await user.save()
         response
             .status(201)
-            .send({ token, username: user.username, name: user.name })
+            .send({ token, username: user.username, email: user.email })
     } catch (exception) {
         next(exception)
     }
