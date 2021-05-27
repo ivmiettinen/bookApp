@@ -47,22 +47,5 @@ usersRouter.post('/', async (request, response, next) => {
     }
 })
 
-usersRouter.get('/', async (request, response, next) => {
-    try {
-        const allUsers = await User.find({}).populate('books', {
-            url: 1,
-            title: 1,
-            author: 1,
-        })
-
-        if (allUsers) {
-            response.json(allUsers.map((r) => r.toJSON()))
-        } else {
-            response.status(404).end()
-        }
-    } catch (exception) {
-        next(exception)
-    }
-})
 
 module.exports = usersRouter
