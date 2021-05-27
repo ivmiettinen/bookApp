@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3003/api/books'
+const baseUrl = 'http://bookappserver-env.eba-sf8pixz2.us-east-2.elasticbeanstalk.com/api/books'
 
 let token = null
 

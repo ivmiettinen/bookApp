@@ -11,8 +11,13 @@
     max-width: 100%;
     text-align: center;
     background-color: rgb(251, 248, 243);
+    /*For word breaking to different lines: */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    /* Instead use this non-standard one: */
+    word-break: break-word;
 }
 
-.bookTitle{
+.bookTitle {
     font-weight: bold;
 }

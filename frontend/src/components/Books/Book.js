@@ -1,6 +1,7 @@
 import React from 'react'
 import classes from './Book.module.css'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 const Book = ({ addNewLike, book, deleteBook, Togglable }) => {
     return (
@@ -11,7 +12,16 @@ const Book = ({ addNewLike, book, deleteBook, Togglable }) => {
             </p>
 
             <Togglable buttonLabel='view'>
-                <p>url: {book.url} </p>
+                <p>
+                    url:{' '}
+                    <a
+                        href={book.url}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                    >
+                        {book.url}
+                    </a>
+                </p>
                 <p>likes: {book.likes} </p>
 
                 <p>

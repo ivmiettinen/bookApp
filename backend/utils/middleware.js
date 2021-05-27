@@ -9,7 +9,6 @@ const tokenExtractor = (request, response, next) => {
 }
 
 const requestLogger = (request, response, next) => {
-    console.log('KOKO SHITTI', request)
 
     console.log('JA BODY', request.body)
 
