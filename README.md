@@ -1,6 +1,9 @@
 # bookApp
 Fullstack app displaying different books. React frontend, node.js express backend, mongodb database.
 
+Live version in amazon: http://bookappfront.s3-website.us-east-2.amazonaws.com/ 
+
+
 
 1.Clone the project.
 
