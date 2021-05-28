@@ -1,0 +1,13 @@
+.aboutStyle {
+    padding: 10px;
+    margin: 15px;
+    
+    border-color: #4078c2;
+    color: #0e67db;
+    font-size: 19.5px;
+    letter-spacing: 0.5px;
+    border-radius: 5px;
+    max-width: 100%;
+    text-align: center;
+    
+}

@@ -1,0 +1,44 @@
+.authForm {
+    max-width: 45rem;
+    width: 90%;
+    margin: auto;
+    background-color: #5f81ad;
+    color: white;
+    border-radius: 14px;
+    padding: 1rem;
+    margin: 2rem auto;
+    text-align: center;
+    display: grid;
+    font-size: 20px;
+}
+
+.emailLabel {
+    width: 200px;
+    padding-right: 26px;
+    margin-left: 30px;
+    justify-content: 'left';
+    align-items: 'left';
+    text-align: left;
+}
+
+form {
+    overflow: hidden;
+}
+
+.LoginformInput {
+    margin: 0 auto;
+    justify-content: center;
+    
+    border-style: solid;
+    border-radius: 3.5px;
+}
+
+.usernameLabel{
+    width: 200px;
+    padding-right: 24px;
+}
+
+.passwordLabel{
+    width: 200px;
+    padding-right: 24px;
+}

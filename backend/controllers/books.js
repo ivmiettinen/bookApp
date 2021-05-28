@@ -10,7 +10,7 @@ booksRouter.get('/', async (request, response, next) => {
     try {
         const books = await Book.find({}).populate('user', {
             username: 1,
-            name: 1,
+            email: 1,
         })
         if (books) {
             response.json(books.map((allBooks) => allBooks.toJSON()))
@@ -79,7 +79,7 @@ booksRouter.delete('/:id', async (request, response, next) => {
     const book = await Book.findById(request.params.id)
 
     if (user._id.toString() !== book.user.toString()) {
-        //Blogin poistaja ei ole sama kuin blogin lisääjä
+        //Deleter of the blog is not the same user as blog's adder
         return response.status(400).json({ error: 'invalid user' })
     }
 

@@ -24,7 +24,7 @@ usersRouter.post('/', async (request, response, next) => {
 
     const user = new User({
         username: body.username,
-        name: body.name,
+        email: body.email,
         passwordHash,
     })
 
@@ -41,28 +41,11 @@ usersRouter.post('/', async (request, response, next) => {
         await user.save()
         response
             .status(201)
-            .send({ token, username: user.username, name: user.name })
+            .send({ token, username: user.username, email: user.email })
     } catch (exception) {
         next(exception)
     }
 })
 
-usersRouter.get('/', async (request, response, next) => {
-    try {
-        const allUsers = await User.find({}).populate('books', {
-            url: 1,
-            title: 1,
-            author: 1,
-        })
-
-        if (allUsers) {
-            response.json(allUsers.map((r) => r.toJSON()))
-        } else {
-            response.status(404).end()
-        }
-    } catch (exception) {
-        next(exception)
-    }
-})
 
 module.exports = usersRouter
