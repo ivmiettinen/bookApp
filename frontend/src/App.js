@@ -16,8 +16,6 @@ import Auth from './components/SignIn/Auth'
 import Layout from './components/LayOut/Layout'
 import BookHeader from './components/Books/BookHeader'
 
-//
-
 const App = () => {
     const [books, setBooks] = useState([])
     const [user, setUser] = useState(null)
