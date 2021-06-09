@@ -1,3 +1,4 @@
+import { Alert } from '@material-ui/lab'
 import React from 'react'
 
 const SuccessMessage = ({ successMessage }) => {
@@ -5,7 +6,8 @@ const SuccessMessage = ({ successMessage }) => {
         return null
     }
 
-    return <div className='success'>{successMessage}</div>
+    return <div className='success'>
+        <Alert variant="filled" severity="success">{successMessage}</Alert></div>
 }
 
 export default SuccessMessage

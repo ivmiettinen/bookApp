@@ -115,6 +115,10 @@ const App = () => {
         setUser(null)
         setShowSignUp(false)
         setShowLogIn(false)
+        setSuccessMessage('Successfully logged out')
+        setTimeout(() => {
+            setSuccessMessage(null)
+        }, 5000)
     }
 
     const handleLogin = async (userInfo) => {
