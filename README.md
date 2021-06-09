@@ -2,17 +2,23 @@
 Fullstack app displaying different books. React frontend, node.js express backend, mongodb database.
 
 
-1.Clone the project.
+**Live version in amazon:** http://bookappfront.s3-website.us-east-2.amazonaws.com/ 
 
 
-2.BooksApp's frontend:
+
+
+**1.Clone the project.**
+
+
+
+**2.BooksApp's frontend:**
 
 -Run 'npm install' in folder.
 
 -npm start
 
 
-3.BookApp's backend:
+**3.BookApp's backend:**
 
 -Run npm install
 
@@ -26,9 +32,9 @@ Fullstack app displaying different books. React frontend, node.js express backen
 
 
 
-Credits:
+**#Credits:**
 
-Amazing book picture is from Pexels.com. Photographer
-is Negative space.
+Amazing book picture is from Pexels.com. **Photographer
+is Negative space.**
 
 Link: https://www.pexels.com/photo/books-old-book-knowledge-bookstore-34592/
