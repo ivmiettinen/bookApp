@@ -2,6 +2,8 @@ import React from 'react'
 import classes from './Book.module.css'
 import PropTypes from 'prop-types'
 
+//
+
 const Book = ({ addNewLike, book, deleteBook, Togglable }) => {
     return (
         <div className={classes.bookStyle}>
