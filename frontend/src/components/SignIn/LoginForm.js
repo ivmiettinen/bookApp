@@ -25,7 +25,7 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
                 setErrorMessage(null)
             }, 5000)
             return
-        } else if (showSignUp && password.trim().length < 1) {
+        } else if (showSignUp && password.trim().length < 3) {
             setErrorMessage('password must be 3 letters or longer.')
             setTimeout(() => {
                 setErrorMessage(null)
@@ -48,42 +48,49 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
             <form onSubmit={handleSignIn} className={classes.authForm}>
                 {showSignUp ? (
                     <p>
-                        <label className={classes.emailLabel}>e-mail:</label>
-                        <input
-                            className={classes.LoginformInput}
-                            type='email'
-                            value={email}
-                            name='email'
-                            placeholder='Your email...'
-                            onChange={({ target }) => setEmail(target.value)}
-                        />
+                        <label className={classes.loginLabel}>
+                            email:
+                            <input
+                                className={classes.LoginformInput}
+                                type='email'
+                                value={email}
+                                name='email'
+                                placeholder='Your email...'
+                                onChange={({ target }) =>
+                                    setEmail(target.value)
+                                }
+                            />
+                        </label>
                     </p>
                 ) : (
                     <></>
                 )}
                 <p>
-                    <label className={classes.usernameLabel}>username: </label>
-
-                    <input
-                        className={classes.LoginformInput}
-                        type='text'
-                        value={username}
-                        name='Username'
-                        placeholder='Your name...'
-                        onChange={({ target }) => setUsername(target.value)}
-                    />
+                    <label className={classes.loginLabel}>
+                        username:
+                        <input
+                            className={classes.LoginformInput}
+                            type='text'
+                            value={username}
+                            name='Username'
+                            placeholder='Your name...'
+                            onChange={({ target }) => setUsername(target.value)}
+                        />
+                    </label>
                 </p>
 
                 <p>
-                    <label className={classes.passwordLabel}>password: </label>
-                    <input
-                        className={classes.LoginformInput}
-                        type='password'
-                        value={password}
-                        name='Password'
-                        placeholder='Your password...'
-                        onChange={({ target }) => setPassword(target.value)}
-                    />
+                    <label className={classes.loginLabel}>
+                        password:
+                        <input
+                            className={classes.LoginformInput}
+                            type='password'
+                            value={password}
+                            name='Password'
+                            placeholder='Your password...'
+                            onChange={({ target }) => setPassword(target.value)}
+                        />
+                    </label>
                 </p>
                 <p>
                     <Button type='submit'>

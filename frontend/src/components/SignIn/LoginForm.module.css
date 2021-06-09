@@ -12,33 +12,21 @@
     font-size: 20px;
 }
 
-.emailLabel {
-    width: 200px;
-    padding-right: 26px;
-    margin-left: 30px;
-    justify-content: 'left';
-    align-items: 'left';
-    text-align: left;
-}
+.loginLabel {
+    margin-left: 40%;
+    margin-right: 40%;
+     display: flex; 
+    flex-direction: row;
+    justify-content: flex-end;
+    place-items: center;
+  }
 
-form {
-    overflow: hidden;
-}
-
-.LoginformInput {
-    margin: 0 auto;
-    justify-content: center;
-    
+  .LoginformInput {
+    height: 20px;
+    flex: 0 0 200px;
+    margin-left: 1em;
+    margin-right: 1em;
     border-style: solid;
     border-radius: 3.5px;
-}
+  }
 
-.usernameLabel{
-    width: 200px;
-    padding-right: 24px;
-}
-
-.passwordLabel{
-    width: 200px;
-    padding-right: 24px;
-}

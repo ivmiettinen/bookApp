@@ -1,7 +1,6 @@
 import React from 'react'
 import classes from './Book.module.css'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 
 const Book = ({ addNewLike, book, deleteBook, Togglable }) => {
     return (

@@ -43,8 +43,6 @@ app.use(middleware.requestLogger)
 
 app.use(middleware.tokenExtractor)
 
-// app.use('/', '<p>welcome</p>')
-
 app.use('/api/books', booksRouter)
 
 app.use('/api/users', usersRouter)

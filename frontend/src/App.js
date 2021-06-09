@@ -143,6 +143,16 @@ const App = () => {
                 setTimeout(() => {
                     setErrorMessage(null)
                 }, 5000)
+            } else if (
+                JSON.stringify(exception.response.data).includes(
+                    'invalid username or password'
+                )
+            ) {
+                setErrorMessage('Invalid username or password')
+
+                setTimeout(() => {
+                    setErrorMessage(null)
+                }, 5000)
             }
         }
     }
