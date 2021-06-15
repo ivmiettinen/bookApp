@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://bookappserver-env.eba-sf8pixz2.us-east-2.elasticbeanstalk.com/api/books'
+const baseUrl = 'https://hidden-plateau-70218.herokuapp.com/api/books'
 
 let token = null
 

@@ -3,7 +3,7 @@
     background-color: #5f81ad;
     padding: 5.2rem 0rem;
     border-radius: 12px;
-    background: url('../Pics/pexels-negative-space-34592.jpg');
+    background: url('https://raw.githubusercontent.com/ivmiettinen/bookApp/main/frontend/src/components/Pics/pexels-negative-space-34592.jpg');
     height: 100%;
     opacity: 80%;
 }

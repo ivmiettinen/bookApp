@@ -38,7 +38,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://bookappserver-env.eba-sf8pixz2.us-east-2.elasticbeanstalk.com/",
+  "proxy": "https://hidden-plateau-70218.herokuapp.com/",
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",

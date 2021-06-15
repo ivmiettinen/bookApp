@@ -2,7 +2,7 @@
 Fullstack app displaying different books. React frontend, node.js express backend, mongodb database.
 
 
-**Live version in amazon:** http://bookappfront.s3-website.us-east-2.amazonaws.com/ 
+**Live version in Netlify:** https://book-appi.netlify.app/
 
 
 
