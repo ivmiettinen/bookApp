@@ -41,7 +41,7 @@ booksRouter.post('/', async (request, response, next) => {
 
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
 
-    if (!request.token || !decodedToken.id ||  request.token === null) {
+    if (!request.token || !decodedToken.id || request.token === null) {
         return response.status(401).json({ error: 'token missing or invalid' })
     }
     const user = await User.findById(decodedToken.id)
@@ -115,6 +115,97 @@ booksRouter.put('/:id', async (request, response, next) => {
         console.log('exception', exception)
         next(exception)
     }
+})
+
+booksRouter.post('/:id/reviews', async (request, response, next) => {
+    const body = request.body.id.toString()
+
+    // console.log('typeof body', typeof body)
+
+    // let toNumber = Number(body)
+
+    // console.log('toNumber', toNumber)
+
+
+    // const decodedToken = jwt.verify(request.token, process.env.SECRET)
+
+    // if (!request.token || !decodedToken.id) {
+    //     return response.status(401).json({ error: 'token missing or invalid' })
+    // }
+    // const user = await User.findById(decodedToken.id)
+
+    const book = await Book.findById(request.params.id)
+
+    // const bookId = request.params.id
+    // const book = await Book.findById(bookId)
+    if (book) {
+        console.log('booooook', book)
+        // if (user._id.toString() === book.user.toString()) {
+        console.log('request.body.id.toString()', request.body.id.toString())
+        console.log('bodyyyyyyyy', body)
+
+
+        console.log(
+            'idn etsintä',
+            book.reviews.find((x) => x._id.toString() === request.body.id.toString())
+        )
+
+        // if (
+        //     book.reviews.find(
+        //         (x) => x.user.toString() === request.body.id.toString()
+        //     )
+        // ) {
+        //     return response
+        //         .status(400)
+        //         .json({ error: 'You already submitted a review' })
+        // }
+
+        // if (book.reviews.find((x) => x._id.toString() === request.body.id.toString()))
+
+        // if (book.reviews.find((x) => x.user === request.user)) {
+        //     return response
+        //         .status(400)
+        //         .send({ message: 'You already submitted a review' })
+        // }
+        const review = {
+            name: request.body.name, // vai pelkkä req.user?
+            rating: Number(request.body.rating),
+            comment: request.body.comment,
+            creatorId: body
+        }
+
+        book.reviews.push(review)
+        book.numReviews = book.reviews.length
+        book.rating =
+            book.reviews.reduce((a, c) => c.rating + a, 0) / book.reviews.length
+        const updatedBook = await book.save()
+
+        console.log('updatedBook', updatedBook)
+        response.status(201).send({
+            message: 'Review Created',
+            review: updatedBook.reviews[updatedBook.reviews.length - 1],
+        })
+    } else {
+        response.status(404).send({ message: 'Product Not Found' })
+    }
+
+    // const book = {
+    //     title: body.title,
+    //     author: body.author,
+    //     url: body.url,
+    //     likes: body.likes,
+    // }
+
+    // try {
+    //     const books = await Book.findByIdAndUpdate(request.params.id, book, {
+    //         new: true,
+    //     })
+
+    //     response.json(books.toJSON())
+    // } catch (exception) {
+    //     console.log('exception', exception)
+    //     next(exception)
+    // }
 })
 
 module.exports = booksRouter

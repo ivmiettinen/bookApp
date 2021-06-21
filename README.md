@@ -6,6 +6,7 @@ Fullstack app displaying different books. React frontend, node.js express backen
 
 
 
+## How to run the project:
 
 **1.Clone the project.**
 
@@ -24,7 +25,7 @@ Fullstack app displaying different books. React frontend, node.js express backen
 
 -Add your own .env file and include:
 
-'MONGODB_URI' for backend service.
+'MONGODB_URI' for your own MongoDB database service.
 'PORT' where you would like to run your back end service (For example: PORT=3003).
 'SECRET' for digitally signing generated auth token. (For example: SECRET=Example2021).
 
@@ -32,7 +33,7 @@ Fullstack app displaying different books. React frontend, node.js express backen
 
 
 
-**#Credits:**
+## Credits:
 
 Amazing book picture is from Pexels.com. **Photographer
 is Negative space.**

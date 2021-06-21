@@ -75,3 +75,7 @@ background-color: rgb(243, 241, 241);
 .hideWhenVisible:focus {
     outline: none;
 }
+
+.bookTitle {
+  font-style: italic;
+}
