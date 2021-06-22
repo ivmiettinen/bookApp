@@ -43,7 +43,7 @@
             "not op_mini all"
         ]
     },
-    "proxy": "http://localhost:3003",
+    "proxy": "https://hidden-plateau-70218.herokuapp.com/",
     "devDependencies": {
         "@testing-library/jest-dom": "^4.2.4",
         "@testing-library/react": "^9.5.0",

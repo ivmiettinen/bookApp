@@ -161,46 +161,6 @@ const App = () => {
         }
     }
 
-    const createReview = async (comment) => {
-        const findId = books.find((b) => b.id === comment.id)
-
-        console.log('comment.id', comment.id)
-
-        const id = findId
-
-        console.log('final id', findId.id)
-
-        try {
-            const newComment = await bookService.review(findId.id, comment)
-            setBooks(books.map((per) => (per.id !== id ? per : newComment)))
-        } catch (exception) {
-            console.log('error on put:', exception)
-        }
-
-
-        //token mukaan. Ja uusi service backendiin?:)
-
-    }
-
-
-
-    // const addNewLike = async (book) => {
-    //     const findId = books.find((b) => b.id === book)
-
-    //     const id = findId.id
-
-    //     const chageBookLikes = { ...findId, likes: findId.likes + 1 }
-
-    //     try {
-    //         const updateBook = await bookService.update(id, chageBookLikes)
-    //         setBooks(books.map((per) => (per.id !== id ? per : updateBook)))
-    //     } catch (exception) {
-    //         console.log('error on put:', exception)
-    //     }
-    // }
-
-
-
     const mapAndSortBooks = books
         .sort((a, b) => b.likes - a.likes)
         .map((book) => (
@@ -210,11 +170,6 @@ const App = () => {
                 Togglable={Togglable}
                 deleteBook={deleteBook}
                 addNewLike={addNewLike}
-                length={books.length}
-                user={user}
-                createReview={createReview}
-                comments={book.reviews.map((p) => p)}
-
             />
         ))
 
@@ -254,7 +209,7 @@ const App = () => {
                 </Route>
 
                 <Route path='/books'>
-                    <BookHeader />
+                    <BookHeader mapAndSortBooks={mapAndSortBooks} />
                     <Togglable
                         buttonLabel='Add a book'
                         ref={bookFormRef}
