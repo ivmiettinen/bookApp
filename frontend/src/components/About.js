@@ -5,7 +5,7 @@ const About = () => {
     return (
         <>
             <p className={classes.aboutStyle}>
-                This app is created by Ilkka M. The work is still in progress, new features coming!
+                This app is created by Ilkka M. New features coming!
             </p>
         </>
     )

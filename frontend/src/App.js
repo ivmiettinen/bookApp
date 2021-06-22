@@ -15,6 +15,7 @@ import About from './components/About'
 import Auth from './components/SignIn/Auth'
 import Layout from './components/LayOut/Layout'
 import BookHeader from './components/Books/BookHeader'
+import Spinner from './components/LayOut/Spinner'
 
 const App = () => {
     const [books, setBooks] = useState([])
@@ -23,9 +24,17 @@ const App = () => {
     const [successMessage, setSuccessMessage] = useState(null)
     const [showSignUp, setShowSignUp] = useState(false)
     const [showLogIn, setShowLogIn] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        bookService.getAll().then((books) => setBooks(books))
+        bookService
+            .getAll()
+            .then((books) => setBooks(books))
+            .then(setLoading(false))
+            .catch((error) => {
+                setLoading({ loading: true })
+                console.error('Error on loading books:', error)
+            })
     }, [])
 
     useEffect(() => {
@@ -170,6 +179,7 @@ const App = () => {
                 Togglable={Togglable}
                 deleteBook={deleteBook}
                 addNewLike={addNewLike}
+                loading={loading}
             />
         ))
 
@@ -217,7 +227,11 @@ const App = () => {
                     >
                         <BookForm addBook={addBook} />
                     </Togglable>
-                    <>{mapAndSortBooks}</>
+                    {loading ? (
+                        <Spinner loading={loading} />
+                    ) : (
+                        <>{mapAndSortBooks}</>
+                    )}
                 </Route>
                 <Route path='/about'>
                     <About />
