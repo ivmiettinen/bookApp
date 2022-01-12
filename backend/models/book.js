@@ -4,9 +4,9 @@ mongoose.set('useFindAndModify', false)
 
 const bookSchema = new mongoose.Schema({
     id: Number,
-    title: String,
-    author: String,
-    url: String,
+    title: { type: String, required: true },
+    author: { type: String, required: true },
+    url: { type: String, required: true },
     likes: Number,
     user: {
         type: mongoose.Schema.Types.ObjectId,

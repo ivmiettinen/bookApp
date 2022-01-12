@@ -54,14 +54,14 @@ booksRouter.post('/', async (request, response, next) => {
         user: user._id,
     })
     try {
-        if (body.title !== undefined && body.url !== undefined) {
+        if (body.title !== undefined && body.author !== undefined && body.url !== undefined ) {
             const savedBook = await book.save()
 
             user.books = user.books.concat(savedBook._id)
             await user.save()
             response.json(savedBook.toJSON())
         } else {
-            response.status(400).send('Bad request')
+            response.status(400).send('Bad request. Information missing.')
         }
     } catch (exception) {
         next(exception)
