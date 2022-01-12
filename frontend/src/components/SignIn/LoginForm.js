@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import classes from './LoginForm.module.css'
 import PropTypes from 'prop-types'
+import validator from 'validator'
 import Card from '../UI/Card'
 import Button from '../UI/Button'
 
@@ -19,14 +20,22 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
             }, 5000)
             return
         } else if (showSignUp && email.trim().length < 3) {
-            console.log('arg')
             setErrorMessage('Email must be at least 3 characters long.')
             setTimeout(() => {
                 setErrorMessage(null)
             }, 5000)
             return
-        } else if (showSignUp && password.trim().length < 3) {
-            setErrorMessage('password must be 3 letters or longer.')
+        } else if (
+            showSignUp &&
+            !validator.isStrongPassword(password, {
+                minLength: 8,
+                minLowercase: 1,
+                minUppercase: 1,
+                minNumbers: 1,
+                minSymbols: 1,
+            })
+        ) {
+            setErrorMessage('password must be 8 letters long, have AT LEAST 1 lowercase, 1 uppercase, 1 number and 1 symbol.')
             setTimeout(() => {
                 setErrorMessage(null)
             }, 5000)
