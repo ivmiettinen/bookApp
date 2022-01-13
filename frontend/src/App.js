@@ -16,6 +16,7 @@ import Auth from './components/SignIn/Auth'
 import Layout from './components/LayOut/Layout'
 import BookHeader from './components/Books/BookHeader'
 import Spinner from './components/LayOut/Spinner'
+import SortBooks from './components/Books/SortBooks'
 
 const App = () => {
     const [books, setBooks] = useState([])
@@ -219,7 +220,11 @@ const App = () => {
                 </Route>
 
                 <Route path='/books'>
-                    <BookHeader mapAndSortBooks={mapAndSortBooks} />
+                    <div className='rowC'>
+                        {' '}
+                        <BookHeader mapAndSortBooks={mapAndSortBooks} />{' '}
+                        <SortBooks />
+                    </div>
                     <Togglable
                         buttonLabel='Add a book'
                         ref={bookFormRef}

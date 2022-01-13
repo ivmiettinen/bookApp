@@ -35,7 +35,7 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
                 minSymbols: 1,
             })
         ) {
-            setErrorMessage('password must be 8 letters long, have AT LEAST 1 lowercase, 1 uppercase, 1 number and 1 symbol.')
+            setErrorMessage('Password must be 8 letters long and have AT LEAST: 1 lowercase, 1 uppercase, 1 number and 1 symbol.')
             setTimeout(() => {
                 setErrorMessage(null)
             }, 5000)
