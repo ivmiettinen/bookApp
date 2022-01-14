@@ -26,6 +26,7 @@ const App = () => {
     const [showSignUp, setShowSignUp] = useState(false)
     const [showLogIn, setShowLogIn] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [sortType, setSortType] = useState()
 
     useEffect(() => {
         bookService
@@ -33,7 +34,7 @@ const App = () => {
             .then((books) => setBooks(books))
             .then(setLoading(false))
             .catch((error) => {
-                setLoading({ loading: true })
+                setLoading(true)
                 console.error('Error on loading books:', error)
             })
     }, [])
@@ -46,6 +47,37 @@ const App = () => {
             bookService.setToken(user.token)
         }
     }, [])
+
+    useEffect(() => {
+        const sortArray = (type) => {
+            const sortTypes = {
+                title: 'title',
+                author: 'author',
+                likes: 'likes',
+            }
+
+            // if(books !== []){
+            //     console.log('books', books[0])
+            // }
+            const sortWith = sortTypes[type]
+
+            if (sortWith === 'likes') {
+                const sorted = [...books].sort(
+                    (a, b) => b[sortWith] - a[sortWith]
+                )
+                setBooks(sorted)
+            } else {
+                const sorted = [...books].sort((a, b) =>
+                    a[sortWith]
+                        .toLowerCase()
+                        .localeCompare(b[sortWith].toLowerCase())
+                )
+                setBooks(sorted)
+            }
+        }
+
+        sortArray(sortType)
+    }, [sortType])
 
     const history = useHistory()
 
@@ -171,19 +203,6 @@ const App = () => {
         }
     }
 
-    const mapAndSortBooks = books
-        .sort((a, b) => b.likes - a.likes)
-        .map((book) => (
-            <Book
-                key={book.id}
-                book={book}
-                Togglable={Togglable}
-                deleteBook={deleteBook}
-                addNewLike={addNewLike}
-                loading={loading}
-            />
-        ))
-
     return (
         <Layout user={user}>
             <SuccessMessage successMessage={successMessage} />
@@ -220,10 +239,9 @@ const App = () => {
                 </Route>
 
                 <Route path='/books'>
-                    <div className='rowC'>
-                        {' '}
-                        <BookHeader mapAndSortBooks={mapAndSortBooks} />{' '}
-                        <SortBooks />
+                    <div className='headerNsort'>
+                        <BookHeader />
+                        <SortBooks setSortType={setSortType} />
                     </div>
                     <Togglable
                         buttonLabel='Add a book'
@@ -235,7 +253,18 @@ const App = () => {
                     {loading ? (
                         <Spinner loading={loading} />
                     ) : (
-                        <>{mapAndSortBooks}</>
+                        <>
+                            {books.map((book) => (
+                                <Book
+                                    key={book.id}
+                                    book={book}
+                                    Togglable={Togglable}
+                                    deleteBook={deleteBook}
+                                    addNewLike={addNewLike}
+                                    loading={loading}
+                                />
+                            ))}
+                        </>
                     )}
                 </Route>
                 <Route path='/about'>
