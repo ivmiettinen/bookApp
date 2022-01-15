@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classes from './SortBooks.module.css'
 
-const SortBooks = ({ setSortType }) => {
+const SortBooks = ({ sortArray }) => {
     return (
         <div className={classes.SortBooksStyle}>
             <select
                 defaultValue=''
-                onChange={(e) => setSortType(e.target.value)}
+                onChange={(e) => sortArray(e.target.value)}
             >
                 <option value='' disabled>
                     Sort by:
@@ -21,7 +21,7 @@ const SortBooks = ({ setSortType }) => {
 }
 
 SortBooks.propTypes = {
-    setSortType: PropTypes.func.isRequired,
+    sortArray: PropTypes.func.isRequired,
 }
 
 export default SortBooks

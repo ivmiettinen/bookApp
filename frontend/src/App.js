@@ -26,7 +26,6 @@ const App = () => {
     const [showSignUp, setShowSignUp] = useState(false)
     const [showLogIn, setShowLogIn] = useState(false)
     const [loading, setLoading] = useState(true)
-    const [sortType, setSortType] = useState()
 
     useEffect(() => {
         bookService
@@ -48,19 +47,16 @@ const App = () => {
         }
     }, [])
 
-    useEffect(() => {
-        const sortArray = (type) => {
-            const sortTypes = {
-                title: 'title',
-                author: 'author',
-                likes: 'likes',
-            }
+    const sortArray = async (type) => {
+        const sortTypes = {
+            title: 'title',
+            author: 'author',
+            likes: 'likes',
+        }
 
-            // if(books !== []){
-            //     console.log('books', books[0])
-            // }
-            const sortWith = sortTypes[type]
+        const sortWith = sortTypes[type]
 
+        try {
             if (sortWith === 'likes') {
                 const sorted = [...books].sort(
                     (a, b) => b[sortWith] - a[sortWith]
@@ -74,10 +70,14 @@ const App = () => {
                 )
                 setBooks(sorted)
             }
+        } catch (exception) {
+            console.log('exception', exception.message)
+            setErrorMessage('Error on sorting')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 5000)
         }
-
-        sortArray(sortType)
-    }, [sortType])
+    }
 
     const history = useHistory()
 
@@ -241,7 +241,7 @@ const App = () => {
                 <Route path='/books'>
                     <div className='headerNsort'>
                         <BookHeader />
-                        <SortBooks setSortType={setSortType} />
+                        <SortBooks sortArray={sortArray} />
                     </div>
                     <Togglable
                         buttonLabel='Add a book'
