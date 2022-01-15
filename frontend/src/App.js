@@ -47,7 +47,7 @@ const App = () => {
         }
     }, [])
 
-    const sortArray = async (type) => {
+    const sortArray =  (type) => {
         const sortTypes = {
             title: 'title',
             author: 'author',
@@ -58,7 +58,7 @@ const App = () => {
 
         try {
             if (sortWith === 'likes') {
-                const sorted = [...books].sort(
+                const sorted =  [...books].sort(
                     (a, b) => b[sortWith] - a[sortWith]
                 )
                 setBooks(sorted)
