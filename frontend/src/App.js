@@ -47,7 +47,7 @@ const App = () => {
         }
     }, [])
 
-    const sortArray =  (type) => {
+    const sortArray = (type) => {
         const sortTypes = {
             title: 'title',
             author: 'author',
@@ -56,23 +56,23 @@ const App = () => {
 
         const sortWith = sortTypes[type]
 
+        let sorted
+
         try {
             if (sortWith === 'likes') {
-                const sorted =  [...books].sort(
-                    (a, b) => b[sortWith] - a[sortWith]
-                )
-                setBooks(sorted)
+                sorted = [...books].sort((a, b) => b[sortWith] - a[sortWith])
             } else {
-                const sorted = [...books].sort((a, b) =>
+                sorted = [...books].sort((a, b) =>
                     a[sortWith]
                         .toLowerCase()
                         .localeCompare(b[sortWith].toLowerCase())
                 )
-                setBooks(sorted)
             }
+
+            setBooks(sorted)
         } catch (exception) {
             console.log('exception', exception.message)
-            setErrorMessage('Error on sorting')
+            setErrorMessage('Error on sorting books')
             setTimeout(() => {
                 setErrorMessage(null)
             }, 5000)
@@ -80,6 +80,7 @@ const App = () => {
     }
 
     const history = useHistory()
+    console.log('histroy', history)
 
     const bookFormRef = useRef()
 

@@ -65,6 +65,7 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
                                 value={email}
                                 name='email'
                                 placeholder='Your email...'
+                                maxLength='40'
                                 onChange={({ target }) =>
                                     setEmail(target.value)
                                 }
@@ -83,6 +84,7 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
                             value={username}
                             name='Username'
                             placeholder='Your name...'
+                            maxLength='14'
                             onChange={({ target }) => setUsername(target.value)}
                         />
                     </label>
@@ -97,6 +99,7 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
                             value={password}
                             name='Password'
                             placeholder='Your password...'
+                            maxLength='50'
                             onChange={({ target }) => setPassword(target.value)}
                         />
                     </label>

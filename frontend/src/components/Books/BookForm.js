@@ -32,6 +32,7 @@ const BookForm = ({ addBook }) => {
                     <input
                         type='text'
                         id='title'
+                        maxLength='30'
                         required
                         ref={titleInputRef}
                     />
@@ -43,6 +44,7 @@ const BookForm = ({ addBook }) => {
                     <input
                         type='text'
                         id='author'
+                        maxLength='20'
                         required
                         ref={authorInputRef}
                     />
@@ -50,7 +52,7 @@ const BookForm = ({ addBook }) => {
 
                 <label>url:</label>
                 <br />
-                <input type='url' id='url' required ref={urlInputRef} />
+                <input type='url' id='url' maxLength='60' required ref={urlInputRef} />
                 <br />
 
                 <Button className={classes.bookFormButton} type='submit'>
