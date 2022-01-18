@@ -6,12 +6,12 @@ import loginService from './services/login'
 import signUpService from './services/signUp'
 import './App.css'
 import LoginForm from './components/SignIn/LoginForm'
-import Togglable from './components/Togglable'
+import Togglable from './components/UI/Togglable'
 import BookForm from './components/Books/BookForm'
 import ErrorMessage from './components/Messages/ErrorMessage'
 import LogOutUser from './components/SignIn/LogOutUser'
 import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
-import About from './components/About'
+import About from './components/LayOut/About'
 import Auth from './components/SignIn/Auth'
 import Layout from './components/LayOut/Layout'
 import BookHeader from './components/Books/BookHeader'
@@ -80,7 +80,6 @@ const App = () => {
     }
 
     const history = useHistory()
-    console.log('histroy', history)
 
     const bookFormRef = useRef()
 

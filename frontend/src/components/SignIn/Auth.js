@@ -8,7 +8,7 @@ import Card from '../UI/Card'
 const Auth = ({ setShowSignUp, setShowLogIn }) => {
 
 
-    let history = useHistory()
+    const history = useHistory()
 
     const signUpBtnHandler = () => {
         setShowSignUp(true)
