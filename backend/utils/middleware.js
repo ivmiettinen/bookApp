@@ -9,9 +9,6 @@ const tokenExtractor = (request, response, next) => {
 }
 
 const requestLogger = (request, response, next) => {
-
-    console.log('JA BODY', request.body)
-
     logger.info('Method:', request.method)
     logger.info('Path:  ', request.path)
     logger.info('Body:  ', request.body)
@@ -33,6 +30,10 @@ const errorHandler = (error, request, response, next) => {
     } else if (error.name === 'JsonWebTokenError') {
         return response.status(401).json({
             error: 'invalid token',
+        })
+    } else if (error.name === 'TokenExpiredError') {
+        return response.status(401).json({
+            error: 'token expired',
         })
     }
 

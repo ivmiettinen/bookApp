@@ -9,8 +9,7 @@ const jwt = require('jsonwebtoken')
 booksRouter.get('/', async (request, response, next) => {
     try {
         const books = await Book.find({}).populate('user', {
-            username: 1,
-            email: 1,
+            username: 1
         })
         if (books) {
             response.json(books.map((allBooks) => allBooks.toJSON()))

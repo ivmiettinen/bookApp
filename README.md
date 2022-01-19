@@ -19,7 +19,12 @@ Fullstack app displaying different books. React frontend, node.js express backen
 -npm start
 
 
-**3.BookApp's backend:**
+**3.Download MongoDB compass or create one free cluster with MongoDB Atlas (https://www.mongodb.com/atlas/database)**
+
+-Create your own database
+
+
+**4.BookApp's backend:**
 
 -Run npm install
 
