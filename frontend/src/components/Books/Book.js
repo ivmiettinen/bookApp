@@ -1,58 +1,53 @@
-import React from 'react'
-import classes from './Book.module.css'
-import PropTypes from 'prop-types'
+import React from 'react';
+// import classes from './Book.module.css';
+import PropTypes from 'prop-types';
+import BookList from './BookList';
+import { useSelector } from 'react-redux';
 
-const Book = ({ addNewLike, book, deleteBook, Togglable }) => {
+const Book = ({ addNewLike, deleteBook, Togglable }) => {
+    const books = useSelector((state) => state.books);
+    console.log('books', books);
     return (
-        <div className={classes.bookStyle}>
-            <p>
-                <span className={classes.bookTitle}>{book.title}</span> by{' '}
-                {book.author}
-            </p>
-
-            <Togglable buttonLabel='view'>
-                <p>
-                    url:{' '}
-                    <a
-                        href={book.url}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                    >
-                        {book.url}
-                    </a>
-                </p>
-                <p>likes: {book.likes} </p>
-
-                <p>
-                    <button
-                        type='newLike'
-                        value={book.title}
-                        name='newLike'
-                        onClick={() => addNewLike(book.id)}
-                    >
-                        like
-                    </button>
-                </p>
-                <p>
-                    <button
-                        type='deleteBook'
-                        value={book.id}
-                        name='deleteBook'
-                        onClick={() => deleteBook(book.id)}
-                    >
-                        delete
-                    </button>
-                </p>
-            </Togglable>
+        <div>
+            {books.map((book) => (
+                <BookList
+                    key={book.id}
+                    id={book.id}
+                    book={book}
+                    title={book.title}
+                    author={book.author}
+                    url={book.url}
+                    likes={book.likes}
+                    addNewLike={addNewLike}
+                    deleteBook={deleteBook}
+                    Togglable={Togglable}
+                />
+            ))}
+            {/* {books.map((book) => (
+                                <Book
+                                    key={book.id}
+                                    book={book}
+                                    Togglable={Togglable}
+                                    deleteBook={deleteBook}
+                                    addNewLike={addNewLike}
+                                    loading={loading}
+                                />
+                            ))} */}
+            {/* <p>
+                <span className={classes.bookTitle}>
+                    {books.bookContent.title}
+                </span>{' '}
+                by {books.author}
+            </p>{' '} */}
+            *
         </div>
-    )
-}
+    );
+};
 
 Book.propTypes = {
     addNewLike: PropTypes.func.isRequired,
-    book: PropTypes.object.isRequired,
     deleteBook: PropTypes.func.isRequired,
     Togglable: PropTypes.object.isRequired,
-}
+};
 
-export default Book
+export default Book;

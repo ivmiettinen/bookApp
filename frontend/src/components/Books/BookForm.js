@@ -1,25 +1,20 @@
-import React, { useRef } from 'react'
-import classes from './BookForm.module.css'
-import PropTypes from 'prop-types'
-import Button from '../UI/Button'
+import React from 'react';
+import classes from './BookForm.module.css';
+import PropTypes from 'prop-types';
+import Button from '../UI/Button';
 
 const BookForm = ({ addBook }) => {
-    const titleInputRef = useRef()
-    const authorInputRef = useRef()
-    const urlInputRef = useRef()
 
     const createBook = (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         addBook({
-            title: titleInputRef.current.value,
-            author: authorInputRef.current.value,
-            url: urlInputRef.current.value,
-        })
-        titleInputRef.current.value = ''
-        authorInputRef.current.value = ''
-        urlInputRef.current.value = ''
-    }
+            title: e.target.title.value,
+            author: e.target.author.value,
+            url: e.target.url.value
+        });
+
+    };
 
     return (
         <div className={classes.bookFormStyle}>
@@ -30,11 +25,11 @@ const BookForm = ({ addBook }) => {
                     <label>title:</label>
                     <br />
                     <input
-                        type='text'
-                        id='title'
-                        maxLength='30'
+                        name="title"
+                        type="text"
+                        id="title"
+                        maxLength="30"
                         required
-                        ref={titleInputRef}
                     />
                 </p>
 
@@ -42,29 +37,29 @@ const BookForm = ({ addBook }) => {
                     <label>author:</label>
                     <br />
                     <input
-                        type='text'
-                        id='author'
-                        maxLength='20'
+                        name="author"
+                        type="text"
+                        id="author"
+                        maxLength="20"
                         required
-                        ref={authorInputRef}
                     />
                 </p>
 
                 <label>url:</label>
                 <br />
-                <input type='url' id='url' maxLength='60' required ref={urlInputRef} />
+                <input name="url" type="url" id="url" maxLength="60" required />
                 <br />
 
-                <Button className={classes.bookFormButton} type='submit'>
+                <Button className={classes.bookFormButton} type="submit">
                     create
                 </Button>
             </form>
         </div>
-    )
-}
+    );
+};
 
 BookForm.propTypes = {
     addBook: PropTypes.func.isRequired,
-}
+};
 
-export default BookForm
+export default BookForm;
