@@ -1,217 +1,198 @@
-import React, { useState, useEffect, useRef } from 'react'
-import Book from './components/Books/Book'
-import bookService from './services/books'
-import SuccessMessage from './components/Messages/SuccessMessage'
-import loginService from './services/login'
-import signUpService from './services/signUp'
-import './App.css'
-import LoginForm from './components/SignIn/LoginForm'
-import Togglable from './components/UI/Togglable'
-import BookForm from './components/Books/BookForm'
-import ErrorMessage from './components/Messages/ErrorMessage'
-import LogOutUser from './components/SignIn/LogOutUser'
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
-import About from './components/LayOut/About'
-import Auth from './components/SignIn/Auth'
-import Layout from './components/LayOut/Layout'
-import BookHeader from './components/Books/BookHeader'
-import Spinner from './components/LayOut/Spinner'
-import SortBooks from './components/Books/SortBooks'
+import React, { useState, useEffect, useRef } from 'react';
+import Book from './components/Books/Book';
+import bookService from './services/books';
+import SuccessMessage from './components/Messages/SuccessMessage';
+import loginService from './services/login';
+import signUpService from './services/signUp';
+import './App.css';
+import LoginForm from './components/SignIn/LoginForm';
+import Togglable from './components/UI/Togglable';
+import BookForm from './components/Books/BookForm';
+import ErrorMessage from './components/Messages/ErrorMessage';
+import LogOutUser from './components/SignIn/LogOutUser';
+import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import About from './components/LayOut/About';
+import Auth from './components/SignIn/Auth';
+import Layout from './components/LayOut/Layout';
+import BookHeader from './components/Books/BookHeader';
+import Spinner from './components/LayOut/Spinner';
+import SortArray from './components/Books/SortArray';
+// import store from '../index.js';
+import {
+    createBook,
+    sortBooks,
+    removeBook,
+    addLike,
+    initializeBooks,
+} from '../src/components/reducers/bookReducer';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const App = () => {
-    const [books, setBooks] = useState([])
-    const [user, setUser] = useState(null)
-    const [errorMessage, setErrorMessage] = useState(null)
-    const [successMessage, setSuccessMessage] = useState(null)
-    const [showSignUp, setShowSignUp] = useState(false)
-    const [showLogIn, setShowLogIn] = useState(false)
-    const [loading, setLoading] = useState(true)
+    const [user, setUser] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null);
+    const [showSignUp, setShowSignUp] = useState(false);
+    const [showLogIn, setShowLogIn] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    const dispatch = useDispatch();
+
+    const books = useSelector((state) => state.books);
 
     useEffect(() => {
-        bookService
-            .getAll()
-            .then((books) => setBooks(books))
+        dispatch(initializeBooks())
             .then(setLoading(false))
             .catch((error) => {
-                setLoading(true)
-                console.error('Error on loading books:', error)
-            })
-    }, [])
+                setLoading(true);
+                console.error('Error on loading books:', error);
+            });
+    }, [dispatch]);
 
     useEffect(() => {
-        const loggedUserJSON = window.localStorage.getItem('loggedBookappUser')
+        const loggedUserJSON = window.localStorage.getItem('loggedBookappUser');
         if (loggedUserJSON) {
-            const user = JSON.parse(loggedUserJSON)
-            setUser(user)
-            bookService.setToken(user.token)
+            const user = JSON.parse(loggedUserJSON);
+            setUser(user);
+            bookService.setToken(user.token);
         }
-    }, [])
+    }, []);
 
     const sortArray = (type) => {
-        const sortTypes = {
-            title: 'title',
-            author: 'author',
-            likes: 'likes',
-        }
+        dispatch(sortBooks(type));
+    };
 
-        const sortWith = sortTypes[type]
+    const history = useHistory();
 
-        let sorted
-
-        try {
-            if (sortWith === 'likes') {
-                sorted = [...books].sort((a, b) => b[sortWith] - a[sortWith])
-            } else {
-                sorted = [...books].sort((a, b) =>
-                    a[sortWith]
-                        .toLowerCase()
-                        .localeCompare(b[sortWith].toLowerCase())
-                )
-            }
-
-            setBooks(sorted)
-        } catch (exception) {
-            console.log('exception', exception.message)
-            setErrorMessage('Error on sorting books')
-            setTimeout(() => {
-                setErrorMessage(null)
-            }, 5000)
-        }
-    }
-
-    const history = useHistory()
-
-    const bookFormRef = useRef()
+    const bookFormRef = useRef();
 
     const addBook = async (bookObject) => {
-        bookFormRef.current.toggleVisibility()
+        bookFormRef.current.toggleVisibility();
 
         try {
-            const waitBooks = await bookService.create(bookObject)
-
-            setBooks(books.concat(waitBooks))
+            const waitBooks = await bookService.create(bookObject);
+            dispatch(createBook(waitBooks));
             setSuccessMessage(
                 `A new book ${waitBooks.title} by ${waitBooks.author} added`
-            )
+            );
             setTimeout(() => {
-                setSuccessMessage(null)
-            }, 5000)
+                setSuccessMessage(null);
+            }, 5000);
         } catch (exception) {
-            console.log('exception', exception.message)
-            setErrorMessage('You must log in before you can add books')
+            console.log('exception', exception.message);
+            setErrorMessage('You must log in before you can add books');
             setTimeout(() => {
-                setErrorMessage(null)
-            }, 5000)
+                setErrorMessage(null);
+            }, 5000);
         }
-    }
+    };
 
     const addNewLike = async (book) => {
-        const findId = books.find((b) => b.id === book)
+        const bookId = books.find((b) => b.id === book);
 
-        const id = findId.id
+        const id = bookId.id;
 
-        const chageBookLikes = { ...findId, likes: findId.likes + 1 }
+        const changeBookLikes = { ...bookId, likes: bookId.likes + 1 };
 
         try {
-            const updateBook = await bookService.update(id, chageBookLikes)
-            setBooks(books.map((per) => (per.id !== id ? per : updateBook)))
+            const updateBook = await bookService.update(id, changeBookLikes);
+            dispatch(addLike(updateBook));
         } catch (exception) {
-            console.log('error on put:', exception)
+            console.log('error on put:', exception);
         }
-    }
+    };
 
     const deleteBook = async (del) => {
-        const id = del
+        const id = del;
 
-        const copyOfBooks = [...books]
-
-        const findBook = { ...copyOfBooks.find((a) => a.id === del) }
-
-        const filterById = copyOfBooks.filter((p) => p.id !== id)
+        const findBook = books.find((a) => a.id === del);
 
         if (window.confirm(`Delete book ${findBook.title} ?`)) {
             try {
-                await bookService.remove(id)
+                const waitBooks = await bookService.remove(id);
+                console.log('waitBooks: ', waitBooks);
+                dispatch(removeBook(id));
+                setSuccessMessage(
+                    `The book ${findBook.title}was successfully deleted`
+                );
 
-                setBooks(filterById)
-                setSuccessMessage('The book was successfully deleted')
                 setTimeout(() => {
-                    setSuccessMessage(null)
-                }, 5000)
+                    setSuccessMessage(null);
+                }, 5000);
             } catch (exception) {
-                console.log('delete error:', exception.message)
+                console.log('delete error:', exception.message);
                 setErrorMessage(
                     'You can`t remove a book you have not added.',
                     exception
-                )
+                );
                 setTimeout(() => {
-                    setErrorMessage(null)
-                }, 5000)
+                    setErrorMessage(null);
+                }, 5000);
             }
         }
-    }
+    };
 
     const logOut = () => {
-        window.localStorage.clear()
-        bookService.setToken(null)
-        setUser(null)
-        setShowSignUp(false)
-        setShowLogIn(false)
-        setSuccessMessage('Successfully logged out')
+        window.localStorage.clear();
+        bookService.setToken(null);
+        setUser(null);
+        setShowSignUp(false);
+        setShowLogIn(false);
+        setSuccessMessage('Successfully logged out');
         setTimeout(() => {
-            setSuccessMessage(null)
-        }, 5000)
-    }
+            setSuccessMessage(null);
+        }, 5000);
+    };
 
     const handleLogin = async (userInfo) => {
-        let user
+        let user;
         try {
             if (showSignUp) {
-                user = await signUpService.signUp(userInfo)
+                user = await signUpService.signUp(userInfo);
             } else {
-                user = await loginService.login(userInfo)
+                user = await loginService.login(userInfo);
             }
             window.localStorage.setItem(
                 'loggedBookappUser',
                 JSON.stringify(user)
-            )
-            bookService.setToken(user.token)
-            setUser(user)
-            history.push('/books')
+            );
+            bookService.setToken(user.token);
+            setUser(user);
+            history.push('/books');
         } catch (exception) {
-            console.log('error on login:', exception.message)
+            console.log('error on login:', exception.message);
 
             if (JSON.stringify(exception.response.data).includes('unique')) {
                 setErrorMessage(
                     `Username '${userInfo.username}' is already in use`
-                )
+                );
 
                 setTimeout(() => {
-                    setErrorMessage(null)
-                }, 5000)
+                    setErrorMessage(null);
+                }, 5000);
             } else if (
                 JSON.stringify(exception.response.data).includes(
                     'invalid username or password'
                 )
             ) {
-                setErrorMessage('Invalid username or password')
+                setErrorMessage('Invalid username or password');
 
                 setTimeout(() => {
-                    setErrorMessage(null)
-                }, 5000)
+                    setErrorMessage(null);
+                }, 5000);
             }
         }
-    }
+    };
 
     return (
         <Layout user={user}>
             <SuccessMessage successMessage={successMessage} />
             <ErrorMessage errorMessage={errorMessage} />
             <Switch>
-                <Route path='/' exact>
-                    <Redirect to='/auth'></Redirect>
+                <Route path="/" exact>
+                    <Redirect to="/auth"></Redirect>
                 </Route>
-                <Route path='/auth'>
+                <Route path="/auth">
                     {!showSignUp || !showLogIn ? (
                         <Auth
                             showSignUp={setShowSignUp}
@@ -222,7 +203,7 @@ const App = () => {
                         <></>
                     )}
                 </Route>
-                <Route path='/login'>
+                <Route path="/login">
                     {' '}
                     <LoginForm
                         handleLogin={handleLogin}
@@ -230,7 +211,7 @@ const App = () => {
                         setErrorMessage={setErrorMessage}
                     />
                 </Route>
-                <Route path='/signup'>
+                <Route path="/signup">
                     <LoginForm
                         handleLogin={handleLogin}
                         showSignUp={showSignUp}
@@ -238,15 +219,15 @@ const App = () => {
                     />
                 </Route>
 
-                <Route path='/books'>
-                    <div className='headerNsort'>
+                <Route path="/books">
+                    <div className="headerNsort">
                         <BookHeader />
-                        <SortBooks sortArray={sortArray} />
+                        <SortArray sortArray={sortArray} />
                     </div>
                     <Togglable
-                        buttonLabel='Add a book'
+                        buttonLabel="Add a book"
                         ref={bookFormRef}
-                        className='hideWhenVisible'
+                        className="hideWhenVisible"
                     >
                         <BookForm addBook={addBook} />
                     </Togglable>
@@ -254,28 +235,23 @@ const App = () => {
                         <Spinner loading={loading} />
                     ) : (
                         <>
-                            {books.map((book) => (
-                                <Book
-                                    key={book.id}
-                                    book={book}
-                                    Togglable={Togglable}
-                                    deleteBook={deleteBook}
-                                    addNewLike={addNewLike}
-                                    loading={loading}
-                                />
-                            ))}
+                            <Book
+                                Togglable={Togglable}
+                                deleteBook={deleteBook}
+                                addNewLike={addNewLike}
+                            />
                         </>
                     )}
                 </Route>
-                <Route path='/about'>
+                <Route path="/about">
                     <About />
                 </Route>
-                <Route path='/logout'>
+                <Route path="/logout">
                     <LogOutUser user={user} logOut={logOut} />
                 </Route>
             </Switch>
         </Layout>
-    )
-}
+    );
+};
 
-export default App
+export default App;
