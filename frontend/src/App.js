@@ -16,8 +16,7 @@ import Auth from './components/SignIn/Auth';
 import Layout from './components/LayOut/Layout';
 import BookHeader from './components/Books/BookHeader';
 import Spinner from './components/LayOut/Spinner';
-import SortArray from './components/Books/SortArray';
-// import store from '../index.js';
+import BookOptions from './components/Books/BookOptions';
 import {
     createBook,
     sortBooks,
@@ -25,8 +24,7 @@ import {
     addLike,
     initializeBooks,
 } from '../src/components/reducers/bookReducer';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const App = () => {
     const [user, setUser] = useState(null);
@@ -222,7 +220,7 @@ const App = () => {
                 <Route path="/books">
                     <div className="headerNsort">
                         <BookHeader />
-                        <SortArray sortArray={sortArray} />
+                        <BookOptions sortArray={sortArray} />
                     </div>
                     <Togglable
                         buttonLabel="Add a book"
