@@ -23,23 +23,6 @@ const Book = ({ addNewLike, deleteBook, Togglable }) => {
                     Togglable={Togglable}
                 />
             ))}
-            {/* {books.map((book) => (
-                                <Book
-                                    key={book.id}
-                                    book={book}
-                                    Togglable={Togglable}
-                                    deleteBook={deleteBook}
-                                    addNewLike={addNewLike}
-                                    loading={loading}
-                                />
-                            ))} */}
-            {/* <p>
-                <span className={classes.bookTitle}>
-                    {books.bookContent.title}
-                </span>{' '}
-                by {books.author}
-            </p>{' '} */}
-            *
         </div>
     );
 };

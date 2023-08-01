@@ -1,17 +1,17 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { useHistory } from 'react-router-dom'
-import Card from '../UI/Card'
-import classes from './LogOutUser.module.css'
-import Button from '../UI/Button'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
+import Card from '../UI/Card';
+import classes from './LogOutUser.module.css';
+import Button from '../UI/Button';
 
 const LogOutUser = ({ user, logOut }) => {
-    const history = useHistory()
+    const history = useHistory();
 
     const handleLogout = () => {
-        logOut()
-        history.push('/auth')
-    }
+        logOut();
+        history.push('/auth');
+    };
 
     return (
         <>
@@ -28,12 +28,12 @@ const LogOutUser = ({ user, logOut }) => {
                 <></>
             )}
         </>
-    )
-}
+    );
+};
 
 LogOutUser.propTypes = {
     user: PropTypes.object,
     logOut: PropTypes.func.isRequired,
-}
+};
 
-export default LogOutUser
+export default LogOutUser;

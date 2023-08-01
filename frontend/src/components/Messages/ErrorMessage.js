@@ -1,9 +1,9 @@
-import { Alert } from '@material-ui/lab'
-import React from 'react'
+import { Alert } from '@material-ui/lab';
+import React from 'react';
 
 const ErrorMessage = ({ errorMessage }) => {
     if (errorMessage === null) {
-        return null
+        return null;
     }
     return (
         <div className='error'>
@@ -11,7 +11,7 @@ const ErrorMessage = ({ errorMessage }) => {
                 {errorMessage}
             </Alert>
         </div>
-    )
-}
+    );
+};
 
-export default ErrorMessage
+export default ErrorMessage;

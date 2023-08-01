@@ -1,5 +1,5 @@
-import React from 'react'
-import classes from './About.module.css'
+import React from 'react';
+import classes from './About.module.css';
 
 const About = () => {
     return (
@@ -8,7 +8,7 @@ const About = () => {
                 This app is created by Ilkka M. New features coming!
             </p>
         </>
-    )
-}
+    );
+};
 
-export default About
+export default About;

@@ -1,26 +1,26 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import classes from './Auth.module.css'
-import Button from '../UI/Button'
-import Card from '../UI/Card'
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import classes from './Auth.module.css';
+import Button from '../UI/Button';
+import Card from '../UI/Card';
 
 const Auth = ({ setShowSignUp, setShowLogIn }) => {
 
 
-    const history = useHistory()
+    const history = useHistory();
 
     const signUpBtnHandler = () => {
-        setShowSignUp(true)
-        setShowLogIn(false)
-        history.push('/signup')
-    }
+        setShowSignUp(true);
+        setShowLogIn(false);
+        history.push('/signup');
+    };
 
     const loginBtnHandler = () => {
-        setShowLogIn(true)
-        setShowSignUp(false)
-        history.push('/login')
-    }
+        setShowLogIn(true);
+        setShowSignUp(false);
+        history.push('/login');
+    };
 
     return (
         <Card className={classes.authButtons}>
@@ -28,13 +28,13 @@ const Auth = ({ setShowSignUp, setShowLogIn }) => {
 
             <Button onClick={loginBtnHandler}>Login</Button>
         </Card>
-    )
-}
+    );
+};
 
 Auth.propTypes = {
     setShowSignUp: PropTypes.func.isRequired,
     setShowLogIn: PropTypes.func.isRequired
-}
+};
 
 
-export default Auth
+export default Auth;

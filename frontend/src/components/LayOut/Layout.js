@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react'
-import MainHeader from './MainHeader'
+import React, { Fragment } from 'react';
+import MainHeader from './MainHeader';
 
 const Layout = (props) => {
     return (
@@ -7,7 +7,7 @@ const Layout = (props) => {
             <MainHeader user={props.user} />
             <main>{props.children}</main>
         </Fragment>
-    )
-}
+    );
+};
 
-export default Layout
+export default Layout;

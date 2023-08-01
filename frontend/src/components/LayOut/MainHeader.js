@@ -1,6 +1,6 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-import classes from './MainHeader.module.css'
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import classes from './MainHeader.module.css';
 
 const MainHeader = ({ user }) => {
     return (
@@ -32,9 +32,9 @@ const MainHeader = ({ user }) => {
                 </li>
             </ul>
         </header>
-    )
-}
+    );
+};
 
 
 
-export default MainHeader
+export default MainHeader;

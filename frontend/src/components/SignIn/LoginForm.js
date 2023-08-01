@@ -1,30 +1,30 @@
-import React, { useState } from 'react'
-import classes from './LoginForm.module.css'
-import PropTypes from 'prop-types'
-import validator from 'validator'
-import Card from '../UI/Card'
-import Button from '../UI/Button'
+import React, { useState } from 'react';
+import classes from './LoginForm.module.css';
+import PropTypes from 'prop-types';
+import validator from 'validator';
+import Card from '../UI/Card';
+import Button from '../UI/Button';
 
 const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
-    const [username, setUsername] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleSignIn = (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         if (showSignUp && username.trim().length < 3) {
-            setErrorMessage('Username must be at least 3 characters long.')
+            setErrorMessage('Username must be at least 3 characters long.');
             setTimeout(() => {
-                setErrorMessage(null)
-            }, 5000)
-            return
+                setErrorMessage(null);
+            }, 5000);
+            return;
         } else if (showSignUp && email.trim().length < 3) {
-            setErrorMessage('Email must be at least 3 characters long.')
+            setErrorMessage('Email must be at least 3 characters long.');
             setTimeout(() => {
-                setErrorMessage(null)
-            }, 5000)
-            return
+                setErrorMessage(null);
+            }, 5000);
+            return;
         } else if (
             showSignUp &&
             !validator.isStrongPassword(password, {
@@ -35,22 +35,22 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
                 minSymbols: 1,
             })
         ) {
-            setErrorMessage('Password must be 8 letters long and have AT LEAST: 1 lowercase, 1 uppercase, 1 number and 1 symbol.')
+            setErrorMessage('Password must be 8 letters long and have AT LEAST: 1 lowercase, 1 uppercase, 1 number and 1 symbol.');
             setTimeout(() => {
-                setErrorMessage(null)
-            }, 5000)
-            return
+                setErrorMessage(null);
+            }, 5000);
+            return;
         } else {
             handleLogin({
                 email: email,
                 username: username,
                 password: password,
-            })
-            setEmail('')
-            setUsername('')
-            setPassword('')
+            });
+            setEmail('');
+            setUsername('');
+            setPassword('');
         }
-    }
+    };
 
     return (
         <Card className={classes.authButtons}>
@@ -111,12 +111,12 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
                 </p>
             </form>
         </Card>
-    )
-}
+    );
+};
 
 LoginForm.propTypes = {
     handleLogin: PropTypes.func.isRequired,
     showSignUp: PropTypes.bool.isRequired,
-}
+};
 
-export default LoginForm
+export default LoginForm;
