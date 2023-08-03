@@ -106,7 +106,7 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
                 </p>
                 <p>
                     <Button type='submit'>
-                        {showSignUp ? 'Sign up' : 'login'}
+                        {showSignUp ? 'Sign up' : 'Login'}
                     </Button>
                 </p>
             </form>

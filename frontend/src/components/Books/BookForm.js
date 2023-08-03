@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Button from '../UI/Button';
 
 const BookForm = ({ addBook }) => {
-
     const createBook = (e) => {
         e.preventDefault();
 
@@ -13,7 +12,6 @@ const BookForm = ({ addBook }) => {
             author: e.target.author.value,
             url: e.target.url.value
         });
-
     };
 
     return (
