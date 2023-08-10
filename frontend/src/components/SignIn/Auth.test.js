@@ -1,10 +1,9 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom'; // To mock the router
+import { fireEvent, render, screen } from '@testing-library/react';
 import Auth from './Auth';
 
-// Mock the useHistory hook
 const mockPush = jest.fn();
+
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
     useHistory: () => ({
@@ -12,31 +11,50 @@ jest.mock('react-router-dom', () => ({
     }),
 }));
 
-const mockHistory = {
-    push: jest.fn(),
+const setupAuthComponent = () => {
+    const setShowSignUp = jest.fn();
+    const setShowLogIn = jest.fn();
+    const utils = render(
+        <Auth setShowSignUp={setShowSignUp} setShowLogIn={setShowLogIn} />
+    );
+
+    return {
+        ...utils,
+        setShowSignUp,
+        setShowLogIn,
+    };
 };
 
 describe('Auth component', () => {
     it('should call the setShowSignUp function and navigate to signup page when "Sign up" button is clicked', () => {
 
-        //Arrange
-        const setShowSignUp = jest.fn();
-        const setShowLogIn = jest.fn();
-        const { getByText } = render(
-            <MemoryRouter>
-                <Auth setShowSignUp={setShowSignUp} setShowLogIn={setShowLogIn} mockHistory={mockHistory} />
-            </MemoryRouter>
-        );
+        //Arrange:
+        const { setShowLogIn, setShowSignUp } = setupAuthComponent();
+        const signUpButton = screen.getByText('Sign up');
 
-
-        const signUpButton = getByText('Sign up');
-
-        //Act
+        //Act:
         fireEvent.click(signUpButton);
 
         //Assert:
+        expect(setShowLogIn).toHaveBeenCalledWith(false);
+        expect(setShowSignUp).toHaveBeenCalledWith(true);
         expect(mockPush).toHaveBeenCalledTimes(1);
         expect(mockPush).toHaveBeenCalledWith('/signup');
     });
 
+    it('should call the setShowLogIn function and navigate to login page when "Login" button is clicked', () => {
+
+        //Arrange:
+        const { setShowLogIn, setShowSignUp } = setupAuthComponent();
+        const loginButton = screen.getByText('Login');
+
+        //Act:
+        fireEvent.click(loginButton);
+
+        //Assert:
+        expect(setShowLogIn).toHaveBeenCalledWith(true);
+        expect(setShowSignUp).toHaveBeenCalledWith(false);
+        expect(mockPush).toHaveBeenCalledTimes(1);
+        expect(mockPush).toHaveBeenCalledWith('/login');
+    });
 });
