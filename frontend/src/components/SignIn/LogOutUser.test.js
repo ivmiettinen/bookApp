@@ -2,18 +2,23 @@ import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen, fireEvent } from '@testing-library/react';
 import LogOutUser from './LogOutUser';
-import userEvent from '@testing-library/user-event';
-import Button from '../UI/Button';
 
-describe('<Togglable />', () => {
+const mockPush = jest.fn();
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useHistory: () => ({
+        push: mockPush,
+    }),
+}));
+
+describe('LogOutUser', () => {
     let container;
 
     const mockHandler = jest.fn();
 
-    // Mock history object
     const mockHistory = {
         push: jest.fn(),
-      };
+    };
 
     const user = {
         username: 'Tester',
@@ -42,31 +47,14 @@ describe('<Togglable />', () => {
     });
 
     test('renders Log out button', () => {
-        //Arrange:
+        //Arrange
         const logOutButton = screen.getByText('Log out');
 
+        //Act
+        fireEvent.click(logOutButton);
+
         //Assert:
-        expect(logOutButton).toBeDefined();
+        expect(mockHandler).toHaveBeenCalledTimes(1);
+        expect(mockPush).toHaveBeenCalledWith('/auth');
     });
-
-    
-
-    // test('clicking the logout button calls event handler once', async () => {
-    //     screen.debug();
-
-    //     const mockHandler = jest.fn();
-
-    //     const user = {
-    //         username: 'Tester',
-    //     };
-
-    //     render(<LogOutUser user={user} logOut={mockHandler} />);
-
-    //     // const testUser = userEvent.setup();
-    //     // await testUser.click(logOutButton);
-
-    //      expect(logOutButton).toBeDefined();
-
-    //     // expect(mockHandler.mock.calls).toHaveLength(1);
-    // });
 });
