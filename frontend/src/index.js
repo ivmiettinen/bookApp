@@ -5,7 +5,7 @@ import App from './App';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 
-import bookReducer from '../src/components/reducers/bookReducer';
+import bookReducer from '../src/store/bookReducer';
 
 const store = configureStore({
     reducer: {

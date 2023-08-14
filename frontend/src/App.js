@@ -23,7 +23,7 @@ import {
     removeBook,
     addLike,
     initializeBooks,
-} from '../src/components/reducers/bookReducer';
+} from '../src/store/bookReducer';
 import { useDispatch, useSelector } from 'react-redux';
 
 const App = () => {
@@ -100,18 +100,15 @@ const App = () => {
         }
     };
 
-    const deleteBook = async (del) => {
-        const id = del;
-
-        const findBook = books.find((a) => a.id === del);
+    const deleteBook = async (id) => {
+        const findBook = books.find((a) => a.id === id);
 
         if (window.confirm(`Delete book ${findBook.title} ?`)) {
             try {
-                const waitBooks = await bookService.remove(id);
-                console.log('waitBooks: ', waitBooks);
+                await bookService.remove(id);
                 dispatch(removeBook(id));
                 setSuccessMessage(
-                    `The book ${findBook.title}was successfully deleted`
+                    `The book ${findBook.title} was successfully deleted`
                 );
 
                 setTimeout(() => {
