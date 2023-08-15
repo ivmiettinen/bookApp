@@ -8,9 +8,7 @@ const jwt = require('jsonwebtoken')
 
 booksRouter.get('/', async (request, response, next) => {
     try {
-        const books = await Book.find({}).populate('user', {
-            username: 1
-        })
+        const books = await Book.find({}, '-user')
         if (books) {
             response.json(books.map((allBooks) => allBooks.toJSON()))
         } else {
@@ -40,7 +38,7 @@ booksRouter.post('/', async (request, response, next) => {
 
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
 
-    if (!request.token || !decodedToken.id ||  request.token === null) {
+    if (!request.token || !decodedToken.id || request.token === null) {
         return response.status(401).json({ error: 'token missing or invalid' })
     }
     const user = await User.findById(decodedToken.id)
@@ -53,7 +51,11 @@ booksRouter.post('/', async (request, response, next) => {
         user: user._id,
     })
     try {
-        if (body.title !== undefined && body.author !== undefined && body.url !== undefined ) {
+        if (
+            body.title !== undefined &&
+            body.author !== undefined &&
+            body.url !== undefined
+        ) {
             const savedBook = await book.save()
 
             user.books = user.books.concat(savedBook._id)
