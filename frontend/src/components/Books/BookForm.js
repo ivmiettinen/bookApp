@@ -1,17 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classes from './BookForm.module.css';
 import PropTypes from 'prop-types';
 import Button from '../UI/Button';
 
 const BookForm = ({ addBook }) => {
+    const [title, setTitle] = useState('');
+    const [author, setAuthor] = useState('');
+    const [url, setUrl] = useState('');
+
     const createBook = (e) => {
         e.preventDefault();
 
-        addBook({
-            title: e.target.title.value,
-            author: e.target.author.value,
-            url: e.target.url.value
-        });
+        const newBook = {
+            title,
+            author,
+            url
+        };
+
+        addBook(newBook);
+
+        setTitle('');
+        setAuthor('');
+        setUrl('');
     };
 
     return (
@@ -27,6 +37,8 @@ const BookForm = ({ addBook }) => {
                         type="text"
                         id="title"
                         maxLength="30"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
                         required
                     />
                 </p>
@@ -39,15 +51,23 @@ const BookForm = ({ addBook }) => {
                         type="text"
                         id="author"
                         maxLength="20"
+                        value={author}
+                        onChange={(e) => setAuthor(e.target.value)}
                         required
                     />
                 </p>
+                <p>
+                    <label>url:</label>
+                    <br />
+                    <input name="url"
+                        type="url"
+                        id="url"
+                        maxLength="60"
+                        value={url}
+                        onChange={(e) => setUrl(e.target.value)} required />
 
-                <label>url:</label>
-                <br />
-                <input name="url" type="url" id="url" maxLength="60" required />
-                <br />
-
+                    <br />
+                </p>
                 <Button className={classes.bookFormButton} type="submit">
                     create
                 </Button>
