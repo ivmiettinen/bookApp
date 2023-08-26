@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Alert } from '@material-ui/lab';
+import { uiActions } from '../../store/ui-slice';
 
 const Notification = (props) => {
     const [visible, setVisible] = useState(true);
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
         const timeout = setTimeout(() => {
+            dispatch(dispatch(uiActions.resetNotification()));
             setVisible(false);
-        },  5000);
+        }, 5000);
 
         return () => clearTimeout(timeout);
-    }, [props.timeout]);
+    }, [props.timeout, dispatch]);
 
     let notiClasses = '';
 
@@ -29,7 +34,7 @@ const Notification = (props) => {
 
     return <div className={notiClasses}>
         <Alert variant="filled" severity={notiClasses}>
-            <p>{props.message}</p>
+            {props.message}
         </Alert></div>;
 };
 
