@@ -1,11 +1,11 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import LoginForm from './LoginForm';
+import AuthForm from './AuthForm';
 
-describe('LoginForm', () => {
+describe('AuthForm', () => {
     it('renders without crashing', () => {
-        render(<LoginForm handleLogin={() => { }} showSignUp={false} />);
+        render(<AuthForm handleLogin={() => { }} showSignUp={false} />);
     });
 
     it('displays "Sign up" button text when showSignUp prop is true', () => {
@@ -15,7 +15,7 @@ describe('LoginForm', () => {
         const showSignUp = true;
 
         //Act:
-        render(<LoginForm handleLogin={handleLoginMock} showSignUp={showSignUp} />);
+        render(<AuthForm handleLogin={handleLoginMock} showSignUp={showSignUp} />);
 
         //Assert:
         const submitButton = screen.getByText('Sign up');
@@ -29,7 +29,7 @@ describe('LoginForm', () => {
         const showSignUp = false;
 
         //Act:
-        render(<LoginForm handleLogin={handleLoginMock} showSignUp={showSignUp} />);
+        render(<AuthForm handleLogin={handleLoginMock} showSignUp={showSignUp} />);
 
         //Assert:
         const submitButton = screen.getByText('Login');
@@ -44,7 +44,7 @@ describe('LoginForm', () => {
         const showSignUp = true;
 
         //Act:
-        render(<LoginForm handleLogin={handleLoginMock} showSignUp={showSignUp} />);
+        render(<AuthForm handleLogin={handleLoginMock} showSignUp={showSignUp} />);
 
         const usernameInput = screen.getByLabelText(/username/i);
         const emailInput = screen.getByLabelText(/email/i);
@@ -74,7 +74,7 @@ describe('LoginForm', () => {
         const showSignUp = true;
 
         //Act:
-        render(<LoginForm handleLogin={handleLoginMock} showSignUp={showSignUp} setErrorMessage={setErrorMessageMock} />);
+        render(<AuthForm handleLogin={handleLoginMock} showSignUp={showSignUp} setErrorMessage={setErrorMessageMock} />);
 
         const usernameInput = screen.getByLabelText(/username/i);
         const submitButton = screen.getByText('Sign up');
@@ -96,7 +96,7 @@ describe('LoginForm', () => {
 
         //Act:
         render(
-            <LoginForm
+            <AuthForm
                 handleLogin={handleLoginMock}
                 showSignUp={showSignUp}
                 setErrorMessage={setErrorMessageMock}

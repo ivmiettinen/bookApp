@@ -1,44 +1,60 @@
 import React, { useState } from 'react';
-import classes from './LoginForm.module.css';
+import { useDispatch } from 'react-redux';
+import classes from './AuthForm.module.css';
 import PropTypes from 'prop-types';
 import validator from 'validator';
 import Card from '../UI/Card';
 import Button from '../UI/Button';
+import { uiActions } from '../../store/ui-slice';
 
-const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
+const AuthForm = ({ handleLogin, showSignUp }) => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const handleAuthFormReset = () => {
+        setUsername('');
+        setEmail('');
+        setPassword('');
+    };
+
+    const dispatch = useDispatch();
 
     const handleSignIn = (e) => {
         e.preventDefault();
 
         if (showSignUp && username.trim().length < 3) {
-            setErrorMessage('Username must be at least 3 characters long.');
-            setTimeout(() => {
-                setErrorMessage(null);
-            }, 5000);
+            dispatch(
+                uiActions.showNotification({
+                    status: 'error',
+                    message: 'Username must be at least 3 characters long.',
+                }));
+            handleAuthFormReset();
             return;
         } else if (showSignUp && email.trim().length < 3) {
-            setErrorMessage('Email must be at least 3 characters long.');
-            setTimeout(() => {
-                setErrorMessage(null);
-            }, 5000);
+            dispatch(
+                uiActions.showNotification({
+                    status: 'error',
+                    message: 'Email must be at least 3 characters long.',
+                }));
+            handleAuthFormReset();
             return;
         } else if (
-            showSignUp &&
-            !validator.isStrongPassword(password, {
-                minLength: 8,
-                minLowercase: 1,
-                minUppercase: 1,
-                minNumbers: 1,
-                minSymbols: 1,
-            })
+            showSignUp && !validator.isStrongPassword(password,
+                {
+                    minLength: 8,
+                    minLowercase: 1,
+                    minUppercase: 1,
+                    minNumbers: 1,
+                    minSymbols: 1,
+                })
         ) {
-            setErrorMessage('Password must be 8 letters long and have AT LEAST: 1 lowercase, 1 uppercase, 1 number and 1 symbol.');
-            setTimeout(() => {
-                setErrorMessage(null);
-            }, 5000);
+            dispatch(
+                uiActions.showNotification({
+                    status: 'error',
+                    message: 'Password must be 8 letters long and have AT LEAST: 1 lowercase, 1 uppercase, 1 number and 1 symbol.',
+                }));
+            handleAuthFormReset();
             return;
         } else {
             handleLogin({
@@ -46,9 +62,12 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
                 username: username,
                 password: password,
             });
-            setEmail('');
-            setUsername('');
-            setPassword('');
+            dispatch(
+                uiActions.showNotification({
+                    status: 'success',
+                    message: 'Successful signup',
+                }));
+            handleAuthFormReset();
         }
     };
 
@@ -114,9 +133,9 @@ const LoginForm = ({ handleLogin, showSignUp, setErrorMessage }) => {
     );
 };
 
-LoginForm.propTypes = {
+AuthForm.propTypes = {
     handleLogin: PropTypes.func.isRequired,
     showSignUp: PropTypes.bool.isRequired,
 };
 
-export default LoginForm;
+export default AuthForm;
