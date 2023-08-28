@@ -1,11 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import classes from './Auth.module.css';
+import classes from './AuthButtons.module.css';
 import Button from '../UI/Button';
 import Card from '../UI/Card';
 
-const Auth = ({ setShowSignUp, setShowLogIn }) => {
+const AuthButtons = ({ setShowSignUp, setShowLogIn }) => {
 
 
     const history = useHistory();
@@ -31,10 +31,10 @@ const Auth = ({ setShowSignUp, setShowLogIn }) => {
     );
 };
 
-Auth.propTypes = {
+AuthButtons.propTypes = {
     setShowSignUp: PropTypes.func.isRequired,
     setShowLogIn: PropTypes.func.isRequired
 };
 
 
-export default Auth;
+export default AuthButtons;
