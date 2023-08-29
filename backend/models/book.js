@@ -1,13 +1,12 @@
 const mongoose = require('mongoose')
 
-mongoose.set('useFindAndModify', false)
-
 const bookSchema = new mongoose.Schema({
     id: Number,
     title: { type: String, required: true },
     author: { type: String, required: true },
     url: { type: String, required: true },
     likes: Number,
+    likesbyId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

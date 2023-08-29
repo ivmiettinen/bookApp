@@ -84,10 +84,6 @@ booksRouter.delete('/:id', async (request, response, next) => {
         return response.status(400).json({ error: 'invalid user' })
     }
 
-    if (!request.token || !decodedToken.id) {
-        return response.status(401).json({ error: 'token missing or invalid' })
-    }
-
     try {
         await Book.findByIdAndRemove(request.params.id)
         response.status(204).end()
@@ -97,21 +93,29 @@ booksRouter.delete('/:id', async (request, response, next) => {
 })
 
 booksRouter.put('/:id', async (request, response, next) => {
-    const body = request.body
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    const userId = request.params.id
 
-    const book = {
-        title: body.title,
-        author: body.author,
-        url: body.url,
-        likes: body.likes,
+    if (!request.token || !decodedToken.id) {
+        return response.status(401).json({ error: 'token missing or invalid' })
     }
 
     try {
-        const books = await Book.findByIdAndUpdate(request.params.id, book, {
-            new: true,
-        })
+        const book = await Book.findById(request.params.id)
+        const userIndex = book.likesbyId.indexOf(request.params.id)
 
-        response.json(books.toJSON())
+        if (userIndex === -1) {
+            // User has not liked the post, add the like
+            book.likesbyId.push(userId)
+            book.likes += 1
+        } else {
+            // User has already liked the post, remove the like
+            book.likesbyId.pull(userId)
+            book.likes -= 1
+        }
+
+        book.save()
+        response.json(book.toJSON())
     } catch (exception) {
         console.log('exception', exception)
         next(exception)
