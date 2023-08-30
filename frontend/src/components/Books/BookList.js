@@ -1,15 +1,16 @@
 import React from 'react';
 import classes from './Book.module.css';
 import Togglable from '../../components/UI/Togglable';
+import LikeButton from './LikeButton';
+
 
 const BookList = ({
     author,
-    addNewLike,
     deleteBook,
     id,
     likes,
     title,
-    url,
+    url
 }) => {
     return (
         <div className={classes.bookStyle} key={id} id={id}>
@@ -25,18 +26,7 @@ const BookList = ({
                             {url}
                         </a>
                     </p>
-                    <p>likes: {likes} </p>
-
-                    <p>
-                        <button
-                            type="newLike"
-                            value={title}
-                            name="newLike"
-                            onClick={() => addNewLike(id)}
-                        >
-                            like
-                        </button>
-                    </p>
+                    <LikeButton booksId={id} initialLikes={likes} />
                     <p>
                         <button
                             type="deleteBook"

@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import BookList from './BookList';
 import { useSelector } from 'react-redux';
 
-const Book = ({ addNewLike, deleteBook, Togglable }) => {
+const Book = ({ deleteBook, Togglable }) => {
     const books = useSelector((state) => state.books);
-    console.log('books', books);
+
     return (
         <div>
             {books.map((book) => (
@@ -18,9 +18,9 @@ const Book = ({ addNewLike, deleteBook, Togglable }) => {
                     author={book.author}
                     url={book.url}
                     likes={book.likes}
-                    addNewLike={addNewLike}
                     deleteBook={deleteBook}
                     Togglable={Togglable}
+                    likesbyId={book.likesbyId}
                 />
             ))}
         </div>
@@ -28,7 +28,7 @@ const Book = ({ addNewLike, deleteBook, Togglable }) => {
 };
 
 Book.propTypes = {
-    addNewLike: PropTypes.func.isRequired,
+    // addNewLike: PropTypes.func.isRequired,
     deleteBook: PropTypes.func.isRequired,
     Togglable: PropTypes.object.isRequired,
 };
