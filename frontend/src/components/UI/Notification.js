@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Alert } from '@material-ui/lab';
+import { Alert } from '@mui/material';
 import { uiActions } from '../../store/ui-slice';
 
 const Notification = (props) => {
