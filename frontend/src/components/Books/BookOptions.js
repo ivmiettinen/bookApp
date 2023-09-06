@@ -1,8 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classes from './SortBooks.module.css';
+import {
+    sortBooks,
+} from '../../store/book-slice';
+import { useDispatch } from 'react-redux';
 
-const BookOptions = ({ sortArray }) => {
+const BookOptions = () => {
+
+    const dispatch = useDispatch();
+
+    const sortArray = (type) => {
+        dispatch(sortBooks(type));
+    };
+
     return (
         <div className={classes.SortBooksStyle}>
             <select defaultValue="" onChange={(e) => sortArray(e.target.value)}>
@@ -15,10 +25,6 @@ const BookOptions = ({ sortArray }) => {
             </select>
         </div>
     );
-};
-
-BookOptions.propTypes = {
-    sortArray: PropTypes.func.isRequired,
 };
 
 export default BookOptions;
