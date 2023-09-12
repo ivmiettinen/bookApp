@@ -1,11 +1,26 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import AuthForm from './AuthForm';
+import { uiActions } from '../../store/ui-slice';
 
 describe('AuthForm', () => {
+    let store;
+
+    beforeEach(() => {
+        const mockStore = configureStore();
+        store = mockStore({});
+    });
+
+
+    afterEach(() => {
+        store.clearActions();
+    });
+
+
     it('renders without crashing', () => {
-        render(<AuthForm handleLogin={() => { }} showSignUp={false} />);
+        render(<Provider store={store}><AuthForm handleLogin={() => { }} showSignUp={false} /></Provider>);
     });
 
     it('displays "Sign up" button text when showSignUp prop is true', () => {
@@ -15,7 +30,7 @@ describe('AuthForm', () => {
         const showSignUp = true;
 
         //Act:
-        render(<AuthForm handleLogin={handleLoginMock} showSignUp={showSignUp} />);
+        render(<Provider store={store}><AuthForm handleLogin={handleLoginMock} showSignUp={showSignUp} /></Provider>);
 
         //Assert:
         const submitButton = screen.getByText('Sign up');
@@ -29,7 +44,7 @@ describe('AuthForm', () => {
         const showSignUp = false;
 
         //Act:
-        render(<AuthForm handleLogin={handleLoginMock} showSignUp={showSignUp} />);
+        render(<Provider store={store}><AuthForm handleLogin={handleLoginMock} showSignUp={showSignUp} /></Provider>);
 
         //Assert:
         const submitButton = screen.getByText('Login');
@@ -44,7 +59,7 @@ describe('AuthForm', () => {
         const showSignUp = true;
 
         //Act:
-        render(<AuthForm handleLogin={handleLoginMock} showSignUp={showSignUp} />);
+        render(<Provider store={store}><AuthForm handleLogin={handleLoginMock} showSignUp={showSignUp} /></Provider>);
 
         const usernameInput = screen.getByLabelText(/username/i);
         const emailInput = screen.getByLabelText(/email/i);
@@ -70,11 +85,10 @@ describe('AuthForm', () => {
 
         //Arrange:
         const handleLoginMock = jest.fn();
-        const setErrorMessageMock = jest.fn();
         const showSignUp = true;
 
         //Act:
-        render(<AuthForm handleLogin={handleLoginMock} showSignUp={showSignUp} setErrorMessage={setErrorMessageMock} />);
+        render(<Provider store={store}><AuthForm handleLogin={handleLoginMock} showSignUp={showSignUp} /></Provider>);
 
         const usernameInput = screen.getByLabelText(/username/i);
         const submitButton = screen.getByText('Sign up');
@@ -83,8 +97,13 @@ describe('AuthForm', () => {
         fireEvent.click(submitButton);
 
         // Assert:
-        expect(setErrorMessageMock).toHaveBeenCalledTimes(1);
-        expect(setErrorMessageMock).toHaveBeenCalledWith('Username must be at least 3 characters long.');
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toEqual(
+            uiActions.showNotification({
+                status: 'error',
+                message: 'Username must be at least 3 characters long.'
+            }));
     });
 
     it('displays error message for too weak password when signing up', () => {
@@ -96,11 +115,13 @@ describe('AuthForm', () => {
 
         //Act:
         render(
-            <AuthForm
-                handleLogin={handleLoginMock}
-                showSignUp={showSignUp}
-                setErrorMessage={setErrorMessageMock}
-            />
+            <Provider store={store}>
+                <AuthForm
+                    handleLogin={handleLoginMock}
+                    showSignUp={showSignUp}
+                    setErrorMessage={setErrorMessageMock}
+                />
+            </Provider>
         );
 
         const usernameInput = screen.getByLabelText(/username/i);
@@ -114,10 +135,12 @@ describe('AuthForm', () => {
         fireEvent.click(submitButton);
 
         // Assert:
-        expect(setErrorMessageMock).toHaveBeenCalledTimes(1);
-        expect(setErrorMessageMock).toHaveBeenCalledWith(
-            'Password must be 8 letters long and have AT LEAST: 1 lowercase, 1 uppercase, 1 number and 1 symbol.'
-        );
+        const actions = store.getActions();
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toEqual(
+            uiActions.showNotification({
+                status: 'error',
+                message: 'Password must be 8 letters long and have AT LEAST: 1 lowercase, 1 uppercase, 1 number and 1 symbol.'
+            }));
     });
-
 });
