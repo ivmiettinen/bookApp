@@ -6,6 +6,7 @@ import classes from './LogOutUser.module.css';
 import Button from '../UI/Button';
 
 const LogOutUser = ({ user, logOut }) => {
+    console.log('user!!!!!!!,', user);
     const history = useHistory();
 
     const handleLogout = () => {
@@ -18,7 +19,7 @@ const LogOutUser = ({ user, logOut }) => {
             {user !== null ? (
                 <Card>
                     <div className={classes.LogOutUser}>
-                        User {user.username} is currently logged in.
+                        User {user.user} is currently logged in.
                     </div>
                     <div className={classes.logOutButton}>
                         <Button onClick={handleLogout}>Log out</Button>
