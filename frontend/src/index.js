@@ -4,13 +4,15 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import bookReducer from '../src/store/bookReducer';
+import bookSlice from './store/book-slice';
 import uiSlice from '../src/store/ui-slice';
+import userSlice from '../src/store/user-slice';
 
 const store = configureStore({
     reducer: {
-        books: bookReducer,
-        ui: uiSlice.reducer
+        books: bookSlice,
+        ui: uiSlice,
+        user: userSlice
     },
 });
 
