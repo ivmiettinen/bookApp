@@ -6,6 +6,7 @@ import {
     addLike,
 } from '../../store/book-slice';
 import bookService from '../.././services/books';
+import { uiActions } from '../../store/ui-slice';
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -35,7 +36,12 @@ const LikeButton = ({ booksId, initialLikes }) => {
             }
 
         } catch (exception) {
-            console.log('error on put:', exception);
+            if (JSON.stringify(exception.response.status).includes(401)) {
+                dispatch(uiActions.showNotification({
+                    status: 'error',
+                    message: 'You must log in before you can like books',
+                }));
+            }
         }
 
     };
