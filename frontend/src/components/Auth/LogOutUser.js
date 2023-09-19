@@ -1,17 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import Card from '../UI/Card';
 import classes from './LogOutUser.module.css';
 import Button from '../UI/Button';
+import { handleLogOut } from '../../services/authService';
+import { useDispatch } from 'react-redux';
 
-const LogOutUser = ({ user, logOut }) => {
+
+const LogOutUser = ({ user }) => {
     console.log('user!!!!!!!,', user);
     const history = useHistory();
 
-    const handleLogout = () => {
-        logOut();
-        history.push('/auth');
+    const dispatch = useDispatch();
+
+    const userLogout = () => {
+        dispatch(handleLogOut(history));
     };
 
     return (
@@ -22,7 +25,7 @@ const LogOutUser = ({ user, logOut }) => {
                         User {user.user} is currently logged in.
                     </div>
                     <div className={classes.logOutButton}>
-                        <Button onClick={handleLogout}>Log out</Button>
+                        <Button onClick={userLogout}>Log out</Button>
                     </div>
                 </Card>
             ) : (
@@ -30,11 +33,6 @@ const LogOutUser = ({ user, logOut }) => {
             )}
         </>
     );
-};
-
-LogOutUser.propTypes = {
-    user: PropTypes.object,
-    logOut: PropTypes.func.isRequired,
 };
 
 export default LogOutUser;

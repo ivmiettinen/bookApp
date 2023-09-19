@@ -1,11 +1,15 @@
 import React from 'react';
 // import classes from './Book.module.css';
-import PropTypes from 'prop-types';
 import BookList from './BookList';
 import { useSelector } from 'react-redux';
+import Togglable from '../../components/UI/Togglable';
+import BookActions from '../../store/BookActions';
 
-const Book = ({ deleteBook, Togglable }) => {
+
+const Book = () => {
     const books = useSelector((state) => state.books);
+
+    const { deleteBook } = BookActions();
 
     return (
         <div>
@@ -25,12 +29,6 @@ const Book = ({ deleteBook, Togglable }) => {
             ))}
         </div>
     );
-};
-
-Book.propTypes = {
-    // addNewLike: PropTypes.func.isRequired,
-    deleteBook: PropTypes.func.isRequired,
-    Togglable: PropTypes.object.isRequired,
 };
 
 export default Book;
