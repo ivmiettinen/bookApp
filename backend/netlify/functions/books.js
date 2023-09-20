@@ -6,8 +6,6 @@ const middleware = require('../../utils/middleware');
 const api = express();
 
 //
-
-const booksRouter = require('express').Router()
 const Book = require('../../models/book')
 const User = require('../../models/user')
 const jwt = require('jsonwebtoken')

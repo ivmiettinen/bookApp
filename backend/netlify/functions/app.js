@@ -9,7 +9,7 @@ require('express-async-errors')
 const app = express()
 const cors = require('cors')
 
-const booksRouter = require('./books')
+// const booksRouter = require('./books')
 
 const middleware = require('../../utils/middleware')
 
@@ -17,9 +17,9 @@ const logger = require('../../utils/logger')
 
 const mongoose = require('mongoose')
 
-const usersRouter = require('./users')
+// const usersRouter = require('./users')
 
-const loginRouter = require('./login')
+// const loginRouter = require('./login')
 
 logger.info('connecting to', config.MONGODB_URI)
 
