@@ -1,13 +1,24 @@
-import serverless from 'serverless-http';
+const express = require('express')
+
+const serverless = require('serverless-http')
 
 const config = require('../../utils/config')
-
-const express = require('express')
 
 require('express-async-errors')
 
 const app = express()
 const cors = require('cors')
+
+const router = express.Router()
+
+router.get('/', (res) => {
+    res.json({
+        hello: 'hi!',
+    })
+})
+
+//test:
+app.use('/.netlify/functions/api', router)
 
 // const booksRouter = require('./books')
 
@@ -54,4 +65,4 @@ app.use(middleware.tokenExtractor)
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 
-module.exports.handler = serverless(app);
+module.exports.handler = serverless(app)
