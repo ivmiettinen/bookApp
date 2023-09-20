@@ -11,14 +11,14 @@ const cors = require('cors')
 
 const router = express.Router()
 
-router.get('/', (res) => {
+router.get('/', (req, res) => {
     res.json({
-        hello: 'hi!',
+        'hello': 'hi!',
     })
 })
 
 //test:
-app.use('/.netlify/functions/api', router)
+app.use('/.netlify/functions/app', router)
 
 // const booksRouter = require('./books')
 
