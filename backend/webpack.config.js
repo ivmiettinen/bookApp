@@ -1,6 +1,6 @@
 const path = require('path')
 module.exports = {
-    entry: './index.js',
+    entry: './netlify/functions/app.js',
     mode: 'development',
     output: {
         path: path.resolve(__dirname, 'dist'),
