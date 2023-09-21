@@ -1,21 +1,21 @@
-import express, { Router } from 'express';
-import serverless from 'serverless-http';
-const booksRouter = require('./controllers/books'); // Import your books route
-const middleware = require('../../utils/middleware');
+const express = require('express')
+const serverless = require('serverless-http')
+const booksRouter = require('../../controllers/books') // Import your books route
+const middleware = require('../../utils/middleware')
 
-const api = express();
+const api = express.Router()
 
 //
 const Book = require('../../models/book')
 const User = require('../../models/user')
 const jwt = require('jsonwebtoken')
 
-api.use(express.json());
-api.use(middleware.requestLogger);
-api.use(middleware.tokenExtractor);
+api.use(express.json())
+api.use(middleware.requestLogger)
+api.use(middleware.tokenExtractor)
 
-const router = Router();
-// 
+const router = express.Router()
+//
 
 router.get('/', async (request, response, next) => {
     try {
@@ -133,6 +133,6 @@ router.put('/:id', async (request, response, next) => {
     }
 })
 
-router.use('/api/books', router);
+router.use('/.netlify/functions/books', router)
 
-module.exports.handler = serverless(booksRouter);
+module.exports.handler = serverless(booksRouter)
