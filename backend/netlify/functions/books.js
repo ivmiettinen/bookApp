@@ -1,21 +1,76 @@
 const express = require('express')
 const serverless = require('serverless-http')
-const booksRouter = require('../../controllers/books') // Import your books route
 const middleware = require('../../utils/middleware')
-
-const api = express.Router()
-
-//
-const Book = require('../../models/book')
-const User = require('../../models/user')
 const jwt = require('jsonwebtoken')
 
-api.use(express.json())
-api.use(middleware.requestLogger)
-api.use(middleware.tokenExtractor)
+const app = express()
 
 const router = express.Router()
-//
+
+const mongoose = require('mongoose')
+
+const config = require('../../utils/config')
+
+const logger = require('../../utils/logger')
+
+app.use(express.json())
+app.use(middleware.requestLogger)
+app.use(middleware.tokenExtractor)
+
+//Book model:
+let Book
+
+try {
+    Book = mongoose.model('Book')
+} catch (e) {
+
+    const bookSchema = new mongoose.Schema({
+        id: Number,
+        title: { type: String, required: true },
+        author: { type: String, required: true },
+        url: { type: String, required: true },
+        likes: Number,
+        likesbyId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        },
+    })
+
+
+    bookSchema.set('toJSON', {
+        transform: (document, returnedObject) => {
+            returnedObject.id = returnedObject._id.toString()
+            delete returnedObject._id
+            delete returnedObject.__v
+        },
+    })
+
+    Book = mongoose.model('Book', bookSchema)
+
+}
+
+//////////Connect to DB:
+
+logger.info('connecting to', config.MONGODB_URI)
+
+mongoose
+    .connect(config.MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => {
+        logger.info('connected to MongoDB')
+    })
+    .catch((error) => {
+        logger.error('error connection to MongoDB:', error.message)
+    })
+
+const User = require('../../models/user')
+
+
+
+
 
 router.get('/', async (request, response, next) => {
     try {
@@ -133,6 +188,6 @@ router.put('/:id', async (request, response, next) => {
     }
 })
 
-router.use('/.netlify/functions/books', router)
+app.use('/.netlify/functions/books', router)
 
-module.exports.handler = serverless(booksRouter)
+module.exports.handler = serverless(app)
