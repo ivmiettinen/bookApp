@@ -1,6 +1,6 @@
 const express = require('express')
 const serverless = require('serverless-http')
-const middleware = require('../../utils/middleware')
+const middleware = require('./utils/middleware')
 const jwt = require('jsonwebtoken')
 
 const app = express()
@@ -9,13 +9,20 @@ const router = express.Router()
 
 const mongoose = require('mongoose')
 
-const config = require('../../utils/config')
+const config = require('./utils/config')
 
-const logger = require('../../utils/logger')
+const logger = require('./utils/logger')
 
 app.use(express.json())
 app.use(middleware.requestLogger)
 app.use(middleware.tokenExtractor)
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    next()
+})
 
 //Book model:
 let Book
@@ -50,6 +57,48 @@ try {
 
 }
 
+//User model:
+
+const uniqueValidator = require('mongoose-unique-validator')
+
+let User
+
+try {
+    User = mongoose.model('User')
+
+} catch (e) {
+
+    const userSchema = mongoose.Schema({
+        username: {
+            type: String,
+            minLength: 3,
+            required: true,
+            unique: true,
+        },
+        email: { type: String, required: true },
+        passwordHash: { type: String, minlength: 3, required: true },
+        books: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Book',
+            },
+        ],
+    })
+
+    userSchema.plugin(uniqueValidator)
+
+    userSchema.set('toJSON', {
+        transform: (document, returnedObject) => {
+            returnedObject.id = returnedObject._id.toString()
+            delete returnedObject._id
+            delete returnedObject.__v
+            delete returnedObject.passwordHash
+        },
+    })
+
+    User = mongoose.model('User', userSchema)
+}
+
 //////////Connect to DB:
 
 logger.info('connecting to', config.MONGODB_URI)
@@ -65,11 +114,6 @@ mongoose
     .catch((error) => {
         logger.error('error connection to MongoDB:', error.message)
     })
-
-const User = require('../../models/user')
-
-
-
 
 
 router.get('/', async (request, response, next) => {
