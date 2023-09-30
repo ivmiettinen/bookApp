@@ -2,7 +2,7 @@ module.exports = {
     env: {
         browser: true,
         es6: true,
-        'jest/globals': true,
+        jest: true
     },
     extends: ['eslint:recommended', 'plugin:react/recommended'],
     parserOptions: {
@@ -12,14 +12,14 @@ module.exports = {
         ecmaVersion: 2018,
         sourceType: 'module',
     },
-    plugins: ['react', 'jest', 'react-hooks'],
+    plugins: ['react', 'react-hooks'],
     rules: {
         'react-hooks/rules-of-hooks': 'error',
         'react-hooks/exhaustive-deps': 'warn',
         indent: ['error', 4],
         'linebreak-style': ['error', 'windows'],
         quotes: ['error', 'single'],
-        semi: ['error', 'never'],
+        semi: ['error', 'always'],
         eqeqeq: 'error',
         'no-trailing-spaces': 'error',
         'object-curly-spacing': ['error', 'always'],
@@ -32,4 +32,4 @@ module.exports = {
             version: 'detect',
         },
     },
-}
+};

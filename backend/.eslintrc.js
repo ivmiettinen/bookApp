@@ -15,10 +15,7 @@ module.exports = {
         'ecmaVersion': 11
     },
     'rules': {
-        'indent': [
-            'error',
-            4
-        ],
+        indent: ['error', 4],
         'linebreak-style': [
             'error',
             'windows'
@@ -27,10 +24,7 @@ module.exports = {
             'error',
             'single'
         ],
-        'semi': [
-            'error',
-            'never'
-        ],
+        semi: ['error', 'always'],
         'eqeqeq': 'error',
         'no-trailing-spaces': 'error',
         'object-curly-spacing': [
