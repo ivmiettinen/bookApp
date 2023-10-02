@@ -1,7 +1,10 @@
 import axios from 'axios';
 
-const booksUrl = 'http://localhost:3003/api/books';
-// const baseUrl = 'https://hidden-plateau-70218.herokuapp.com/api/books'
+let booksUrl = process.env.REACT_APP_books_Url;
+
+if (process.env.REACT_APP_env === 'development') {
+    booksUrl = process.env.REACT_APP_books_Url_dev;
+} 
 
 let token = null;
 
@@ -39,4 +42,6 @@ const update = async (id, newObject) => {
     return response.data;
 };
 
-export default { getAll, create, remove, update, setToken };
+const bookService = { getAll, create, remove, update, setToken };
+
+export default bookService;
