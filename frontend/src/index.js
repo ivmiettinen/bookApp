@@ -1,12 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import bookSlice from './store/book-slice';
-import uiSlice from '../src/store/ui-slice';
-import userSlice from '../src/store/user-slice';
+import uiSlice from './store/ui-slice';
+import userSlice from './store/user-slice';
 
 const store = configureStore({
     reducer: {
@@ -16,11 +16,12 @@ const store = configureStore({
     },
 });
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root'));
+
+root.render(
     <BrowserRouter>
         <Provider store={store}>
             <App />
         </Provider>
-    </BrowserRouter>,
-    document.getElementById('root')
+    </BrowserRouter>
 );
