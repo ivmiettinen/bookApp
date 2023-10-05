@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux';
 
 
 const LogOutUser = ({ user }) => {
-    console.log('user!!!!!!!,', user);
     const history = useHistory();
 
     const dispatch = useDispatch();
