@@ -1,4 +1,6 @@
 const express = require('express');
+const serverless = require('serverless-http');
+const middleware = require('./utils/middleware');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
@@ -6,15 +8,12 @@ const app = express();
 
 const router = express.Router();
 
-const serverless = require('serverless-http');
-const middleware = require('./utils/middleware');
-
 app.use(express.json());
 app.use(middleware.requestLogger);
 app.use(middleware.tokenExtractor);
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.header('Access-Control-Allow-Origin', 'https://eclectic-tartufo-15ebc4.netlify.app/');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
@@ -81,7 +80,9 @@ mongoose
 
 //
 
-router.post('/', async (request, response) => {
+router.post('/', async (request, response, next) => {
+    console.log('request!: ', request);
+    console.log('request!: ', request.body);
     const body = request.body;
 
     const user = await User.findOne({ username: body.username });
@@ -96,16 +97,21 @@ router.post('/', async (request, response) => {
         });
     }
 
-    const userForToken = {
-        username: user.username,
-        id: user._id,
-    };
+    try {
+        const userForToken = {
+            username: user.username,
+            id: user._id,
+        };
 
-    const token = jwt.sign(userForToken, process.env.SECRET);
+        const token = jwt.sign(userForToken, process.env.SECRET);
 
-    response
-        .status(200)
-        .send({ token, username: user.username, email: user.email });
+        response
+            .status(200)
+            .send({ token, username: user.username, email: user.email });
+    } catch (exception) {
+        console.log('exception', exception);
+        next(exception);
+    }
 });
 
 app.use('/.netlify/functions/login', router);

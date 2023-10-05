@@ -1,10 +1,13 @@
 import axios from 'axios';
 
-// const userUrl = 'http://localhost:3003/api/users';
-const userUrl = 'http://localhost:8888/.netlify/functions/users';
+let signUpUrl = process.env.REACT_APP_userUrl;
+
+if (process.env.REACT_APP_userUrl_dev === 'development') {
+    signUpUrl = process.env.REACT_APP_userUrl_dev;
+} 
 
 const signUp = async (newObject) => {
-    const response = await axios.post(userUrl, newObject);
+    const response = await axios.post(signUpUrl, newObject);
     return response.data;
 };
 

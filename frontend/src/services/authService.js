@@ -37,10 +37,9 @@ export const handleAuth = (userInfo, showSignUp, history) => {
         let user;
         try {
             if (showSignUp) {
-                user = await signUpService.signUp(userInfo);
+                user = await signUpService(userInfo);
             } else {
-                user = await loginService.login(userInfo);
-
+                user = await loginService(userInfo);
             }
             window.localStorage.setItem(
                 'loggedBookappUser',
@@ -55,13 +54,13 @@ export const handleAuth = (userInfo, showSignUp, history) => {
             }));
             history.push('/books');
         } catch (exception) {
-            if (JSON.stringify(exception.response.data).includes('unique')) {
+            if (exception?.response?.data && JSON.stringify(exception.response.data).includes('unique')) {
                 dispatch(uiActions.showNotification({
                     status: 'error',
                     message: `Username '${userInfo.username}' is already in use`,
                 }));
             } else if (
-                JSON.stringify(exception.response.data).includes(
+                exception?.response?.data && JSON.stringify(exception.response.data).includes(
                     'invalid username or password'
                 )
             ) {
