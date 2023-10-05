@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, Route, Redirect} from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import Book from './components/Books/Book';
@@ -46,7 +46,7 @@ const App = () => {
             )}
             <Switch>
                 <Route path="/" exact>
-                    <Redirect  to="/auth"></Redirect>
+                    <Redirect to="/auth"></Redirect>
                 </Route>
                 <Route path="/auth">
                     {!showSignUp || !showLogIn ? (
@@ -67,7 +67,7 @@ const App = () => {
                 </Route>
                 <Route path="/signup">
                     <AuthForm
-                        showSignUp={showSignUp}/>
+                        showSignUp={showSignUp} />
                 </Route>
                 <Route path="/books">
                     <div className="headerNsort">
