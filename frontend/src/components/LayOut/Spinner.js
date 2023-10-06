@@ -8,7 +8,7 @@ const Spinner = ({ loading }) => {
             <p>
                 <ClipLoader color='#0e67db' loading={loading} size={150} />
             </p>
-            <p>Just a sec - Waking up Heroku backend and fetching data... </p>
+            <p>Just a moment - Fetching data from backend... </p>
         </div>
     );
 };
