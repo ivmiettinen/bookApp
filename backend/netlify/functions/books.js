@@ -18,7 +18,7 @@ app.use(middleware.requestLogger);
 app.use(middleware.tokenExtractor);
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'https://651f94047e1a780008e13935--eclectic-tartufo-15ebc4.netlify.app/');
+    res.header('Access-Control-Allow-Origin', `${process.env.BOOKS_ORIGIN}`);
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
