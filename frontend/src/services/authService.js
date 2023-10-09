@@ -8,7 +8,6 @@ export const handleLogOut = (history) => {
     return async (dispatch) => {
 
         try {
-
             await dispatch(logout());
             dispatch(uiActions.showNotification({
                 status: 'success',
@@ -21,8 +20,8 @@ export const handleLogOut = (history) => {
                 message: 'Successfully logged out',
             }));
             history.push('/auth');
-
-        } catch (exception) {
+        } catch (exception) 
+        {
             dispatch(uiActions.showNotification({
                 status: 'error',
                 message: 'Error on log out',

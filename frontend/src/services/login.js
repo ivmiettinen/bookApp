@@ -2,7 +2,7 @@ import axios from 'axios';
 
 let loginUrl = process.env.REACT_APP_loginUrl;
 
-if (process.env.REACT_APP_loginUrl === 'development') {
+if (process.env.REACT_APP_env === 'development') {
     loginUrl = process.env.REACT_APP_loginUrl_dev;
 } 
 
