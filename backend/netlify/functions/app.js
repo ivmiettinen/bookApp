@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
     res.json({
-        hello: 'hi!',
+        health: 'ok',
     });
 });
 
