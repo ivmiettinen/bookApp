@@ -41,6 +41,7 @@ const LikeButton = ({ booksId, initialLikes }) => {
                     status: 'error',
                     message: 'You must log in before you can like books',
                 }));
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
 

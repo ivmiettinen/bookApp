@@ -138,23 +138,26 @@ router.get('/:id', async (request, response, next) => {
 });
 
 router.post('/', async (request, response, next) => {
-    const body = request.body;
-
-    const decodedToken = jwt.verify(request.token, process.env.SECRET);
-
-    if (!request.token || !decodedToken.id || request.token === null) {
-        return response.status(401).json({ error: 'token missing or invalid' });
-    }
-    const user = await User.findById(decodedToken.id);
-
-    const book = new Book({
-        title: body.title,
-        author: body.author,
-        url: body.url,
-        likes: body.likes === undefined ? 0 : body.likes,
-        user: user._id,
-    });
     try {
+        const body = request.body;
+
+        const decodedToken = jwt.verify(request.token, process.env.SECRET);
+
+        if (!request.token || !decodedToken.id || request.token === null) {
+            return response
+                .status(401)
+                .json({ error: 'token missing or invalid' });
+        }
+        const user = await User.findById(decodedToken.id);
+
+        const book = new Book({
+            title: body.title,
+            author: body.author,
+            url: body.url,
+            likes: body.likes === undefined ? 0 : body.likes,
+            user: user._id,
+        });
+
         if (
             body.title !== undefined &&
             body.author !== undefined &&
@@ -170,6 +173,7 @@ router.post('/', async (request, response, next) => {
         }
     } catch (exception) {
         next(exception);
+        return response.status(401).json({ error: 'token missing or invalid' });
     }
 });
 
@@ -197,17 +201,16 @@ router.delete('/:id', async (request, response, next) => {
 });
 
 router.put('/:id', async (request, response, next) => {
-    const decodedToken = jwt.verify(request.token, process.env.SECRET);
-    const userId = request.params.id;
-
-    if (!request.token || !decodedToken.id) {
-        return response.status(401).json({ error: 'token missing or invalid' });
-    }
-
     try {
+        const decodedToken = jwt.verify(request.token, process.env.SECRET);
+        const userId = request.params.id;
+        if (!request.token || !decodedToken.id) {
+            return response
+                .status(401)
+                .json({ error: 'token missing or invalid' });
+        }
         const book = await Book.findById(request.params.id);
         const userIndex = book.likesbyId.indexOf(request.params.id);
-
         if (userIndex === -1) {
             // User has not liked the post, add the like
             book.likesbyId.push(userId);
@@ -217,12 +220,11 @@ router.put('/:id', async (request, response, next) => {
             book.likesbyId.pull(userId);
             book.likes -= 1;
         }
-
         book.save();
         response.json(book.toJSON());
     } catch (exception) {
-        console.log('exception', exception);
         next(exception);
+        return response.status(401).json({ error: 'token missing or invalid' });
     }
 });
 
