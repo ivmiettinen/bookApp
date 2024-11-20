@@ -2,7 +2,7 @@
 Fullstack app displaying different books. React frontend, node.js express backend, mongodb database.
 
 
-**Live version in Netlify:** https://book-appi.netlify.app/
+**Live version in Netlify:** [https://book-appi.netlify.app/](https://eclectic-tartufo-15ebc4.netlify.app/)
 
 
 
