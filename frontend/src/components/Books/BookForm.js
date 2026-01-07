@@ -47,7 +47,7 @@ const BookForm = () => {
                             name="title"
                             type="text"
                             id="title"
-                            maxLength="30"
+                            maxLength="100"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             required
@@ -61,7 +61,7 @@ const BookForm = () => {
                             name="author"
                             type="text"
                             id="author"
-                            maxLength="20"
+                            maxLength="80"
                             value={author}
                             onChange={(e) => setAuthor(e.target.value)}
                             required
@@ -73,7 +73,7 @@ const BookForm = () => {
                         <input name="url"
                             type="url"
                             id="url"
-                            maxLength="60"
+                            maxLength="160"
                             value={url}
                             onChange={(e) => setUrl(e.target.value)} required />
 
