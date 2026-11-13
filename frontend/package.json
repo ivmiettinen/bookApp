@@ -25,7 +25,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:run": "vitest run",
-    "eslint": "eslint src --ext .js,.jsx"
+    "eslint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.test.json && tsc -p tsconfig.node.json"
   },
   "engines": {
     "node": ">=22.12.0"
@@ -34,12 +35,16 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",
+    "@types/node": "^22.20.5",
     "@types/react": "^18.2.79",
     "@types/react-dom": "^18.2.25",
-    "@vitejs/plugin-react": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.72.2",
+    "@typescript-eslint/parser": "^8.72.2",
+    "@vitejs/plugin-react": "~4.6.0",
     "eslint": "^8.57.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "jsdom": "^26.1.0",
+    "typescript": "~5.4.5",
     "vite": "^7.3.0",
     "vitest": "^3.2.4"
   }
