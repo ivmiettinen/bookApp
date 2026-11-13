@@ -5,8 +5,8 @@ import AuthButtons from './AuthButtons';
 import { renderWithProviders } from '../../test-utils';
 
 const renderButtons = () => {
-    const setShowSignUp = jest.fn();
-    const setShowLogIn = jest.fn();
+    const setShowSignUp = vi.fn();
+    const setShowLogIn = vi.fn();
     renderWithProviders(
         <>
             <AuthButtons setShowSignUp={setShowSignUp} setShowLogIn={setShowLogIn} />

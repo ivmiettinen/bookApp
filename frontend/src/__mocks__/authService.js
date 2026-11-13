@@ -1,1 +1,1 @@
-export const handleLogOut = jest.fn();
+export const handleLogOut = vi.fn();

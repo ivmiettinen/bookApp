@@ -1,5 +1,4 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
 import Button from './Button';
 
@@ -29,7 +28,7 @@ test('renders Button component with CSS classes', () => {
 
 test('calls onClick event handler when button is clicked', () => {
     // Arrange
-    const onClick = jest.fn();
+    const onClick = vi.fn();
     const { container } = render(<Button onClick={onClick}>Button</Button>);
     const buttonElement = container.querySelector('button');
 

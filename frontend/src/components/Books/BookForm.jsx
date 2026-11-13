@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import classes from './BookForm.module.css';
-// import PropTypes from 'prop-types';
 import Button from '../UI/Button';
 import BookActions from '../../store/BookActions';
 import Togglable from '../../components/UI/Togglable';

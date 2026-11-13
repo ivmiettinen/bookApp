@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-let loginUrl = process.env.REACT_APP_loginUrl;
+let loginUrl = import.meta.env.VITE_LOGIN_URL || import.meta.env.REACT_APP_loginUrl;
 
-if (process.env.REACT_APP_env === 'development') {
-    loginUrl = process.env.REACT_APP_loginUrl_dev;
+if (import.meta.env.DEV) {
+    loginUrl = import.meta.env.VITE_LOGIN_URL_DEV || import.meta.env.REACT_APP_loginUrl_dev;
 } 
 
 const login = async (credentials) => {

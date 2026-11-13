@@ -5,13 +5,13 @@ import LogOutUser from './LogOutUser';
 import bookService from '../../services/books';
 import { renderWithProviders } from '../../test-utils';
 
-jest.mock('../../services/books', () => ({
+vi.mock('../../services/books', () => ({
     __esModule: true,
-    default: { setToken: jest.fn() },
+    default: { setToken: vi.fn() },
 }));
 
 beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     window.localStorage.clear();
 });
 

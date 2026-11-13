@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-let signUpUrl = process.env.REACT_APP_userUrl;
+let signUpUrl = import.meta.env.VITE_USER_URL || import.meta.env.REACT_APP_userUrl;
 
-if (process.env.REACT_APP_env === 'development') {
-    signUpUrl = process.env.REACT_APP_userUrl_dev;
+if (import.meta.env.DEV) {
+    signUpUrl = import.meta.env.VITE_USER_URL_DEV || import.meta.env.REACT_APP_userUrl_dev;
 } 
 
 const signUp = async (newObject) => {

@@ -5,14 +5,14 @@ import signUpService from '../../services/signUp';
 import bookService from '../../services/books';
 import { renderWithProviders } from '../../test-utils';
 
-jest.mock('../../services/signUp');
-jest.mock('../../services/books', () => ({
+vi.mock('../../services/signUp');
+vi.mock('../../services/books', () => ({
     __esModule: true,
-    default: { setToken: jest.fn() },
+    default: { setToken: vi.fn() },
 }));
 
 beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     window.localStorage.clear();
 });
 

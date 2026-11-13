@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-let booksUrl = process.env.REACT_APP_books_Url;
+let booksUrl = import.meta.env.VITE_BOOKS_URL || import.meta.env.REACT_APP_books_Url;
 
-if (process.env.REACT_APP_env === 'development') {
-    booksUrl = process.env.REACT_APP_books_Url_dev;
+if (import.meta.env.DEV) {
+    booksUrl = import.meta.env.VITE_BOOKS_URL_DEV || import.meta.env.REACT_APP_books_Url_dev;
 } 
 
 let token = null;
