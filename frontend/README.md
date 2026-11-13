@@ -14,14 +14,14 @@ Fullstack app displaying different books. React frontend, node.js express backen
 
 **2.BooksApp's frontend:**
 
--Run 'npm install --force' in folder.
+-Run 'npm ci' in the frontend folder to install the project dependencies using package-lock.json.
 
 Create local .env file, and add your backend address for variables:
 -process.env.REACT_APP_books_Url_dev
 -process.env.REACT_APP_loginUrl_dev
 -process.env.REACT_APP_userUrl_dev
 
--Run 'npm start'
+-Run 'npm start' (or 'npm run start:dev') to start the frontend.
 
 
 **3.Download MongoDB compass or create one free cluster with MongoDB Atlas (https://www.mongodb.com/atlas/database)**
