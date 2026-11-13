@@ -1,15 +1,15 @@
 import React from 'react';
 // import classes from './Book.module.css';
 import BookList from './BookList';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../store/hooks';
 import Togglable from '../../components/UI/Togglable';
-import BookActions from '../../store/BookActions';
+import useBookActions from '../../store/useBookActions';
 
 
 const Book = () => {
-    const books = useSelector((state) => state.books);
+    const books = useAppSelector((state) => state.books);
 
-    const { deleteBook } = BookActions();
+    const { deleteBook } = useBookActions();
 
     return (
         <div>

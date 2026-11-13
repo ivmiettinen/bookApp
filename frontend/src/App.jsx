@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from './store/hooks';
 import './App.css';
 import Book from './components/Books/Book';
 import AuthForm from './components/Auth/AuthForm';
@@ -22,10 +22,10 @@ const App = () => {
     const [showLogIn, setShowLogIn] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    const notification = useSelector((state) => state.ui.notification);
-    const user = useSelector((state) => state.user);
+    const notification = useAppSelector((state) => state.ui.notification);
+    const user = useAppSelector((state) => state.user);
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(initializeBooks())

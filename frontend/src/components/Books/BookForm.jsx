@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classes from './BookForm.module.css';
 import Button from '../UI/Button';
-import BookActions from '../../store/BookActions';
+import useBookActions from '../../store/useBookActions';
 import Togglable from '../../components/UI/Togglable';
 
 const BookForm = () => {
@@ -9,7 +9,7 @@ const BookForm = () => {
     const [author, setAuthor] = useState('');
     const [url, setUrl] = useState('');
 
-    const { addBook, bookFormRef } = BookActions();
+    const { addBook, bookFormRef } = useBookActions();
 
     const bookRef = bookFormRef;
 

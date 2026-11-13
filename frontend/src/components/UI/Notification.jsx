@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../store/hooks';
 import { Alert } from '@mui/material';
 import { uiActions } from '../../store/ui-slice';
 
 const Notification = (props) => {
     const [visible, setVisible] = useState(true);
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         const timeout = setTimeout(() => {

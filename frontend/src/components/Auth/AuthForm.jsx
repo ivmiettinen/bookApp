@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../store/hooks';
 import classes from './AuthForm.module.css';
 import PropTypes from 'prop-types';
 import validator from 'validator';
@@ -22,7 +22,7 @@ const AuthForm = ({ showSignUp }) => {
         setPassword('');
     };
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const handleSignIn = async (e) => {
         e.preventDefault();

@@ -1,17 +1,27 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import bookReducer from './store/book-slice';
-import uiReducer from './store/ui-slice';
-import userReducer from './store/user-slice';
+import { setupStore } from './store';
 
+/**
+ * @typedef {import('react').ReactElement} ReactElement
+ * @typedef {import('./store').RootState} RootState
+ * @typedef {import('@reduxjs/toolkit').PreloadedState<RootState>} InitialState
+ */
+
+/**
+ * @typedef {object} RenderOptions
+ * @property {string} [route]
+ * @property {InitialState} [preloadedState]
+ */
+
+/**
+ * @param {ReactElement} ui
+ * @param {RenderOptions} [options]
+ */
 export const renderWithProviders = (ui, { route = '/', preloadedState } = {}) => {
-    const store = configureStore({
-        reducer: { books: bookReducer, ui: uiReducer, user: userReducer },
-        preloadedState,
-    });
+    const store = setupStore(preloadedState);
 
     return {
         store,

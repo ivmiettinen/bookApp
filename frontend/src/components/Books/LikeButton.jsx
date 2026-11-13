@@ -7,7 +7,7 @@ import {
 } from '../../store/book-slice';
 import bookService from '../.././services/books';
 import { uiActions } from '../../store/ui-slice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
 
 
@@ -15,8 +15,8 @@ const LikeButton = ({ booksId, initialLikes }) => {
     const [likes, setLikes] = useState(initialLikes);
     const [isLiked, setIsLiked] = useState(false);
 
-    const dispatch = useDispatch();
-    const books = useSelector((state) => state.books);
+    const dispatch = useAppDispatch();
+    const books = useAppSelector((state) => state.books);
 
     const handleLike = async (book) => {
 

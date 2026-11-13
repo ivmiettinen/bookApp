@@ -4,13 +4,13 @@ import Card from '../UI/Card';
 import classes from './LogOutUser.module.css';
 import Button from '../UI/Button';
 import { handleLogOut } from '../../services/authService';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../store/hooks';
 
 
 const LogOutUser = ({ user }) => {
     const history = useHistory();
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const userLogout = () => {
         dispatch(handleLogOut(history));

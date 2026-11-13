@@ -1,19 +1,19 @@
 import { useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from './hooks';
+import type { Book, CreateBookInput } from '../types/api';
+import type { TogglableHandle } from '../types/ui';
 import bookService from '../services/books';
 import { uiActions } from './ui-slice';
 import { createBook, removeBook } from './book-slice';
 
-const BookActions = () => {
+const useBookActions = () => {
+    const dispatch = useAppDispatch();
+    const books = useAppSelector((state) => state.books);
 
-    // const DeleteBookButton = ({ book, onSuccess, onError }) => {
-    const dispatch = useDispatch();
-    const books = useSelector((state) => state.books);
+    const bookFormRef = useRef<TogglableHandle>(null);
 
-    const bookFormRef = useRef();
-
-    const addBook = async (book) => {
-        bookFormRef.current.toggleVisibility();
+    const addBook = async (book: CreateBookInput): Promise<void> => {
+        bookFormRef.current?.toggleVisibility();
 
         try {
             const waitBooks = await bookService.create(book);
@@ -24,7 +24,7 @@ const BookActions = () => {
                     message: `A new book ${waitBooks.title} by ${waitBooks.author} added`,
                 }));
         }
-        catch (exception) {
+        catch {
             dispatch(
                 uiActions.showNotification({
                     status: 'error',
@@ -33,8 +33,10 @@ const BookActions = () => {
         }
     };
 
-    const deleteBook = async (id) => {
+    const deleteBook = async (id: Book['id']): Promise<void> => {
         const findBook = books.find((a) => a.id === id);
+
+        if (!findBook) return;
 
         if (window.confirm(`Delete book ${findBook.title} ?`)) {
             try {
@@ -45,7 +47,7 @@ const BookActions = () => {
                         status: 'success',
                         message: `The book ${findBook.title} was successfully deleted`,
                     }));
-            } catch (exception) {
+            } catch {
                 dispatch(
                     uiActions.showNotification({
                         status: 'error',
@@ -61,4 +63,5 @@ const BookActions = () => {
     };
 };
 
-export default BookActions;
+export default useBookActions;
+

@@ -1,11 +1,11 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../store/hooks';
 import { NavLink } from 'react-router-dom';
 import classes from './MainHeader.module.css';
 
 const MainHeader = () => {
 
-    const user = useSelector((state) => state.user);
+    const user = useAppSelector((state) => state.user);
     return (
         <header className={classes.header} >
             <ul>

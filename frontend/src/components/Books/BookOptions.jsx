@@ -2,15 +2,16 @@ import React from 'react';
 import classes from './SortBooks.module.css';
 import {
     sortBooks,
+    isSortKey,
 } from '../../store/book-slice';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../store/hooks';
 
 const BookOptions = () => {
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const sortArray = (type) => {
-        dispatch(sortBooks(type));
+        if (isSortKey(type)) dispatch(sortBooks(type));
     };
 
     return (
