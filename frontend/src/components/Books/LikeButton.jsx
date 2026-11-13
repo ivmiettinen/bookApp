@@ -36,7 +36,7 @@ const LikeButton = ({ booksId, initialLikes }) => {
             }
 
         } catch (exception) {
-            if (JSON.stringify(exception.response.status).includes(401)) {
+            if (exception?.response?.status === 401) {
                 dispatch(uiActions.showNotification({
                     status: 'error',
                     message: 'You must log in before you can like books',
