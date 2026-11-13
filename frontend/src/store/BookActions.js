@@ -30,7 +30,6 @@ const BookActions = () => {
                     status: 'error',
                     message: 'You must log in before you can add books',
                 }));
-            // console.log('exception', exception.message);
         }
     };
 

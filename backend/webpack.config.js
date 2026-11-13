@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('path');
 module.exports = {
     entry: './netlify/functions/app.js',
     mode: 'development',
@@ -9,7 +9,7 @@ module.exports = {
     },
     resolve: {
         fallback: {
-            'path': require.resolve('path-browserify'),
+            path: require.resolve('path-browserify'),
             http: require.resolve('stream-http'),
             zlib: require.resolve('browserify-zlib'),
             querystring: require.resolve('querystring-es3'),
@@ -18,8 +18,6 @@ module.exports = {
             stream: require.resolve('stream-browserify'),
             util: require.resolve('util/'),
             url: require.resolve('url/'),
-
         },
-
     },
-}
+};

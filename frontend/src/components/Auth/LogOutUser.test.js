@@ -1,60 +1,38 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { Route } from 'react-router-dom';
 import LogOutUser from './LogOutUser';
+import bookService from '../../services/books';
+import { renderWithProviders } from '../../test-utils';
 
-const mockPush = jest.fn();
-jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
-    useHistory: () => ({
-        push: mockPush,
-    }),
+jest.mock('../../services/books', () => ({
+    __esModule: true,
+    default: { setToken: jest.fn() },
 }));
 
-describe('LogOutUser', () => {
-    let container;
+beforeEach(() => {
+    jest.clearAllMocks();
+    window.localStorage.clear();
+});
 
-    const mockHandler = jest.fn();
+test('shows the current user and logs out through the real store', async () => {
+    window.localStorage.setItem('loggedBookappUser', JSON.stringify({ token: 'test-token' }));
+    const { store } = renderWithProviders(
+        <>
+            <Route path="/logout"><LogOutUser user={{ user: 'Tester' }} /></Route>
+            <Route path="/auth"><p>Authentication page</p></Route>
+        </>,
+        {
+            route: '/logout',
+            preloadedState: { user: { user: 'Tester', isAuthenticated: true } },
+        }
+    );
 
-    const mockHistory = {
-        push: jest.fn(),
-    };
+    expect(screen.getByText('User Tester is currently logged in.')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Log out' }));
 
-    const user = {
-        username: 'Tester',
-    };
-
-    beforeEach(() => {
-        container = render(
-            <LogOutUser
-                user={user}
-                logOut={mockHandler}
-                mockHistory={mockHistory}
-            />
-        ).container;
-    });
-
-    test('renders user that is logged in', () => {
-        // screen.debug();
-
-        //Arrange:
-        const logOutUser = container.querySelector('.LogOutUser');
-
-        //Assert:
-        expect(logOutUser).toHaveTextContent(
-            'User Tester is currently logged in'
-        );
-    });
-
-    test('renders Log out button', () => {
-        //Arrange
-        const logOutButton = screen.getByText('Log out');
-
-        //Act
-        fireEvent.click(logOutButton);
-
-        //Assert:
-        expect(mockHandler).toHaveBeenCalledTimes(1);
-        expect(mockPush).toHaveBeenCalledWith('/auth');
-    });
+    await waitFor(() => expect(screen.getByText('Authentication page')).toBeInTheDocument());
+    expect(store.getState().user).toEqual({ user: null, isAuthenticated: false });
+    expect(window.localStorage.getItem('loggedBookappUser')).toBeNull();
+    expect(bookService.setToken).toHaveBeenCalledWith(null);
 });

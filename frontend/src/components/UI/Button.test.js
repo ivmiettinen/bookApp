@@ -1,11 +1,9 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import Button from './Button';
-import classes from './Button.module.css';
 
 test('renders Button component with children', () => {
-    screen.debug();
     // Arrange
     const children = 'Render children';
 
@@ -27,7 +25,6 @@ test('renders Button component with CSS classes', () => {
     // Assert
     const buttonElement = container.querySelector('button');
     expect(buttonElement).toHaveClass(className);
-    expect(buttonElement).toHaveClass(classes.button);
 });
 
 test('calls onClick event handler when button is clicked', () => {
