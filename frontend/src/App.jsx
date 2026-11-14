@@ -20,7 +20,7 @@ import {
 const App = () => {
     const [showSignUp, setShowSignUp] = useState(false);
     const [showLogIn, setShowLogIn] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const { items: books, status, error } = useAppSelector((state) => state.books);
 
     const notification = useAppSelector((state) => state.ui.notification);
     const user = useAppSelector((state) => state.user);
@@ -28,12 +28,7 @@ const App = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(initializeBooks())
-            .then(setLoading(false))
-            .catch((error) => {
-                setLoading(true);
-                console.error('Error on loading books:', error);
-            });
+        dispatch(initializeBooks());
     }, [dispatch]);
 
     return (
@@ -75,10 +70,19 @@ const App = () => {
                         <BookOptions />
                     </div>
                     <BookForm />
-                    {loading ? (
-                        <Spinner loading={loading} />
-                    ) : (
-                        <Book />
+                    {(status === 'idle' || status === 'loading') && (
+                        <div role="status"><Spinner loading={true} /></div>
+                    )}
+                    {status === 'failed' && (
+                        <div role="alert">
+                            <p>{error}</p>
+                            <button type="button" onClick={() => dispatch(initializeBooks())}>
+                                Try again
+                            </button>
+                        </div>
+                    )}
+                    {status === 'succeeded' && (
+                        books.length === 0 ? <p>No books yet.</p> : <Book />
                     )}
                 </Route>
                 <Route path="/about">

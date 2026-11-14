@@ -16,7 +16,7 @@ const LikeButton = ({ booksId, initialLikes }) => {
     const [isLiked, setIsLiked] = useState(false);
 
     const dispatch = useAppDispatch();
-    const books = useAppSelector((state) => state.books);
+    const books = useAppSelector((state) => state.books.items);
 
     const handleLike = async (book) => {
 

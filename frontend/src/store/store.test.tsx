@@ -24,7 +24,7 @@ const otherBook: Book = { ...book, id: 'book-2', title: 'Alpha', author: 'Zulu',
 
 const BookControls = () => {
     const { deleteBook } = useBookActions();
-    const books = useAppSelector((state) => state.books);
+    const books = useAppSelector((state) => state.books.items);
     const notification = useAppSelector((state) => state.ui.notification);
     const dispatch = useAppDispatch();
 
@@ -54,7 +54,7 @@ test('each render gets an isolated store with the production reducers', () => {
     first.dispatch(createBook(book));
     first.dispatch(login('Reader'));
     first.dispatch(uiActions.showNotification({ status: 'success', message: 'Saved' }));
-    expect(first.getState().books).toEqual([book]);
+    expect(first.getState().books.items).toEqual([book]);
     expect(first.getState().user).toEqual({ user: 'Reader', isAuthenticated: true });
     expect(first.getState().ui.notification?.message).toBe('Saved');
     expect(second.getState()).toEqual(setupStore().getState());
@@ -68,19 +68,23 @@ test('typed dispatch awaits initialization and selectors display the loaded book
     expect(screen.getAllByRole('listitem')).toHaveLength(2);
     const store = setupStore();
     await expect(store.dispatch(initializeBooks())).resolves.toBeUndefined();
-    expect(store.getState().books).toEqual([book, otherBook]);
+    expect(store.getState().books.items).toEqual([book, otherBook]);
 });
 
-test('initialization preserves the rejected promise for its caller', async () => {
+test('initialization stores a recoverable error without rejecting its caller', async () => {
     const failure = new Error('Network unavailable');
     vi.mocked(bookService.getAll).mockRejectedValue(failure);
     const store = setupStore();
-    await expect(store.dispatch(initializeBooks())).rejects.toBe(failure);
-    expect(store.getState().books).toEqual([]);
+    await expect(store.dispatch(initializeBooks())).resolves.toBeUndefined();
+    expect(store.getState().books.status).toBe('failed');
+    expect(store.getState().books.error).toBe('Could not load books. Please try again.');
+    expect(store.getState().books.items).toEqual([]);
 });
 
 test('sorting through the selector orders the rendered books by each supported key', () => {
-    renderWithProviders(<BookControls />, { preloadedState: { books: [book, otherBook] } });
+    renderWithProviders(<BookControls />, {
+        preloadedState: { books: { items: [book, otherBook], status: 'succeeded', error: null } },
+    });
     for (const [key, titles] of [
         ['title', ['Alpha', 'Zulu']],
         ['author', ['Zulu', 'Alpha']],

@@ -8,7 +8,7 @@ import { createBook, removeBook } from './book-slice';
 
 const useBookActions = () => {
     const dispatch = useAppDispatch();
-    const books = useAppSelector((state) => state.books);
+    const books = useAppSelector((state) => state.books.items);
 
     const bookFormRef = useRef<TogglableHandle>(null);
 

@@ -7,7 +7,7 @@ import useBookActions from '../../store/useBookActions';
 
 
 const Book = () => {
-    const books = useAppSelector((state) => state.books);
+    const books = useAppSelector((state) => state.books.items);
 
     const { deleteBook } = useBookActions();
 
