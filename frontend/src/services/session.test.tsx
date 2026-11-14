@@ -181,7 +181,7 @@ function BookOperations() {
         <button onClick={() => addBook(book)}>Add test book</button>
         <button onClick={() => deleteBook(book.id)}>Delete test book</button>
         <button onClick={() => dispatch(initializeBooks())}>Load test books</button>
-        <div role="group" aria-label="Like control"><LikeButton booksId={book.id} initialLikes={0} /></div>
+        <div role="group" aria-label="Like control"><LikeButton booksId={book.id} /></div>
     </>;
 }
 

@@ -4,6 +4,8 @@ import bookService from '../services/books';
 import type { Book } from '../types/api';
 import type { AppThunk } from './index';
 import { handleSessionError } from '../services/session';
+import { bookErrorMessage } from '../services/bookErrors';
+import { uiActions } from './ui-slice';
 
 export type SortKey = 'title' | 'author' | 'likes';
 
@@ -14,14 +16,21 @@ export interface BooksState {
     items: Book[];
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
+    pendingLikeIds: Book['id'][];
 }
 
-const initialState: BooksState = { items: [], status: 'idle', error: null };
+const initialState: BooksState = { items: [], status: 'idle', error: null, pendingLikeIds: [] };
 
 const bookSlice = createSlice({
     name: 'books',
     initialState,
     reducers: {
+        likeStarted(state, action: PayloadAction<Book['id']>) {
+            state.pendingLikeIds.push(action.payload);
+        },
+        likeFinished(state, action: PayloadAction<Book['id']>) {
+            state.pendingLikeIds = state.pendingLikeIds.filter((id) => id !== action.payload);
+        },
         loadingBooks(state) {
             state.status = 'loading';
             state.error = null;
@@ -58,6 +67,26 @@ const bookSlice = createSlice({
         },
     },
 });
+
+export const likeBook = (id: Book['id']): AppThunk<Promise<void>> => async (dispatch, getState) => {
+    const { items, pendingLikeIds } = getState().books;
+    const book = items.find((item) => item.id === id);
+    if (!book || pendingLikeIds.includes(id)) return;
+
+    // Redux owns the lock so repeated dispatches and remounted controls share it.
+    dispatch(bookSlice.actions.likeStarted(id));
+    try {
+        const updated = await bookService.update(id, { likes: (book.likes ?? 0) + 1 });
+        dispatch(bookSlice.actions.addLike(updated));
+    } catch (error: unknown) {
+        if (!dispatch(handleSessionError(error, 'You must log in before you can like books'))) {
+            dispatch(uiActions.showNotification({ status: 'error', message: bookErrorMessage(error, 'like') }));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    } finally {
+        dispatch(bookSlice.actions.likeFinished(id));
+    }
+};
 
 export const initializeBooks = (): AppThunk<Promise<void>> => async (dispatch, getState) => {
     if (getState().books.status === 'loading') return;

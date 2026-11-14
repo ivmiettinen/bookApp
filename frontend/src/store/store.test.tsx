@@ -83,7 +83,7 @@ test('initialization stores a recoverable error without rejecting its caller', a
 
 test('sorting through the selector orders the rendered books by each supported key', () => {
     renderWithProviders(<BookControls />, {
-        preloadedState: { books: { items: [book, otherBook], status: 'succeeded', error: null } },
+        preloadedState: { books: { items: [book, otherBook], status: 'succeeded', error: null, pendingLikeIds: [] } },
     });
     for (const [key, titles] of [
         ['title', ['Alpha', 'Zulu']],

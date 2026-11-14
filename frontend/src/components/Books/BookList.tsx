@@ -11,7 +11,7 @@ interface BookListProps {
 }
 
 const BookList = ({ book, deleteBook }: BookListProps) => {
-    const { id, title, author, url, likes } = book;
+    const { id, title, author, url } = book;
     return (
         <div className={classes.bookStyle} key={id} id={id}>
             <div >
@@ -26,7 +26,7 @@ const BookList = ({ book, deleteBook }: BookListProps) => {
                             <a href={url} target="_blank" rel="noopener noreferrer">{url}</a>
                         ) : <span>{url}</span>}
                     </p>
-                    <LikeButton booksId={id} initialLikes={likes} />
+                    <LikeButton booksId={id} />
                     <p>
                         <button
                             type="button"

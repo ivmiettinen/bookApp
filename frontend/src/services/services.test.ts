@@ -115,6 +115,13 @@ describe('book services', () => {
         await expect(books.update(book.id, { likes: 1 })).rejects.toMatchObject({ kind: 'invalid-response' });
     });
 
+    test('returns the actual PUT response even when the backend ignores the requested count', async () => {
+        const saved = { ...book, id: 'id/part', likes: 2, likesbyId: ['id/part'] };
+        vi.mocked(axios.put).mockResolvedValue({ data: saved });
+        await expect(books.update(saved.id, { likes: 19 })).resolves.toEqual(saved);
+        expect(axios.put).toHaveBeenCalledWith('/api/books/id%2Fpart', { likes: 19 }, { headers: {} });
+    });
+
     test('deletes with a 204 response, encodes the id and clears authorization', async () => {
         books.setToken('test-token');
         books.setToken(null);
