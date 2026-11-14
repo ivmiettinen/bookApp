@@ -51,6 +51,15 @@ Vastaukset vastaanotetaan `unknown`-arvoina. Listan jokainen jäsen, yksittäine
 kirja ja auth-istunnon kentät tarkistetaan ennen palautusta. Valinnaisia kenttiä
 ei täytetä oletuksilla eikä tietokannan URL-arvoille aseteta uutta URL-politiikkaa.
 
+Frontendin lomakerajat (`src/validation/formLimits.ts`): käyttäjätunnus 50,
+kirjan nimi 300, tekijä 255 ja URL 500 UTF-16-koodiyksikköä; sähköposti 254 ja
+salasana 72 UTF-8-tavua. Sähköposti tarkistetaan validatorilla (ASCII-paikallisosa).
+Rekisteröinnin käyttäjätunnus/sähköposti ja kirjan title/author/url trimmataan;
+tyhjät arvot hylätään. Salasanaa ei trimmata eikä katkaista. Kirjautumisen
+syötteet säilytetään sellaisinaan vanhojen tunnusten yhteensopivuuden vuoksi.
+Express ja Netlify eivät vielä valvo näitä enimmäispituuksia tai trimmaa syötteitä;
+frontendin validointi ei estä suoria API-kutsuja.
+
 ## Osoitteet ja virheet
 
 `apiConfig.ts` valitsee kehitystilassa vain `_DEV`/`_dev`-avaimet, muulloin

@@ -76,7 +76,7 @@ test('login submits to the login service without signup validation', async () =>
 });
 
 test.each([
-    { email: '', password: 'ValidPassword1!', message: 'Email must be at least 3 characters long.' },
+    { email: '', password: 'ValidPassword1!', message: 'Enter a valid email address (ASCII local part).' },
     {
         email: 'valid@email.com', password: 'weak',
         message: 'Password must be 8 letters long and have AT LEAST: 1 lowercase, 1 uppercase, 1 number and 1 symbol.',

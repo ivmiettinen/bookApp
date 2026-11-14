@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
+import { bookLengthError, formLimits } from '../../validation/formLimits';
 import { isHttpUrl } from './bookUrl';
 import classes from './BookForm.module.css';
 import Button from '../UI/Button';
@@ -10,6 +11,7 @@ const BookForm = () => {
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
     const [url, setUrl] = useState('');
+    const [validationError, setValidationError] = useState<string | null>(null);
 
     const { addBook, bookFormRef, isAdding } = useBookActions();
 
@@ -19,12 +21,15 @@ const BookForm = () => {
         e.preventDefault();
 
         const newBook = {
-            title,
-            author,
-            url
+            title: title.trim(),
+            author: author.trim(),
+            url: url.trim()
         };
 
-        if (isAdding || !isHttpUrl(url)) return;
+        if (isAdding) return;
+        const error = bookLengthError(newBook);
+        setValidationError(error);
+        if (error || !isHttpUrl(newBook.url)) return;
         if (!await addBook(newBook)) return;
 
         setTitle('');
@@ -50,7 +55,7 @@ const BookForm = () => {
                             name="title"
                             type="text"
                             id="title"
-                            maxLength={100}
+                            maxLength={formLimits.title}
                             value={title}
                             disabled={isAdding}
                             onChange={(e) => setTitle(e.target.value)}
@@ -65,7 +70,7 @@ const BookForm = () => {
                             name="author"
                             type="text"
                             id="author"
-                            maxLength={80}
+                            maxLength={formLimits.author}
                             value={author}
                             disabled={isAdding}
                             onChange={(e) => setAuthor(e.target.value)}
@@ -78,7 +83,7 @@ const BookForm = () => {
                         <input name="url"
                             type="url"
                             id="url"
-                            maxLength={160}
+                            maxLength={formLimits.url}
                             value={url}
                             disabled={isAdding}
                             onChange={(e) => {
@@ -90,6 +95,7 @@ const BookForm = () => {
 
                         <br />
                     </p>
+                    {validationError && <p role="alert">{validationError}</p>}
                     <Button className={classes.bookFormButton} type="submit" disabled={isAdding}>
                         create
                     </Button>
