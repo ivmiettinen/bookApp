@@ -9,17 +9,13 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['**/*.jsx'],
-      rules: { 'no-unused-vars': 'off' },
-    },
-    {
       files: ['**/*.ts', '**/*.tsx'],
       parser: '@typescript-eslint/parser',
       extends: ['plugin:@typescript-eslint/recommended'],
       rules: { 'no-undef': 'off' },
     },
     {
-      files: ['**/*.test.{js,jsx,ts,tsx}', '**/*.spec.{js,jsx,ts,tsx}', '**/__tests__/**/*.{js,jsx,ts,tsx}', '**/setupTests.{js,ts}', '**/__mocks__/*.{js,ts}'],
+      files: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}', '**/__tests__/**/*.{ts,tsx}', '**/setupTests.ts', '**/__mocks__/*.ts'],
       globals: {
         vi: 'readonly',
         test: 'readonly',

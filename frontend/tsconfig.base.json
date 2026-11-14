@@ -3,8 +3,6 @@
     "target": "ES2022",
     "strict": true,
     "noEmit": true,
-    "allowJs": true,
-    "checkJs": false,
     "isolatedModules": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
