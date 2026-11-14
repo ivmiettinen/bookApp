@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useAppDispatch } from '../../store/hooks';
 import { Alert } from '@mui/material';
 import { uiActions } from '../../store/ui-slice';
+import type { NotificationStatus } from '../../store/ui-slice';
 
-const Notification = (props) => {
+interface NotificationProps {
+    status: NotificationStatus;
+    message: string;
+    timeout?: number;
+}
+
+const Notification = (props: NotificationProps) => {
     const [visible, setVisible] = useState(true);
 
     const dispatch = useAppDispatch();
@@ -17,15 +24,7 @@ const Notification = (props) => {
         return () => clearTimeout(timeout);
     }, [props.timeout, dispatch]);
 
-    let notiClasses = '';
-
-    if (props.status === 'success') {
-        notiClasses = 'success';
-    }
-
-    if (props.status === 'error') {
-        notiClasses = 'error';
-    }
+    const notiClasses = props.status;
 
 
     if (!visible) {

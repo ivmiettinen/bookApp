@@ -1,8 +1,11 @@
-import React from 'react';
 import classes from './Spinner.module.css';
 import ClipLoader from 'react-spinners/ClipLoader';
 
-const Spinner = ({ loading }) => {
+interface SpinnerProps {
+    loading: boolean;
+}
+
+const Spinner = ({ loading }: SpinnerProps) => {
     return (
         <div className={classes.loaderStyle}>
             <p>

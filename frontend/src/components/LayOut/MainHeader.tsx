@@ -1,4 +1,3 @@
-import React from 'react';
 import { useAppSelector } from '../../store/hooks';
 import { NavLink } from 'react-router-dom';
 import classes from './MainHeader.module.css';
