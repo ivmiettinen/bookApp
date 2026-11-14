@@ -22,7 +22,6 @@ const App = () => {
     const [showLogIn, setShowLogIn] = useState(false);
     const { items: books, status, error } = useAppSelector((state) => state.books);
 
-    const notification = useAppSelector((state) => state.ui.notification);
     const user = useAppSelector((state) => state.user);
 
     const dispatch = useAppDispatch();
@@ -33,12 +32,7 @@ const App = () => {
 
     return (
         <Layout>
-            {notification && (
-                <Notification
-                    status={notification.status}
-                    message={notification.message}
-                />
-            )}
+            <Notification />
             <Switch>
                 <Route path="/" exact>
                     <Redirect to="/auth"></Redirect>

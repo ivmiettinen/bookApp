@@ -1,39 +1,31 @@
-import { useState, useEffect } from 'react';
-import { useAppDispatch } from '../../store/hooks';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { Alert } from '@mui/material';
 import { uiActions } from '../../store/ui-slice';
-import type { NotificationStatus } from '../../store/ui-slice';
 
-interface NotificationProps {
-    status: NotificationStatus;
-    message: string;
-    timeout?: number;
-}
+const NOTIFICATION_DURATION_MS = 5000;
 
-const Notification = (props: NotificationProps) => {
-    const [visible, setVisible] = useState(true);
-
+const Notification = () => {
+    const notification = useAppSelector((state) => state.ui.notification);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
+        if (!notification) return;
+
         const timeout = setTimeout(() => {
-            dispatch(dispatch(uiActions.resetNotification()));
-            setVisible(false);
-        }, 5000);
+            dispatch(uiActions.resetNotification());
+        }, NOTIFICATION_DURATION_MS);
 
         return () => clearTimeout(timeout);
-    }, [props.timeout, dispatch]);
+    }, [notification, dispatch]);
 
-    const notiClasses = props.status;
-
-
-    if (!visible) {
+    if (!notification) {
         return null;
     }
 
-    return <div className={notiClasses}>
-        <Alert variant="filled" severity={notiClasses}>
-            {props.message}
+    return <div className={notification.status}>
+        <Alert variant="filled" severity={notification.status}>
+            {notification.message}
         </Alert></div>;
 };
 
