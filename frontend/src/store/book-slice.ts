@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import bookService from '../services/books';
 import type { Book } from '../types/api';
 import type { AppThunk } from './index';
+import { handleSessionError } from '../services/session';
 
 export type SortKey = 'title' | 'author' | 'likes';
 
@@ -65,7 +66,8 @@ export const initializeBooks = (): AppThunk<Promise<void>> => async (dispatch, g
     try {
         const books = await bookService.getAll();
         dispatch(bookSlice.actions.replaceBooks(books));
-    } catch {
+    } catch (error: unknown) {
+        dispatch(handleSessionError(error));
         // Store the loading error in Redux so App can display it and offer a retry.
         dispatch(bookSlice.actions.loadingBooksFailed('Could not load books. Please try again.'));
     }

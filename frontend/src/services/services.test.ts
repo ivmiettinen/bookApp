@@ -120,7 +120,7 @@ describe('book services', () => {
         books.setToken(null);
         vi.mocked(axios.delete).mockResolvedValue({ status: 204, data: '' });
         await expect(books.remove('id/part')).resolves.toBeUndefined();
-        expect(axios.delete).toHaveBeenCalledWith('/api/books/id%2Fpart', { headers: { Authorization: null } });
+        expect(axios.delete).toHaveBeenCalledWith('/api/books/id%2Fpart', { headers: {} });
         vi.mocked(axios.delete).mockResolvedValue({ status: 200, data: '<html>Fallback</html>' });
         await expect(books.remove(book.id)).rejects.toMatchObject({ kind: 'invalid-response' });
     });

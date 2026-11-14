@@ -10,7 +10,7 @@ const setToken = (newToken: string | null): void => {
     token = newToken === null ? null : `bearer ${newToken}`;
 };
 
-const authorization = () => ({ headers: { Authorization: token } });
+const authorization = () => ({ headers: token === null ? {} : { Authorization: token } });
 
 const getAll = (): Promise<Book[]> => apiRequest(async () => {
     const response = await axios.get<unknown>(getApiUrl('books'));

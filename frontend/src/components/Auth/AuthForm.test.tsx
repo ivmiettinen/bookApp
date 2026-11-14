@@ -38,9 +38,12 @@ test('valid signup submits credentials and updates the authenticated state', asy
     });
     expect(store.getState().user.user).toBe('validuser');
     expect(bookService.setToken).toHaveBeenCalledWith('test-token');
-    expect(window.localStorage.getItem('loggedBookappUser')).toBe(JSON.stringify({
+    const storedSession = window.localStorage.getItem('loggedBookappUser');
+    if (storedSession === null) throw new Error('Expected signup to save a session');
+    const savedSession: unknown = JSON.parse(storedSession);
+    expect(savedSession).toEqual({
         username: 'validuser', email: 'valid@email.com', token: 'test-token',
-    }));
+    });
 });
 
 test('invalid signup does not call the service and records a validation error', () => {

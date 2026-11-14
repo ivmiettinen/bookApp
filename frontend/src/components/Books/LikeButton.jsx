@@ -8,6 +8,8 @@ import {
 import bookService from '../.././services/books';
 import { uiActions } from '../../store/ui-slice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { handleSessionError } from '../../services/session';
+import { bookErrorMessage } from '../../services/bookErrors';
 
 
 
@@ -36,10 +38,10 @@ const LikeButton = ({ booksId, initialLikes }) => {
             }
 
         } catch (exception) {
-            if (exception?.response?.status === 401) {
+            if (!dispatch(handleSessionError(exception, 'You must log in before you can like books'))) {
                 dispatch(uiActions.showNotification({
                     status: 'error',
-                    message: 'You must log in before you can like books',
+                    message: bookErrorMessage(exception, 'like'),
                 }));
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }

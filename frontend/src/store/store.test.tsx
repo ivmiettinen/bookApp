@@ -117,7 +117,7 @@ test('adding and deleting a book updates the visible list and notifications', as
     expect(screen.getByRole('status')).toHaveTextContent('The book Zulu was successfully deleted');
 });
 
-test('a failed book creation keeps the list empty and shows the existing error', async () => {
+test('a failed book creation keeps the list empty and shows an operation error', async () => {
     vi.mocked(bookService.create).mockRejectedValue(new Error('Unauthorized'));
     renderWithProviders(<BookControls />);
     fireEvent.click(screen.getByRole('button', { name: 'Add a book' }));
@@ -125,7 +125,7 @@ test('a failed book creation keeps the list empty and shows the existing error',
     fireEvent.change(screen.getAllByRole('textbox')[1], { target: { value: book.author } });
     fireEvent.change(screen.getAllByRole('textbox')[2], { target: { value: book.url } });
     fireEvent.click(screen.getByRole('button', { name: 'create' }));
-    expect(await screen.findByRole('status')).toHaveTextContent('You must log in before you can add books');
+    expect(await screen.findByRole('status')).toHaveTextContent('The addition could not be confirmed. Refresh the book list before trying again.');
     expect(screen.queryByRole('listitem')).not.toBeInTheDocument();
 });
 

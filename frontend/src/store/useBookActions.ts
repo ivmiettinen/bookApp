@@ -5,6 +5,8 @@ import type { TogglableHandle } from '../types/ui';
 import bookService from '../services/books';
 import { uiActions } from './ui-slice';
 import { createBook, removeBook } from './book-slice';
+import { handleSessionError } from '../services/session';
+import { bookErrorMessage } from '../services/bookErrors';
 
 const useBookActions = () => {
     const dispatch = useAppDispatch();
@@ -24,11 +26,12 @@ const useBookActions = () => {
                     message: `A new book ${waitBooks.title} by ${waitBooks.author} added`,
                 }));
         }
-        catch {
+        catch (error: unknown) {
+            if (dispatch(handleSessionError(error, 'You must log in before you can add books'))) return;
             dispatch(
                 uiActions.showNotification({
                     status: 'error',
-                    message: 'You must log in before you can add books',
+                    message: bookErrorMessage(error, 'add'),
                 }));
         }
     };
@@ -47,11 +50,12 @@ const useBookActions = () => {
                         status: 'success',
                         message: `The book ${findBook.title} was successfully deleted`,
                     }));
-            } catch {
+            } catch (error: unknown) {
+                if (dispatch(handleSessionError(error, 'You must log in before you can remove books'))) return;
                 dispatch(
                     uiActions.showNotification({
                         status: 'error',
-                        message: 'You can`t remove a book you have not added!',
+                        message: bookErrorMessage(error, 'remove'),
                     }));
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
