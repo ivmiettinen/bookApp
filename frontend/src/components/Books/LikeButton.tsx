@@ -1,5 +1,6 @@
 
-import React, { useState } from 'react';
+import { useState } from 'react';
+import type { Book } from '../../types/api';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import {
@@ -13,20 +14,27 @@ import { bookErrorMessage } from '../../services/bookErrors';
 
 
 
-const LikeButton = ({ booksId, initialLikes }) => {
-    const [likes, setLikes] = useState(initialLikes);
+interface LikeButtonProps {
+    booksId: Book['id'];
+    initialLikes: Book['likes'];
+}
+
+const LikeButton = ({ booksId, initialLikes }: LikeButtonProps) => {
+    const [likes, setLikes] = useState(initialLikes ?? 0);
     const [isLiked, setIsLiked] = useState(false);
 
     const dispatch = useAppDispatch();
     const books = useAppSelector((state) => state.books.items);
 
-    const handleLike = async (book) => {
+    const handleLike = async (book: Book['id']) => {
 
         const bookId = books.find((b) => b.id === book);
 
+        if (!bookId) return;
+
         const id = bookId.id;
 
-        const changeBookLikes = { ...bookId, likes: bookId.likes + 1 };
+        const changeBookLikes = { ...bookId, likes: (bookId.likes ?? 0) + 1 };
 
         try {
             const updateBook = await bookService.update(id, changeBookLikes);
@@ -52,7 +60,7 @@ const LikeButton = ({ booksId, initialLikes }) => {
     return (
         <div>
             <p>likes: {likes}</p>
-            <button onClick={() => handleLike(booksId)}>
+            <button type="button" aria-label={isLiked ? 'Unlike book' : 'Like book'} onClick={() => handleLike(booksId)}>
                 {isLiked ? <ThumbDownIcon/> : <ThumbUpIcon/>}
             </button>
         </div>

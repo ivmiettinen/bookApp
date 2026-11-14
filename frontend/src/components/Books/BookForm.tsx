@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import type { FormEvent } from 'react';
+import { isHttpUrl } from './bookUrl';
 import classes from './BookForm.module.css';
 import Button from '../UI/Button';
 import useBookActions from '../../store/useBookActions';
@@ -9,11 +11,11 @@ const BookForm = () => {
     const [author, setAuthor] = useState('');
     const [url, setUrl] = useState('');
 
-    const { addBook, bookFormRef } = useBookActions();
+    const { addBook, bookFormRef, isAdding } = useBookActions();
 
     const bookRef = bookFormRef;
 
-    const createBook = (e) => {
+    const createBook = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const newBook = {
@@ -22,7 +24,8 @@ const BookForm = () => {
             url
         };
 
-        addBook(newBook);
+        if (isAdding || !isHttpUrl(url)) return;
+        if (!await addBook(newBook)) return;
 
         setTitle('');
         setAuthor('');
@@ -33,52 +36,61 @@ const BookForm = () => {
         <Togglable
             buttonLabel="Add a book"
             ref={bookRef}
+            disabled={isAdding}
             className="hideWhenVisible"
         >
             <div className={classes.bookFormStyle}>
                 <h2>Create a new book</h2>
 
-                <form onSubmit={createBook}>
+                <form onSubmit={createBook} aria-busy={isAdding}>
                     <p>
-                        <label>title:</label>
+                        <label htmlFor="title">title:</label>
                         <br />
                         <input
                             name="title"
                             type="text"
                             id="title"
-                            maxLength="100"
+                            maxLength={100}
                             value={title}
+                            disabled={isAdding}
                             onChange={(e) => setTitle(e.target.value)}
                             required
                         />
                     </p>
 
                     <p>
-                        <label>author:</label>
+                        <label htmlFor="author">author:</label>
                         <br />
                         <input
                             name="author"
                             type="text"
                             id="author"
-                            maxLength="80"
+                            maxLength={80}
                             value={author}
+                            disabled={isAdding}
                             onChange={(e) => setAuthor(e.target.value)}
                             required
                         />
                     </p>
                     <p>
-                        <label>url:</label>
+                        <label htmlFor="url">url:</label>
                         <br />
                         <input name="url"
                             type="url"
                             id="url"
-                            maxLength="160"
+                            maxLength={160}
                             value={url}
-                            onChange={(e) => setUrl(e.target.value)} required />
+                            disabled={isAdding}
+                            onChange={(e) => {
+                                const input = e.currentTarget;
+                                setUrl(input.value);
+                                input.setCustomValidity(input.value && !isHttpUrl(input.value)
+                                    ? 'Use an HTTP or HTTPS URL.' : '');
+                            }} required />
 
                         <br />
                     </p>
-                    <Button className={classes.bookFormButton} type="submit">
+                    <Button className={classes.bookFormButton} type="submit" disabled={isAdding}>
                         create
                     </Button>
                 </form>
@@ -86,9 +98,5 @@ const BookForm = () => {
         </Togglable>
     );
 };
-
-// BookForm.propTypes = {
-//     addBook: PropTypes.func.isRequired,
-// };
 
 export default BookForm;

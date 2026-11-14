@@ -1,17 +1,17 @@
-import React from 'react';
+import type { Book } from '../../types/api';
+import { isHttpUrl } from './bookUrl';
 import classes from './Book.module.css';
 import Togglable from '../../components/UI/Togglable';
 import LikeButton from './LikeButton';
 
 
-const BookList = ({
-    author,
-    deleteBook,
-    id,
-    likes,
-    title,
-    url
-}) => {
+interface BookListProps {
+    book: Book;
+    deleteBook: (id: Book['id']) => Promise<void>;
+}
+
+const BookList = ({ book, deleteBook }: BookListProps) => {
+    const { id, title, author, url, likes } = book;
     return (
         <div className={classes.bookStyle} key={id} id={id}>
             <div >
@@ -22,14 +22,14 @@ const BookList = ({
                 <Togglable buttonLabel="view">
                     <p>
                         url:{' '}
-                        <a href={url} target="_blank" rel="noopener noreferrer">
-                            {url}
-                        </a>
+                        {isHttpUrl(url) ? (
+                            <a href={url} target="_blank" rel="noopener noreferrer">{url}</a>
+                        ) : <span>{url}</span>}
                     </p>
                     <LikeButton booksId={id} initialLikes={likes} />
                     <p>
                         <button
-                            type="deleteBook"
+                            type="button"
                             value={id}
                             name="deleteBook"
                             onClick={() => deleteBook(id)}

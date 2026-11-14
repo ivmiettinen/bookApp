@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from './hooks';
 import type { Book, CreateBookInput } from '../types/api';
 import type { TogglableHandle } from '../types/ui';
@@ -14,8 +14,13 @@ const useBookActions = () => {
 
     const bookFormRef = useRef<TogglableHandle>(null);
 
-    const addBook = async (book: CreateBookInput): Promise<void> => {
-        bookFormRef.current?.toggleVisibility();
+    const addingRef = useRef(false);
+    const [isAdding, setIsAdding] = useState(false);
+
+    const addBook = async (book: CreateBookInput): Promise<boolean> => {
+        if (addingRef.current) return false;
+        addingRef.current = true;
+        setIsAdding(true);
 
         try {
             const waitBooks = await bookService.create(book);
@@ -25,14 +30,20 @@ const useBookActions = () => {
                     status: 'success',
                     message: `A new book ${waitBooks.title} by ${waitBooks.author} added`,
                 }));
+            bookFormRef.current?.toggleVisibility();
+            return true;
         }
         catch (error: unknown) {
-            if (dispatch(handleSessionError(error, 'You must log in before you can add books'))) return;
+            if (dispatch(handleSessionError(error, 'You must log in before you can add books'))) return false;
             dispatch(
                 uiActions.showNotification({
                     status: 'error',
                     message: bookErrorMessage(error, 'add'),
                 }));
+            return false;
+        } finally {
+            addingRef.current = false;
+            setIsAdding(false);
         }
     };
 
@@ -63,7 +74,7 @@ const useBookActions = () => {
     };
 
     return {
-        addBook, deleteBook, bookFormRef
+        addBook, deleteBook, bookFormRef, isAdding
     };
 };
 

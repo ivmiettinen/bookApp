@@ -1,4 +1,3 @@
-import React from 'react';
 import classes from './SortBooks.module.css';
 import {
     sortBooks,
@@ -10,13 +9,13 @@ const BookOptions = () => {
 
     const dispatch = useAppDispatch();
 
-    const sortArray = (type) => {
+    const sortArray = (type: string) => {
         if (isSortKey(type)) dispatch(sortBooks(type));
     };
 
     return (
         <div className={classes.SortBooksStyle}>
-            <select defaultValue="" onChange={(e) => sortArray(e.target.value)}>
+            <select aria-label="Sort books" defaultValue="" onChange={(e) => sortArray(e.target.value)}>
                 <option value="" disabled>
                     Sort by:
                 </option>

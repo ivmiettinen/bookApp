@@ -7,6 +7,7 @@ interface TogglableProps {
     buttonLabel: string;
     children: ReactNode;
     className?: string;
+    disabled?: boolean;
 }
 
 const Togglable = React.forwardRef<TogglableHandle, TogglableProps>((props, ref) => {
@@ -30,6 +31,8 @@ const Togglable = React.forwardRef<TogglableHandle, TogglableProps>((props, ref)
             <div style={showWhenVisible}>
                 {props.children}
                 <button
+                    type="button"
+                    disabled={props.disabled}
                     className={classes.buttonHide}
                     onClick={toggleVisibility}
                 >
@@ -37,7 +40,7 @@ const Togglable = React.forwardRef<TogglableHandle, TogglableProps>((props, ref)
                 </button>
             </div>
             <div style={hideWhenVisible} className={classes.hideWhenVisible}>
-                <button className={props.className} onClick={toggleVisibility}>
+                <button type="button" disabled={props.disabled} className={props.className} onClick={toggleVisibility}>
                     {props.buttonLabel}
                 </button>
             </div>
