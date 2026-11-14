@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from './store/hooks';
 import './App.css';
@@ -18,11 +18,7 @@ import {
 } from './store/book-slice';
 
 const App = () => {
-    const [showSignUp, setShowSignUp] = useState(false);
-    const [showLogIn, setShowLogIn] = useState(false);
     const { items: books, status, error } = useAppSelector((state) => state.books);
-
-    const user = useAppSelector((state) => state.user);
 
     const dispatch = useAppDispatch();
 
@@ -38,25 +34,13 @@ const App = () => {
                     <Redirect to="/auth"></Redirect>
                 </Route>
                 <Route path="/auth">
-                    {!showSignUp || !showLogIn ? (
-                        <AuthButtons
-                            showSignUp={setShowSignUp}
-                            setShowLogIn={setShowLogIn}
-                            setShowSignUp={setShowSignUp}
-                        />
-                    ) : (
-                        <></>
-                    )}
+                    <AuthButtons />
                 </Route>
                 <Route path="/login">
-                    {' '}
-                    <AuthForm
-                        showSignUp={showSignUp}
-                    />
+                    <AuthForm mode="login" />
                 </Route>
                 <Route path="/signup">
-                    <AuthForm
-                        showSignUp={showSignUp} />
+                    <AuthForm mode="signup" />
                 </Route>
                 <Route path="/books">
                     <div className="headerNsort">
@@ -83,7 +67,7 @@ const App = () => {
                     <About />
                 </Route>
                 <Route path="/logout">
-                    <LogOutUser user={user} />
+                    <LogOutUser />
                 </Route>
             </Switch>
         </Layout>

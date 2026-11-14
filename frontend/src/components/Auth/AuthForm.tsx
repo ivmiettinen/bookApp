@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import type { FormEvent } from 'react';
 import { useAppDispatch } from '../../store/hooks';
 import classes from './AuthForm.module.css';
-import PropTypes from 'prop-types';
 import validator from 'validator';
 import Card from '../UI/Card';
 import Button from '../UI/Button';
@@ -9,7 +9,12 @@ import { handleAuth } from '../../services/authService';
 import { uiActions } from '../../store/ui-slice';
 import { useHistory } from 'react-router-dom';
 
-const AuthForm = ({ showSignUp }) => {
+interface AuthFormProps {
+    mode: 'login' | 'signup';
+}
+
+const AuthForm = ({ mode }: AuthFormProps) => {
+    const showSignUp = mode === 'signup';
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -24,7 +29,7 @@ const AuthForm = ({ showSignUp }) => {
 
     const dispatch = useAppDispatch();
 
-    const handleSignIn = async (e) => {
+    const handleSignIn = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (showSignUp && username.trim().length < 3) {
@@ -85,7 +90,7 @@ const AuthForm = ({ showSignUp }) => {
                                 value={email}
                                 name='email'
                                 placeholder='Your email...'
-                                maxLength='40'
+                                maxLength={40}
                                 onChange={({ target }) =>
                                     setEmail(target.value)
                                 }
@@ -104,7 +109,7 @@ const AuthForm = ({ showSignUp }) => {
                             value={username}
                             name='Username'
                             placeholder='Your name...'
-                            maxLength='14'
+                            maxLength={14}
                             onChange={({ target }) => setUsername(target.value)}
                         />
                     </label>
@@ -119,7 +124,7 @@ const AuthForm = ({ showSignUp }) => {
                             value={password}
                             name='Password'
                             placeholder='Your password...'
-                            maxLength='50'
+                            maxLength={50}
                             onChange={({ target }) => setPassword(target.value)}
                         />
                     </label>
@@ -132,11 +137,6 @@ const AuthForm = ({ showSignUp }) => {
             </form>
         </Card>
     );
-};
-
-AuthForm.propTypes = {
-    // handleLogin: PropTypes.func.isRequired,
-    showSignUp: PropTypes.bool.isRequired,
 };
 
 export default AuthForm;

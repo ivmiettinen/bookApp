@@ -6,6 +6,7 @@ import { renderWithProviders } from './test-utils';
 import bookService from './services/books';
 import type { Book } from './types/api';
 import { initializeBooks } from './store/book-slice';
+import { useHistory } from 'react-router-dom';
 
 vi.mock('./services/books', () => ({ default: { getAll: vi.fn() } }));
 
@@ -24,6 +25,50 @@ const deferredBooks = () => {
 };
 
 beforeEach(() => vi.resetAllMocks());
+
+test.each([
+    { route: '/login', button: 'Login', signup: false },
+    { route: '/signup', button: 'Sign up', signup: true },
+])('$route opens the right form directly and after a fresh mount', async ({ route, button, signup }) => {
+    vi.mocked(bookService.getAll).mockResolvedValue([]);
+    const assertForm = () => {
+        expect(screen.getByRole('button', { name: button })).toBeInTheDocument();
+        expect(screen.getByLabelText('username:')).toBeInTheDocument();
+        expect(screen.getByLabelText('password:')).toBeInTheDocument();
+        expect(screen.queryByLabelText('email:') !== null).toBe(signup);
+    };
+    const first = renderWithProviders(<App />, { route });
+    assertForm();
+    await waitFor(() => expect(first.store.getState().books.status).toBe('succeeded'));
+    first.unmount();
+
+    const second = renderWithProviders(<App />, { route });
+    assertForm();
+    await waitFor(() => expect(second.store.getState().books.status).toBe('succeeded'));
+});
+
+test('auth navigation and history select the form from the current route', async () => {
+    vi.mocked(bookService.getAll).mockResolvedValue([]);
+    const HistoryControls = () => {
+        const history = useHistory();
+        return <button onClick={() => history.goBack()}>Back</button>;
+    };
+    const { store } = renderWithProviders(<><HistoryControls /><App /></>, { route: '/auth' });
+    fireEvent.click(screen.getByRole('button', { name: 'Sign up' }));
+    expect(screen.getByLabelText('email:')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('link', { name: 'Auth' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Login' }));
+    expect(screen.getByRole('button', { name: 'Login' })).toBeInTheDocument();
+    expect(screen.queryByLabelText('email:')).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Back' }));
+    expect(screen.getByRole('button', { name: 'Sign up' })).toBeInTheDocument();
+    expect(screen.queryByLabelText('username:')).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Back' }));
+    expect(screen.getByLabelText('email:')).toBeInTheDocument();
+    await waitFor(() => expect(store.getState().books.status).toBe('succeeded'));
+});
 
 test('a delayed request keeps loading visible until the books arrive', async () => {
     const request = deferredBooks();
